@@ -5,7 +5,7 @@ import com.mhealth.common.base.BaseEntity;
 /**
  * Created by pengt on 2016.4.9.0009.
  */
-public class Device extends BaseEntity{
+public class Device extends BaseEntity {
 
     private String userId;
     private String name;
@@ -14,28 +14,6 @@ public class Device extends BaseEntity{
     private String os;
     private String type;
     private String status;
-
-    public Device() {
-    }
-
-    public Device(String id, String userId, String name, String brand, String model, String os, String type, String status) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.brand = brand;
-        this.model = model;
-        this.os = os;
-        this.type = type;
-        this.status = status;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getUserId() {
         return userId;

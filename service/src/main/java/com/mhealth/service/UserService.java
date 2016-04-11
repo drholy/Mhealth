@@ -13,14 +13,40 @@ import java.util.List;
 @Service("userService")
 public class UserService {
 
-    @Resource(name="userDao")
-    UserDao userDao;
+    @Resource(name = "userDao")
+    private UserDao userDao;
 
+    /**
+     * 新增用户
+     *
+     * @param user
+     * @return
+     */
     public String insertUser(User user) {
         return userDao.insertUser(user);
     }
 
-    public boolean checkUserByLn(String loginName){
+    /**
+     * 用户名是否存在
+     *
+     * @param loginName
+     * @return
+     */
+    public boolean checkUserByLn(String loginName) {
         return userDao.checkUserByLn(loginName);
+    }
+
+    /**
+     * 根据登录名返回user
+     *
+     * @param loginName
+     * @return
+     */
+    public User getUser(String loginName) {
+        return userDao.getUser(loginName);
+    }
+
+    public boolean active(User user) {
+        return userDao.active(user);
     }
 }

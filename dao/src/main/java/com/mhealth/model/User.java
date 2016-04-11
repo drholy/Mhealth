@@ -23,37 +23,10 @@ public class User extends BaseEntity{
     private String bloodType;
     private String mobilePhone;
     private String email;
-    private String userType;
-    private String active;
+    private String userType; //0:普通
+    private String active; //0:未激活,1:激活
     private String regTime;
-    private String status;
-
-    public User() {
-    }
-
-    public User(String id,String loginName, String username, String password, String sex, String birthday, String bloodType, String mobilePhone, String email, String userType, String active, String regTime, String status) {
-        this.id = id;
-        this.loginName=loginName;
-        this.username = username;
-        this.password = password;
-        this.sex = sex;
-        this.birthday = birthday;
-        this.bloodType = bloodType;
-        this.mobilePhone = mobilePhone;
-        this.email = email;
-        this.userType = userType;
-        this.active = active;
-        this.regTime = regTime;
-        this.status = status;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String status; //0:不可用,1:可用
 
     public String getUsername() {
         return username;
