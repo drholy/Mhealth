@@ -3,6 +3,7 @@ package com.mhealth.repository;
 import com.mhealth.common.base.BaseDao;
 import com.mhealth.model.User;
 import com.mongodb.WriteResult;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -46,7 +47,7 @@ public class UserDao extends BaseDao {
     }
 
     public boolean active(User user) {
-        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(user.getId())),
+        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(user.getId()))),
                 new Update().set("sex", user.getSex()).set("birthday", user.getBirthday())
                         .set("bloodType", user.getBloodType()).set("mobilePhone", user.getMobilePhone())
                         .set("email", user.getEmail()).set("active",user.getActive()).set("status",user.getStatus()), User.class);

@@ -18,31 +18,6 @@ public class SportRecord extends BaseEntity{
     private String endTime;
     private String uploadTime;
 
-    public SportRecord() {
-    }
-
-    public SportRecord(String id, String userId, String deviceId, String sport_heartRate, String distance, String heat, String step, String elevation, String beginTime, String endTime, String uploadTime) {
-        this.id = id;
-        this.userId = userId;
-        this.deviceId = deviceId;
-        this.sport_heartRate = sport_heartRate;
-        this.distance = distance;
-        this.heat = heat;
-        this.step = step;
-        this.elevation = elevation;
-        this.beginTime = beginTime;
-        this.endTime = endTime;
-        this.uploadTime = uploadTime;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getUserId() {
         return userId;
     }

@@ -41,7 +41,7 @@ public class UserController {
     @RequestMapping(value = "insertUser", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String insertUser(String userJson) {
-        if (userJson == null || userJson.equals("")) return Response.paramsIsEmpty("User data");
+        if (userJson == null || userJson.equals("")) return Response.paramsIsEmpty("注册信息");
         User user = (User) JSONObject.toBean(JSONObject.fromObject(userJson), User.class);
         String loginName = user.getLoginName();
         if (!userService.checkUserByLn(loginName)) return Response.isExist("用户已存在！");
@@ -74,7 +74,7 @@ public class UserController {
     @RequestMapping(value = "getUser", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getUser(String loginName) {
-        if (StringUtils.isEmpty(loginName)) return Response.paramsIsEmpty("登录名为空!");
+        if (StringUtils.isEmpty(loginName)) return Response.paramsIsEmpty("登录名");
         return new Response().addObject("user", userService.getUser(loginName)).toJson();
     }
 
@@ -90,7 +90,7 @@ public class UserController {
     @RequestMapping(value = "login", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String login(String loginName, String password, String deviceJson, HttpServletRequest request) {
-        if (StringUtils.isEmpty(loginName, password, deviceJson)) return Response.paramsIsEmpty("用户名；密码；设备信息！");
+        if (StringUtils.isEmpty(loginName, password, deviceJson)) return Response.paramsIsEmpty("用户名；密码；设备信息");
         User dbUser = userService.getUser(loginName);
         if (dbUser == null) return Response.failuer("用户不存在！");
         try {
