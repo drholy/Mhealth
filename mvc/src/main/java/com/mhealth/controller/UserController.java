@@ -42,29 +42,25 @@ public class UserController {
     @ResponseBody
     public String insertUser(String userJson) {
         if (userJson == null || userJson.equals("")) return Response.paramsIsEmpty("User data");
-        JSONObject jsonObject = JSONObject.fromObject(userJson);
-        String loginName = jsonObject.get("loginName").toString();
+        User user = (User) JSONObject.toBean(JSONObject.fromObject(userJson), User.class);
+        String loginName = user.getLoginName();
         if (!userService.checkUserByLn(loginName)) return Response.isExist("用户已存在！");
-        if (jsonObject.get("password").toString().length() < 6) return Response.failuer("密码少于6位！");
-        String id = UUID.randomUUID().toString();
+        if (user.getPassword().length() < 6) return Response.failuer("密码少于6位！");
 
-        User user = new User();
-        user.setId(id);
-        user.setLoginName(jsonObject.get("loginName").toString());
-        user.setUsername(jsonObject.get("username").toString());
+        user.setId(null);
         user.setUserType("0");
         user.setActive("0");
         user.setRegTime(String.valueOf(System.currentTimeMillis()));
         user.setStatus("0");
         try {
-            user.setPassword(PasswordUtils.getEncryptedPwd((String) jsonObject.get("password")));
+            user.setPassword(PasswordUtils.getEncryptedPwd(user.getPassword()));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        if (userService.insertUser(user).equals(id))
+        if (userService.insertUser(user).equals(user.getLoginName()))
             return new Response().addString("loginName", user.getLoginName()).setMessage("注册成功").toJson();
         else return Response.addFailuer("注册失败！");
     }
@@ -105,26 +101,18 @@ public class UserController {
             e.printStackTrace();
         }
         if (dbUser.getActive().equals("0"))
-            return new Response().setError(Response.FAILURE, "账户未激活！").addString("url", "#").toJson();
+            return new Response().setError(Response.FAILURE, "账户未激活！").addString("url", "#").toJson(); //#为激活页面，需要带deviceJson
         if (dbUser.getStatus().equals("0")) return new Response().setError(Response.FAILURE, "账户异常，请与管理员联系！").toJson();
         String newUrl = "";
-        if (dbUser.getUserType().equals("0")) newUrl = "#";
+        if (dbUser.getUserType().equals("0")) newUrl = "#"; //#为普通用户功能首页
         request.getSession().setAttribute("user", dbUser);
 
-        JSONObject device = JSONObject.fromObject(deviceJson);
-        Device dbDevice = deviceService.getDevice(device.get("id").toString());
+        Device device = (Device) JSONObject.toBean(JSONObject.fromObject(deviceJson), Device.class);
+        Device dbDevice = deviceService.getDevice(device.getId());
         if (dbDevice == null) {
-            dbDevice.setId(device.get("id").toString());
-            dbDevice.setUserId(device.get("userId").toString());
-            dbDevice.setName(device.get("name").toString());
-            dbDevice.setBrand(device.get("brand").toString());
-            dbDevice.setModel(device.get("model").toString());
-            dbDevice.setOs(device.get("os").toString());
-            dbDevice.setType(device.get("type").toString());
-            dbDevice.setStatus(device.get("status").toString());
-            deviceService.insertDevice(dbDevice);
+            deviceService.insertDevice(device);
         }
-        request.getSession().setAttribute("device", dbDevice);
+        request.getSession().setAttribute("device", device);
         return new Response().setMessage("登录成功！").addString("url", newUrl).toJson();
     }
 
@@ -139,39 +127,22 @@ public class UserController {
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute("user");
         request.getSession().removeAttribute("device");
-        return new Response().setMessage("注销成功！").addString("url", "#").toJson();
+        return new Response().setMessage("注销成功！").addString("url", "#").toJson(); //#为登录页地址
     }
 
-    @RequestMapping(value = "active",produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "active", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String active(String dataJson,String deviceJson,HttpServletRequest request){
-        if(StringUtils.isEmpty(dataJson,deviceJson)) return Response.paramsIsEmpty("用户信息、设备信息");
-        JSONObject data=JSONObject.fromObject(dataJson);
-        User user =new User();
-        user.setId(data.get("id").toString());
-        user.setSex(data.get("sex").toString());
-        user.setBirthday(data.get("birthday").toString());
-        user.setBloodType(data.get("bloodType").toString());
-        user.setMobilePhone(data.get("mobilePhone").toString());
-        user.setEmail(data.get("email").toString());
+    public String active(String dataJson, String deviceJson, HttpServletRequest request) {
+        if (StringUtils.isEmpty(dataJson, deviceJson)) return Response.paramsIsEmpty("用户信息、设备信息");
+        User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
         user.setActive("1");
         user.setStatus("1");
-        if(userService.active(user)){
-            JSONObject device =JSONObject.fromObject(deviceJson);
-            Device dbDevice=new Device();
-            dbDevice.setId(device.get("id").toString());
-            dbDevice.setUserId(device.get("userId").toString());
-            dbDevice.setName(device.get("name").toString());
-            dbDevice.setBrand(device.get("brand").toString());
-            dbDevice.setModel(device.get("model").toString());
-            dbDevice.setOs(device.get("os").toString());
-            dbDevice.setType(device.get("type").toString());
-            dbDevice.setStatus(device.get("status").toString());
-            deviceService.insertDevice(dbDevice);
-            request.setAttribute("user",user);
-            request.setAttribute("device",device);
-            return new Response().addString("url","#").setMessage("激活成功！").toJson();
-        }
-        else return Response.failuer("激活失败！");
+        if (userService.active(user)) {
+            Device device = (Device) JSONObject.toBean(JSONObject.fromObject(deviceJson), Device.class);
+            if (!deviceService.insertDevice(device).equals(device.getId())) return Response.failuer("激活失败！");
+            request.setAttribute("user", user);
+            request.setAttribute("device", device);
+            return new Response().addString("url", "#").setMessage("激活成功！").toJson();//#位功能首页地址
+        } else return Response.failuer("激活失败！");
     }
 }
