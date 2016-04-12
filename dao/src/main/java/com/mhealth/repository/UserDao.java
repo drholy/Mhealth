@@ -22,7 +22,7 @@ public class UserDao extends BaseDao {
      */
     public String insertUser(User user) {
         mongoTemplate.insert(user);
-        return user.getId();
+        return user.getLoginName();
     }
 
     /**
