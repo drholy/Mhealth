@@ -20,16 +20,18 @@
                 var temp=1;
                 for(var i=0;i<1000;i++){
                     if(i%10==0) temp=parseInt(Math.random()*10000000000000);
+                    var now=new Date().getTime();
                     var record={
-                        userId:temp+"",
+                        userId:"9677167136687",
                         deviceId:"111111",
-                        sport_heartRate:"1000",
-                        heat:"70",
-                        step:"20",
-                        elevation:"100",
-                        beginTime:"100000000"+temp,
-                        endTime:"111111111"+temp,
-                        uploadTime:new Date().getTime()
+                        sport_heartRate:parseInt(Math.random()*90+60),
+                        distance:Math.random()*20,
+                        heat:Math.random()*1000+500,
+                        stepCount:Math.random()*3000+5000,
+                        elevation:Math.random()*5,
+                        beginTime:Math.random()*(365*24*60*60*1000)+now-(365*24*60*60*1000),
+                        endTime:now+parseInt(Math.random()*30*60*60*1000),
+                        uploadTime:now
                     };
                     dataList[i]=record;
                 }
@@ -40,7 +42,8 @@
                     type:"post",
                     dataType:"json",
                     success:function(data){
-                        alert(data.resCode+":"+data.resMsg);
+                        //alert(data.resCode+":"+data.resMsg);
+                        $("#res").append(data.resCode+":"+data.resMsg);
                     }
                 });
             });
@@ -48,5 +51,6 @@
     </script>
     <h1>Helloword</h1>
     <button id="insert">插入</button>
+    <div id="res"></div>
 </body>
 </html>

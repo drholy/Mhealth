@@ -50,7 +50,7 @@ public class UserController {
         user.setId(null);
         user.setUserType("0");
         user.setActive("0");
-        user.setRegTime(String.valueOf(System.currentTimeMillis()));
+        user.setRegTime(System.currentTimeMillis());
         user.setStatus("0");
         try {
             user.setPassword(PasswordUtils.getEncryptedPwd(user.getPassword()));

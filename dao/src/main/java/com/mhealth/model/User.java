@@ -19,13 +19,13 @@ public class User extends BaseEntity{
     private String username;
     private String password;
     private String sex;
-    private String birthday;
+    private long birthday;
     private String bloodType;
     private String mobilePhone;
     private String email;
     private String userType; //0:普通
     private String active; //0:未激活,1:激活
-    private String regTime;
+    private long regTime;
     private String status; //0:不可用,1:可用
 
     public String getUsername() {
@@ -52,11 +52,11 @@ public class User extends BaseEntity{
         this.sex = sex;
     }
 
-    public String getBirthday() {
+    public long getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(long birthday) {
         this.birthday = birthday;
     }
 
@@ -100,11 +100,11 @@ public class User extends BaseEntity{
         this.active = active;
     }
 
-    public String getRegTime() {
+    public long getRegTime() {
         return regTime;
     }
 
-    public void setRegTime(String regTime) {
+    public void setRegTime(long regTime) {
         this.regTime = regTime;
     }
 

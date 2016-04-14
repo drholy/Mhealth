@@ -9,14 +9,14 @@ public class SportRecord extends BaseEntity{
 
     private String userId;
     private String deviceId;
-    private String sport_heartRate;
-    private String distance;
-    private String heat;
-    private String step;
-    private String elevation;
-    private String beginTime;
-    private String endTime;
-    private String uploadTime;
+    private long sport_heartRate;
+    private long distance;
+    private long heat;
+    private long stepCount;
+    private long elevation;
+    private long beginTime;
+    private long endTime;
+    private long uploadTime;
 
     public String getUserId() {
         return userId;
@@ -34,67 +34,67 @@ public class SportRecord extends BaseEntity{
         this.deviceId = deviceId;
     }
 
-    public String getSport_heartRate() {
+    public long getSport_heartRate() {
         return sport_heartRate;
     }
 
-    public void setSport_heartRate(String sport_heartRate) {
+    public void setSport_heartRate(long sport_heartRate) {
         this.sport_heartRate = sport_heartRate;
     }
 
-    public String getDistance() {
+    public long getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(long distance) {
         this.distance = distance;
     }
 
-    public String getHeat() {
+    public long getHeat() {
         return heat;
     }
 
-    public void setHeat(String heat) {
+    public void setHeat(long heat) {
         this.heat = heat;
     }
 
-    public String getStep() {
-        return step;
+    public long getStepCount() {
+        return stepCount;
     }
 
-    public void setStep(String step) {
-        this.step = step;
+    public void setStepCount(long stepCount) {
+        this.stepCount = stepCount;
     }
 
-    public String getElevation() {
+    public long getElevation() {
         return elevation;
     }
 
-    public void setElevation(String elevation) {
+    public void setElevation(long elevation) {
         this.elevation = elevation;
     }
 
-    public String getBeginTime() {
+    public long getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(String beginTime) {
+    public void setBeginTime(long beginTime) {
         this.beginTime = beginTime;
     }
 
-    public String getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
-    public String getUploadTime() {
+    public long getUploadTime() {
         return uploadTime;
     }
 
-    public void setUploadTime(String uploadTime) {
+    public void setUploadTime(long uploadTime) {
         this.uploadTime = uploadTime;
     }
 }

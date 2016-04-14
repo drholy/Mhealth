@@ -1,6 +1,8 @@
 package com.mhealth.service;
 
+import com.mhealth.model.AverageHeartRate;
 import com.mhealth.model.SportRecord;
+import com.mhealth.model.SumVal;
 import com.mhealth.repository.SportRecordDao;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +32,13 @@ public class SportRecordService {
      */
     public List<SportRecord> getSportRecords(String userId, String minTime, String maxTime) {
         return sportRecordDao.getSportRecords(userId, minTime, maxTime);
+    }
+
+    public List<AverageHeartRate> getAverHr(String userId, long minTime, long maxTime){
+        return sportRecordDao.getAverHr(userId,minTime,maxTime);
+    }
+
+    public List<SumVal> getSum(String userId, long minTime, long maxTime, String key){
+        return sportRecordDao.getSum(userId,minTime,maxTime,key);
     }
 }
