@@ -56,32 +56,32 @@ public class SportRecordController {
         List<AverageHeartRate> avgList = new ArrayList<>();
         List<SumVal> sumList = new ArrayList<>();
 
-        int dTime=0; //时间条件（日周月年）
-        int nextTime=0;
+        int dTime = 0; //时间条件（日周月年）
+        int nextTime = 0;
 
-        switch(Integer.parseInt(timeUnit)){
+        switch (Integer.parseInt(timeUnit)) {
             case 0:
-                dTime=Calendar.DAY_OF_MONTH;
-                nextTime=Calendar.HOUR_OF_DAY;
+                dTime = Calendar.DAY_OF_MONTH;
+                nextTime = Calendar.HOUR_OF_DAY;
                 cycle = 25;
                 break;
             case 1:
-                cal.set(Calendar.HOUR_OF_DAY,0);
-                dTime=Calendar.WEEK_OF_MONTH;
-                nextTime=Calendar.DAY_OF_MONTH;
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                dTime = Calendar.WEEK_OF_MONTH;
+                nextTime = Calendar.DAY_OF_MONTH;
                 cycle = 8;
                 break;
             case 2:
-                cal.set(Calendar.HOUR_OF_DAY,0);
-                dTime=Calendar.MONTH;
-                nextTime=Calendar.DAY_OF_MONTH;
-                cycle=32;
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                dTime = Calendar.MONTH;
+                nextTime = Calendar.DAY_OF_MONTH;
+                cycle = 32;
                 break;
             case 3:
-                cal.set(Calendar.HOUR_OF_DAY,0);
-                dTime=Calendar.YEAR;
-                nextTime=Calendar.MONTH;
-                cycle=13;
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                dTime = Calendar.YEAR;
+                nextTime = Calendar.MONTH;
+                cycle = 13;
                 break;
             default:
                 return Response.failuer("时间周期错误！");
@@ -115,9 +115,9 @@ public class SportRecordController {
             xTime[i] = cal.get(nextTime) - 1;
             minTime = upTime;
         }
-        if(timeUnit.equals("2")){
-            for(long x : xTime){
-                x+=1;
+        if (timeUnit.equals("3")) { //calendar返回的月份数会比实际的小1
+            for (int i = 0; i < xTime.length; i++) {
+                xTime[i] += 1;
             }
         }
         return new Response().addObject("avgHeart", avg).addObject("sumStep", steps).addObject("sumDistance", distances).addObject("sumELe", eles)
