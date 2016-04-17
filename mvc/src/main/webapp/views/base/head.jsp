@@ -1,0 +1,22 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: pengt
+  Date: 2016.4.16.0016
+  Time: 下午 10:21
+  To change this template use File | Settings | File Templates.
+--%>
+<%String path = request.getContextPath();%>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="<%=path%>/css/bootstrap.css" rel="stylesheet">
+<link href="<%=path%>/css/bootstrap-theme.css" rel="stylesheet">
+<link href="<%=path%>/css/bootstrap-datetimepicker.min.css">
+<script src="<%=path%>/js/jquery-1.11.3.min.js"></script>
+<script src="<%=path%>/js/bootstrap.js"></script>
+<script src="<%=path%>/js/Chart.min.js"></script>
+<script src="<%=path%>/js/bootstrap-datetimepicker.min.js"></script>
+<style type="text/css">
+    body {
+        padding-top: 70px;
+    }
+</style>
