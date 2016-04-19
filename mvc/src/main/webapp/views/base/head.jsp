@@ -9,12 +9,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="<%=path%>/css/bootstrap.css" rel="stylesheet">
-<link href="<%=path%>/css/bootstrap-theme.css" rel="stylesheet">
-<link href="<%=path%>/css/bootstrap-datetimepicker.min.css">
+<link href="<%=path%>/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="<%=path%>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <script src="<%=path%>/js/jquery-1.11.3.min.js"></script>
-<script src="<%=path%>/js/bootstrap.js"></script>
+<script src="<%=path%>/js/bootstrap.min.js"></script>
 <script src="<%=path%>/js/Chart.min.js"></script>
 <script src="<%=path%>/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=path%>/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <style type="text/css">
     body {
         padding-top: 70px;

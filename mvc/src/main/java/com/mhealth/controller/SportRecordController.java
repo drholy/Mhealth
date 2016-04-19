@@ -49,46 +49,45 @@ public class SportRecordController {
         //日历设为当天0分0秒0毫秒
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(maxTime);
+        cal.set(Calendar.HOUR_OF_DAY,0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
-        List<AverageHeartRate> avgList = new ArrayList<>();
-        List<SumVal> sumList = new ArrayList<>();
+        List<AverageHeartRate> avgList;
+        List<SumVal> sumList;
 
-        int dTime = 0; //时间条件（日周月年）
+        //int dTime = 0; //时间条件（日周月年）
         int nextTime = 0;
 
         switch (Integer.parseInt(timeUnit)) {
             case 0:
-                dTime = Calendar.DAY_OF_MONTH;
+                //dTime = Calendar.DAY_OF_MONTH;
                 nextTime = Calendar.HOUR_OF_DAY;
-                cycle = 25;
+                cycle = 24;
                 break;
             case 1:
-                cal.set(Calendar.HOUR_OF_DAY, 0);
-                dTime = Calendar.WEEK_OF_MONTH;
-                nextTime = Calendar.DAY_OF_MONTH;
-                cycle = 8;
+                cal.set(Calendar.DAY_OF_WEEK, 1);
+                nextTime = Calendar.DAY_OF_WEEK;
+                cycle = 7;
                 break;
             case 2:
-                cal.set(Calendar.HOUR_OF_DAY, 0);
-                dTime = Calendar.MONTH;
+                cal.set(Calendar.DAY_OF_MONTH, 1);
                 nextTime = Calendar.DAY_OF_MONTH;
-                cycle = 32;
+                cycle = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
                 break;
             case 3:
-                cal.set(Calendar.HOUR_OF_DAY, 0);
-                dTime = Calendar.YEAR;
+                cal.set(Calendar.MONTH, 0);
+                cal.set(Calendar.DAY_OF_MONTH, 1);
                 nextTime = Calendar.MONTH;
-                cycle = 13;
+                cycle = 12;
                 break;
             default:
                 return Response.failuer("时间周期错误！");
 
         }
 
-        cal.add(dTime, -1);//根据时间周期（日周月年）将日历移动到起点
+        //cal.add(dTime, -1);//根据时间周期（日周月年）将日历移动到起点
         minTime = cal.getTimeInMillis();
         long avg[] = new long[cycle];
         long steps[] = new long[cycle];
@@ -103,13 +102,13 @@ public class SportRecordController {
             avgList = sportRecordService.getAverHr(userId, minTime, upTime);
             avg[i] = (avgList == null || avgList.size() == 0) ? 0 : avgList.get(0).getAverage();
 
-            sumList = sportRecordService.getSum(userId, minTime, maxTime, "stepCount");
+            sumList = sportRecordService.getSum(userId, minTime, upTime, "stepCount");
             steps[i] = (sumList == null || sumList.size() == 0) ? 0 : sumList.get(0).getSumVal();
 
-            sumList = sportRecordService.getSum(userId, minTime, maxTime, "distance");
+            sumList = sportRecordService.getSum(userId, minTime, upTime, "distance");
             distances[i] = (sumList == null || sumList.size() == 0) ? 0 : sumList.get(0).getSumVal();
 
-            sumList = sportRecordService.getSum(userId, minTime, maxTime, "elevation");
+            sumList = sportRecordService.getSum(userId, minTime, upTime, "elevation");
             eles[i] = (sumList == null || sumList.size() == 0) ? 0 : sumList.get(0).getSumVal();
 
             xTime[i] = cal.get(nextTime) - 1;
@@ -122,5 +121,73 @@ public class SportRecordController {
         }
         return new Response().addObject("avgHeart", avg).addObject("sumStep", steps).addObject("sumDistance", distances).addObject("sumELe", eles)
                 .addObject("xTime", xTime).toJson();
+    }
+
+    @RequestMapping(value = "getRecordByTime", produces = "json/application;charset=UTF-8")
+    @ResponseBody
+    public String getRecordByTime(String userId, String key, String beginTime, String timeUnit) {
+        if (StringUtils.isEmpty(userId, key, beginTime, timeUnit)) return Response.paramsIsEmpty("查询条件");
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(Long.parseLong(beginTime));
+        //将时分秒毫秒归零
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        int nextTime = 0;
+        int cycle = 0;
+
+        switch (Integer.valueOf(timeUnit)) {
+            case 0:
+                nextTime = Calendar.HOUR_OF_DAY;
+                cycle = 24;
+                break;
+            case 1:
+                cal.set(Calendar.DAY_OF_WEEK, 1);
+                nextTime = Calendar.DAY_OF_WEEK;
+                cycle = 7;
+                break;
+            case 2:
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+                nextTime = Calendar.DAY_OF_MONTH;
+                cycle = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                break;
+            case 3:
+                cal.set(Calendar.MONTH, 0);
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+                nextTime = Calendar.MONTH;
+                cycle = 12;
+                break;
+            default:
+                return Response.failuer("时间单位错误！");
+        }
+
+        long result[] = new long[cycle];
+        long xTime[] = new long[cycle];
+        long minTime = cal.getTimeInMillis();
+        if (key.equals("sport_heartRate")) {
+            for (int i = 0; i < cycle; i++) {
+                cal.setTimeInMillis(minTime);
+                cal.add(nextTime, +1);
+                long upTime = cal.getTimeInMillis();
+
+                List<AverageHeartRate> avgList = sportRecordService.getAverHr(userId, minTime, upTime);
+                result[i] = (avgList == null || avgList.size() == 0) ? 0 : avgList.get(0).getAverage();
+                xTime[i] = minTime;
+                minTime = upTime;
+            }
+        } else {
+            for (int i = 0; i < cycle; i++) {
+                cal.setTimeInMillis(minTime);
+                cal.add(nextTime, +1);
+                long upTime = cal.getTimeInMillis();
+
+                List<SumVal> sumList = sportRecordService.getSum(userId, minTime, upTime, key);
+                result[i] = (sumList == null || sumList.size() == 0) ? 0 : sumList.get(0).getSumVal();
+                xTime[i] = minTime;
+                minTime = upTime;
+            }
+        }
+        return new Response().addObject("result",result).addObject("xTime",xTime).toJson();
     }
 }

@@ -42,22 +42,36 @@ public class SportRecordDao extends BaseDao {
                 .with(new Sort(Sort.Direction.ASC,"beginTime")), SportRecord.class);
     }
 
+    /**
+     * 根据条件得到平均值
+     * @param userId
+     * @param minTime
+     * @param maxTime
+     * @return
+     */
     public List<AverageHeartRate> getAverHr(String userId, long minTime, long maxTime){
         Criteria c=Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
         Aggregation agg=Aggregation.newAggregation(Aggregation.match(c)
                 ,Aggregation.project("sport_heartRate","userId")
-                ,Aggregation.unwind("userId")
                 ,Aggregation.group("userId").avg("sport_heartRate").as("average")
                 ,Aggregation.project("average").and("userId").previousOperation());
         AggregationResults<AverageHeartRate> results =mongoTemplate.aggregate(agg,"sportRecord",AverageHeartRate.class);
         return results.getMappedResults();
     }
 
+
+    /**
+     * 根据条件得到和
+     * @param userId
+     * @param minTime
+     * @param maxTime
+     * @param key
+     * @return
+     */
     public List<SumVal> getSum(String userId, long minTime, long maxTime, String key){
         Criteria c=Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
         Aggregation agg=Aggregation.newAggregation(Aggregation.match(c)
                 ,Aggregation.project(key,"userId")
-                ,Aggregation.unwind("userId")
                 ,Aggregation.group("userId").sum(key).as("sumVal")
                 ,Aggregation.project("sumVal").and("userId").previousOperation());
         AggregationResults<SumVal> results =mongoTemplate.aggregate(agg,"sportRecord",SumVal.class);

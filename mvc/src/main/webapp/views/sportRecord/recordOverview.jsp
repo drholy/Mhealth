@@ -9,10 +9,10 @@
 <html>
 <head>
     <title>mhealth</title>
-    <%@include file="/views/base/head.jsp"%>
+    <%@include file="/views/base/head.jsp" %>
 </head>
 <body>
-<%@include file="/views/base/nav.jsp"%>
+<%@include file="/views/base/nav.jsp" %>
 
 <div class="container">
 
@@ -23,35 +23,35 @@
     <div class="row">
         <div class="col-md-3 col-md-offset-9" style="margin-bottom: 10px;">
             <div id="timeGroup" class="btn-group" role="group">
-                <button id="day" type="button" class="btn btn-default active">24时</button>
-                <button id="week" type="button" class="btn btn-default">7天</button>
-                <button id="month" type="button" class="btn btn-default">31天</button>
-                <button id="year" type="button" class="btn btn-default">12月</button>
+                <button id="day" type="button" class="btn btn-default active">日</button>
+                <button id="week" type="button" class="btn btn-default">周</button>
+                <button id="month" type="button" class="btn btn-default">月</button>
+                <button id="year" type="button" class="btn btn-default">年</button>
             </div>
         </div>
     </div>
     <div class="row">
         <div id="heartRate" class="col-md-6">
             <p>运动心率</p>
-            <a href="#">
+            <a href="<%=path%>/record/recordByDay.ui?key=sport_heartRate">
                 <canvas id="heartRateChart"></canvas>
             </a>
         </div>
         <div id="stepCount" class="col-md-6">
             <p>步数</p>
-            <a>
+            <a href="<%=path%>/record/recordByDay.ui?key=stepCount">
                 <canvas id="stepChart"></canvas>
             </a>
         </div>
         <div id="distance" class="col-md-6">
             <p>距离</p>
-            <a>
+            <a href="<%=path%>/record/recordByDay.ui?key=distance">
                 <canvas id="distanceChart"></canvas>
             </a>
         </div>
         <div id="elevation" class="col-md-6">
             <p>海拔</p>
-            <a>
+            <a href="<%=path%>/record/recordByDay.ui?key=distance">
                 <canvas id="eleChart"></canvas>
             </a>
         </div>
@@ -61,13 +61,17 @@
     $(document).ready(function () {
         getOverview("0");
 
-        $("#timeGroup button").click(function(){
+        $("#timeGroup button").click(function () {
             $("#timeGroup").children("button").removeClass("active");
             $(this).addClass("active");
-            var atr=$(this).attr("id");
-            switch (atr){
+            var atr = $(this).attr("id");
+            switch (atr) {
                 case "day":
                     getOverview("0");
+                    $("#heartRate a").attr("href","<%=path%>/record/recordByDay.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href","<%=path%>/record/recordByDay.ui?key=stepCount");
+                    $("#distance a").attr("href","<%=path%>/record/recordByDay.ui?key=distance");
+                    $("#elevation a").attr("href","<%=path%>/record/recordByDay.ui?key=elevation");
                     break;
                 case "week":
                     getOverview("1");
@@ -99,6 +103,8 @@
         }
 
         function getheartValue(xVal, yVal) {
+            $("#heartRateChart").remove();
+            $("#heartRate a").append('<canvas id="heartRateChart"></canvas>');
             var heartRateCtx = $("#heartRateChart").get(0).getContext("2d");
             var heartRateChart = new Chart(heartRateCtx);
             var data = {
@@ -115,6 +121,8 @@
         }
 
         function getStepValue(xVal, yVal) {
+            $("#stepChart").remove();
+            $("#stepCount a").append('<canvas id="stepChart"></canvas>');
             var stepCtx = $("#stepChart").get(0).getContext("2d");
             var stepChart = new Chart(stepCtx);
             var data = {
@@ -131,6 +139,8 @@
         }
 
         function getDistanceValue(xVal, yVal) {
+            $("#distanceChart").remove();
+            $("#distance a").append('<canvas id="distanceChart"></canvas>');
             var distanceCtx = $("#distanceChart").get(0).getContext("2d");
             var distanceChart = new Chart(distanceCtx);
             var data = {
@@ -147,6 +157,8 @@
         }
 
         function getEleValue(xVal, yVal) {
+            $("#eleChart").remove();
+            $("#elevation a").append('<canvas id="eleChart"></canvas>');
             var eleCtx = $("#eleChart").get(0).getContext("2d");
             var eleChart = new Chart(eleCtx);
             var data = {
