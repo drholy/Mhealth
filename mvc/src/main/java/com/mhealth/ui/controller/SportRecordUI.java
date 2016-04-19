@@ -23,22 +23,44 @@ public class SportRecordUI {
         return "sportRecord/recordOverview";
     }
 
+    @RequestMapping("recordByDay.ui")
+    public String recordByDay(String key, String time, ModelMap modelMap) {
+        if (StringUtils.isEmpty(key)) return null;
+        if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("key", key);
+        modelMap.put("time", time);
+        return "sportRecord/recordByDay";
+    }
+
+    @RequestMapping("recordByWeek.ui")
+    public String recordByWeek(String key, String time, ModelMap modelMap) {
+        if (StringUtils.isEmpty(key)) return null;
+        if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("key", key);
+        modelMap.put("time", time);
+        return "sportRecord/recordByWeek";
+    }
+
+    @RequestMapping("recordByMonth.ui")
+    public String recordByMonth(String key, String time, ModelMap modelMap) {
+        if (StringUtils.isEmpty(key)) return null;
+        if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("key", key);
+        modelMap.put("time", time);
+        return "sportRecord/recordByMonth";
+    }
+
     /**
      * 按年显示记录
      *
      * @return
      */
     @RequestMapping("recordByYear.ui")
-    public String recordByYear() {
-        return "sportRecord/recordByYear";
-    }
-
-    @RequestMapping("recordByDay.ui")
-    public String recordByDay(String key,String day,ModelMap modelMap) {
+    public String recordByYear(String key, String time, ModelMap modelMap) {
         if (StringUtils.isEmpty(key)) return null;
-        if(StringUtils.isEmpty(day)) day=String.valueOf(System.currentTimeMillis());
+        if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
         modelMap.put("key", key);
-        modelMap.put("day",day);
-        return "sportRecord/recordByDay";
+        modelMap.put("time", time);
+        return "sportRecord/recordByYear";
     }
 }

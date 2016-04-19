@@ -75,12 +75,24 @@
                     break;
                 case "week":
                     getOverview("1");
+                    $("#heartRate a").attr("href","<%=path%>/record/recordByWeek.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href","<%=path%>/record/recordByWeek.ui?key=stepCount");
+                    $("#distance a").attr("href","<%=path%>/record/recordByWeek.ui?key=distance");
+                    $("#elevation a").attr("href","<%=path%>/record/recordByWeek.ui?key=elevation");
                     break;
                 case "month":
                     getOverview("2");
+                    $("#heartRate a").attr("href","<%=path%>/record/recordByMonth.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href","<%=path%>/record/recordByMonth.ui?key=stepCount");
+                    $("#distance a").attr("href","<%=path%>/record/recordByMonth.ui?key=distance");
+                    $("#elevation a").attr("href","<%=path%>/record/recordByMonth.ui?key=elevation");
                     break;
                 case "year":
                     getOverview("3");
+                    $("#heartRate a").attr("href","<%=path%>/record/recordByYear.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href","<%=path%>/record/recordByYear.ui?key=stepCount");
+                    $("#distance a").attr("href","<%=path%>/record/recordByYear.ui?key=distance");
+                    $("#elevation a").attr("href","<%=path%>/record/recordByYear.ui?key=elevation");
                     break;
             }
         });

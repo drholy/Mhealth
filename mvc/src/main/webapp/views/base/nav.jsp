@@ -20,7 +20,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="<%=request.getContextPath()%>/record/overview.ui">首页</a></li>
+                <li><a href="<%=request.getContextPath()%>/record/overview.ui">首页</a></li>
             </ul>
             <p class="navbar-text navbar-right">欢迎，xx用户</p>
         </div><!--/.nav-collapse -->

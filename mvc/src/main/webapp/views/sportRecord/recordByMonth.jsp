@@ -17,20 +17,20 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
-                <label for="day" class="control-label">选择日期：</label>
-                <div id="dayCal" class="input-group date form_datetime" data-date="" data-date-format="yyyy-m-dd"
-                     data-link-field="day">
-                    <input id="dayVal" class="form-control" size="16" type="text" value="" readonly>
+                <label for="month" class="control-label">选择日期：</label>
+                <div id="monthCal" class="input-group date form_datetime" data-date="" data-date-format="yyyy-m"
+                     data-link-field="month">
+                    <input id="monthVal" class="form-control" size="16" type="text" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
-                <input type="hidden" id="day" value=""/><br/>
+                <input type="hidden" id="month" value=""/><br/>
             </div>
         </div>
     </div>
     <div class="row">
         <div id="chartDiv" class="col-md-12" style="text-align: center;">
-            <canvas id="dayChart"></canvas>
+            <canvas id="monthChart"></canvas>
         </div>
     </div>
     <div class="row"><!--table-->
@@ -38,7 +38,7 @@
             <table id="valTable" class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>时间（时）</th>
+                    <th>时间（日）</th>
                     <th>数值</th>
                 </tr>
                 </thead>
@@ -51,17 +51,17 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#dayCal").datetimepicker({
+        $("#monthCal").datetimepicker({
             language: 'zh-CN',
             weekStart: 1,
             todayBtn: 1,
             autoclose: 1,
             todayHighlight: 1,
-            startView: 2,//开始视图：月内
+            startView: 3,//开始视图：年内
             forceParse: 0,
             showMeridian: 1,
             pickerPosition: "bottom-left",
-            minView: 2,
+            minView: 3,
             initialDate: new Date(Number("${time}"))
         });
 
@@ -69,12 +69,12 @@
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
         var day = date.getDate();
-        $("#dayVal").val(year + "-" + month + "-" + day);
+        $("#monthVal").val(year + "-" + month);
 
-        getValue("${key}", "${time}", "0");
+        getValue("${key}", "${time}", "2");
 
-        $("#dayCal").datetimepicker().on("changeDate", function (ev) {
-            getValue("${key}", ev.date.valueOf(), "0");
+        $("#monthCal").datetimepicker().on("changeMonth", function (ev) {
+            getValue("${key}", ev.date.valueOf(), "2");
         });
 
         function getValue(key, beginTime, timeUnit) {
@@ -96,12 +96,12 @@
         function getDayChart(xVal, yVal) {
             var xt = new Array();
             for (var i in xVal) {
-                xt[i] = new Date(Number(xVal[i])).getHours();
+                xt[i] = new Date(Number(xVal[i])).getDate();
             }
-            $("#dayChart").remove();
-            $("#chartDiv").append('<canvas id="dayChart" height="300" width="750"></canvas>');
-            var dayChartCtx = $("#dayChart").get(0).getContext("2d");
-            var dayChart = new Chart(dayChartCtx);
+            $("#monthChart").remove();
+            $("#chartDiv").append('<canvas id="monthChart" height="300" width="750"></canvas>');
+            var monthChartCtx = $("#monthChart").get(0).getContext("2d");
+            var monthChart = new Chart(monthChartCtx);
             var data = {
                 labels: xt,
                 datasets: [
@@ -112,14 +112,15 @@
                     }
                 ]
             };
-            dayChart.Bar(data);
+            monthChart.Bar(data);
         }
 
         function getTable(xVal, yVal) {
             $("#valTable tbody").html("");
             for (var i in xVal) {
                 if (yVal[i] == 0) continue;
-                var xt = new Date(Number(xVal[i])).getHours() + "时";
+                var dbDate = new Date(Number(xVal[i]));
+                var xt = dbDate.getMonth() + 1 + "月" + dbDate.getDate() + "日";
                 var row = "<tr id=" + xVal[i] + " style='cursor:pointer'><td>" + xt + "</td><td>" + yVal[i] + "</td></tr>";
                 $("#valTable tbody").append(row);
             }
@@ -127,7 +128,7 @@
 
         $("#valTable tbody").on("click", "tr", function () {
             var node = $(this).children("td").get(0);
-            window.location.href = "#&time=" + $(this).attr("id");
+            window.location.href = "<%=path%>/record/recordByDay.ui?key=${key}&time=" + $(this).attr("id");
         })
     });
 </script>
