@@ -63,4 +63,13 @@ public class SportRecordUI {
         modelMap.put("time", time);
         return "sportRecord/recordByYear";
     }
+
+    @RequestMapping("recordByBTime.ui")
+    public String recordByBTime(String key,String time,ModelMap modelMap){
+        if (StringUtils.isEmpty(key)) return null;
+        if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("key", key);
+        modelMap.put("time", time);
+        return "sportRecord/recordDetail";
+    }
 }

@@ -42,26 +42,6 @@
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"/>
 
-    <!--<mongo:mongo host="127.0.0.1" port="27017">
-        <mongo:options connections-per-host="200"
-                       threads-allowed-to-block-for-connection-multiplier="100"
-                       connect-timeout="1000"
-                       max-wait-time="1500"
-                       auto-connect-retry="true"
-                       socket-keep-alive="true"
-                       socket-timeout="1500"
-                       slave-ok="true"
-                       write-number="1"
-                       write-timeout="0"
-                       write-fsync="true"
-        />
-    </mongo:mongo>
-
-    <mongo:db-factory dbname="mhealth" username="root" password="manager" mongo-ref="mongo" />
-
-    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
-    </bean>-->
     <!--<mongo:mongo host="10.0.2.1" port="55562"/>-->
     <mongo:mongo host="localhost" port="27017"/>
 

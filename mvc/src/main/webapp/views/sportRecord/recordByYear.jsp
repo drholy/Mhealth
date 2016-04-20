@@ -128,7 +128,7 @@
         $("#valTable tbody").on("click", "tr", function () {
             var node = $(this).children("td").get(0);
             window.location.href = "<%=path%>/record/recordByMonth.ui?key=${key}&time=" + $(this).attr("id");
-        })
+        });
     });
 </script>
 </body>

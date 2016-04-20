@@ -49,7 +49,7 @@ public class SportRecordController {
         //日历设为当天0分0秒0毫秒
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(maxTime);
-        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
@@ -123,7 +123,7 @@ public class SportRecordController {
                 .addObject("xTime", xTime).toJson();
     }
 
-    @RequestMapping(value = "getRecordByTime", produces = "json/application;charset=UTF-8")
+    @RequestMapping(value = "getRecordByTime", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getRecordByTime(String userId, String key, String beginTime, String timeUnit) {
         if (StringUtils.isEmpty(userId, key, beginTime, timeUnit)) return Response.paramsIsEmpty("查询条件");
@@ -188,6 +188,22 @@ public class SportRecordController {
                 minTime = upTime;
             }
         }
-        return new Response().addObject("result",result).addObject("xTime",xTime).toJson();
+        return new Response().addObject("result", result).addObject("xTime", xTime).toJson();
+    }
+
+    @RequestMapping(value = "getRecordByBTime", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getRecordByBt(String userId, String key, String beginTime) {
+        if (StringUtils.isEmpty(userId, key, beginTime)) Response.paramsIsEmpty("查询条件！");
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(Long.parseLong(beginTime));
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        long minTime = cal.getTimeInMillis();
+        cal.add(Calendar.HOUR_OF_DAY, +1);
+        long maxTime = cal.getTimeInMillis();
+        List<SportRecord> records = sportRecordService.getSportRecords(userId, minTime, maxTime);
+        return new Response().addList("result", records).toJson();
     }
 }

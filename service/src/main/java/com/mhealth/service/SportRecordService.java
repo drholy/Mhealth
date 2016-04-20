@@ -30,7 +30,7 @@ public class SportRecordService {
      * @param maxTime
      * @return
      */
-    public List<SportRecord> getSportRecords(String userId, String minTime, String maxTime) {
+    public List<SportRecord> getSportRecords(String userId, long minTime, long maxTime) {
         return sportRecordDao.getSportRecords(userId, minTime, maxTime);
     }
 

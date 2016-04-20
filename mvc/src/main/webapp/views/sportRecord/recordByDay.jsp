@@ -127,8 +127,8 @@
 
         $("#valTable tbody").on("click", "tr", function () {
             var node = $(this).children("td").get(0);
-            window.location.href = "#&time=" + $(this).attr("id");
-        })
+            window.location.href = "<%=path%>/record/recordByBTime.ui?key=${key}&time=" + $(this).attr("id");
+        });
     });
 </script>
 </body>

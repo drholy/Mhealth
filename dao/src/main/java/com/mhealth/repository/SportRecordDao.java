@@ -37,7 +37,7 @@ public class SportRecordDao extends BaseDao {
      * @param maxTime
      * @return
      */
-    public List<SportRecord> getSportRecords(String userId, String minTime, String maxTime) {
+    public List<SportRecord> getSportRecords(String userId, long minTime, long maxTime) {
         return mongoTemplate.find(new Query(Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime))
                 .with(new Sort(Sort.Direction.ASC,"beginTime")), SportRecord.class);
     }
