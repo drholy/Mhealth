@@ -20,6 +20,9 @@
         <li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
         <li class="active"><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=${time}">日</a></li>
     </ol>
+    <div class="starter-template">
+        <h1></h1>
+    </div>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
@@ -57,6 +60,25 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var title;
+        switch ("${key}") {
+            case "sport_heartRate":
+                title = "运动心率";
+                break;
+            case "stepCount":
+                title = "步数";
+                break;
+            case "distance":
+                title = "距离";
+                break;
+            case "elevation":
+                title = "海拔";
+                break;
+            default:
+                break;
+        }
+        $(".starter-template h1").html(title);
+
         $("#dayCal").datetimepicker({
             language: 'zh-CN',
             weekStart: 1,

@@ -21,6 +21,9 @@
         <li><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=${time}">日</a></li>
         <li><a href="<%=path%>/record/recordByTime.ui?key=${key}&time=${time}">详情</a></li>
     </ol>
+    <div class="starter-template">
+        <h1></h1>
+    </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table id="valTable" class="table table-striped table-hover">
@@ -72,6 +75,25 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        var title;
+        switch ("${key}") {
+            case "sport_heartRate":
+                title = "运动心率";
+                break;
+            case "stepCount":
+                title = "步数";
+                break;
+            case "distance":
+                title = "距离";
+                break;
+            case "elevation":
+                title = "海拔";
+                break;
+            default:
+                break;
+        }
+        $(".starter-template h1").html(title);
+
         $.ajax({
             url: "<%=path%>/service/sportRecord/getRecordByBTime",
             type: "post",
