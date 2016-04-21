@@ -1,6 +1,7 @@
 package com.mhealth.repository;
 
 import com.mhealth.common.base.BaseDao;
+import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.AverageHeartRate;
 import com.mhealth.model.SportRecord;
 import com.mhealth.model.SumVal;
@@ -39,42 +40,59 @@ public class SportRecordDao extends BaseDao {
      */
     public List<SportRecord> getSportRecords(String userId, long minTime, long maxTime) {
         return mongoTemplate.find(new Query(Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime))
-                .with(new Sort(Sort.Direction.ASC,"beginTime")), SportRecord.class);
+                .with(new Sort(Sort.Direction.ASC, "beginTime")), SportRecord.class);
     }
 
     /**
      * 根据条件得到平均值
+     *
      * @param userId
      * @param minTime
      * @param maxTime
      * @return
      */
-    public List<AverageHeartRate> getAverHr(String userId, long minTime, long maxTime){
-        Criteria c=Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
-        Aggregation agg=Aggregation.newAggregation(Aggregation.match(c)
-                ,Aggregation.project("sport_heartRate","userId")
-                ,Aggregation.group("userId").avg("sport_heartRate").as("average")
-                ,Aggregation.project("average").and("userId").previousOperation());
-        AggregationResults<AverageHeartRate> results =mongoTemplate.aggregate(agg,"sportRecord",AverageHeartRate.class);
+    public List<AverageHeartRate> getAverHr(String userId, long minTime, long maxTime) {
+        Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
+        Aggregation agg = Aggregation.newAggregation(Aggregation.match(c)
+                , Aggregation.project("sport_heartRate", "userId")
+                , Aggregation.group("userId").avg("sport_heartRate").as("average")
+                , Aggregation.project("average").and("userId").previousOperation());
+        AggregationResults<AverageHeartRate> results = mongoTemplate.aggregate(agg, "sportRecord", AverageHeartRate.class);
         return results.getMappedResults();
     }
 
 
     /**
      * 根据条件得到和
+     *
      * @param userId
      * @param minTime
      * @param maxTime
      * @param key
      * @return
      */
-    public List<SumVal> getSum(String userId, long minTime, long maxTime, String key){
-        Criteria c=Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
-        Aggregation agg=Aggregation.newAggregation(Aggregation.match(c)
-                ,Aggregation.project(key,"userId")
-                ,Aggregation.group("userId").sum(key).as("sumVal")
-                ,Aggregation.project("sumVal").and("userId").previousOperation());
-        AggregationResults<SumVal> results =mongoTemplate.aggregate(agg,"sportRecord",SumVal.class);
+    public List<SumVal> getSum(String userId, long minTime, long maxTime, String key) {
+        Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
+        Aggregation agg = Aggregation.newAggregation(Aggregation.match(c)
+                , Aggregation.project(key, "userId")
+                , Aggregation.group("userId").sum(key).as("sumVal")
+                , Aggregation.project("sumVal").and("userId").previousOperation());
+        AggregationResults<SumVal> results = mongoTemplate.aggregate(agg, "sportRecord", SumVal.class);
         return results.getMappedResults();
+    }
+
+    /**
+     * 根据userId分页查询用户所有体征值
+     *
+     * @param quickPager
+     * @param userId
+     */
+    public void getAllRecords(QuickPager<SportRecord> quickPager, String userId) {
+        Query query = new Query(Criteria.where("userId").is(userId));
+        long count = mongoTemplate.count(query, SportRecord.class);
+        quickPager.setTotalRows(Integer.parseInt(String.valueOf(count)));
+        query.with(new Sort(Sort.Direction.DESC, "beginTime")).skip(quickPager.getBeginNum()).limit(quickPager.getPageSize());
+        List<SportRecord> records = mongoTemplate.find(query, SportRecord.class);
+        quickPager.setData(records);
     }
 }

@@ -16,6 +16,7 @@
 <script src="<%=path%>/js/Chart.min.js"></script>
 <script src="<%=path%>/js/bootstrap-datetimepicker.min.js"></script>
 <script src="<%=path%>/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="<%=path%>/js/jquery.twbsPagination.min.js"></script>
 <style type="text/css">
     body {
         padding-top: 70px;

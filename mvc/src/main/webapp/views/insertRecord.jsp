@@ -21,6 +21,7 @@
                 for(var i=0;i<1000;i++){
                     if(i%10==0) temp=parseInt(Math.random()*10000000000000);
                     var now=new Date().getTime();
+                    var beginTime=Math.random()*(365*24*60*60*1000)+now-(365*24*60*60*1000);
                     var record={
                         userId:"9677167136687",
                         deviceId:"111111",
@@ -29,8 +30,8 @@
                         heat:Math.random()*1000+500,
                         stepCount:Math.random()*3000+5000,
                         elevation:Math.random()*5,
-                        beginTime:Math.random()*(365*24*60*60*1000)+now-(365*24*60*60*1000),
-                        endTime:now+parseInt(Math.random()*30*60*60*1000),
+                        beginTime:beginTime,
+                        endTime:beginTime+parseInt(Math.random()*60*60*1000),
                         uploadTime:now
                     };
                     dataList[i]=record;

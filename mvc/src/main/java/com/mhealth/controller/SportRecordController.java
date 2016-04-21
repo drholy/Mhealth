@@ -1,5 +1,6 @@
 package com.mhealth.controller;
 
+import com.mhealth.common.entity.QuickPager;
 import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.StringUtils;
 import com.mhealth.model.AverageHeartRate;
@@ -205,5 +206,14 @@ public class SportRecordController {
         long maxTime = cal.getTimeInMillis();
         List<SportRecord> records = sportRecordService.getSportRecords(userId, minTime, maxTime);
         return new Response().addList("result", records).toJson();
+    }
+
+    @RequestMapping(value = "allRecords", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getAllRecords(String userId, String currPage, String pageSize) {
+        if (StringUtils.isEmpty(userId)) return Response.paramsIsEmpty("用户id");
+        QuickPager<SportRecord> quickPager = new QuickPager<SportRecord>(currPage, pageSize);
+        sportRecordService.getAllRecords(quickPager, userId);
+        return new Response().toPageJson(quickPager);
     }
 }

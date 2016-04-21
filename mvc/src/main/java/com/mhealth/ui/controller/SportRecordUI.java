@@ -72,4 +72,9 @@ public class SportRecordUI {
         modelMap.put("time", time);
         return "sportRecord/recordDetail";
     }
+
+    @RequestMapping("allRecords.ui")
+    public String allRecords(){
+        return "sportRecord/allRecord";
+    }
 }

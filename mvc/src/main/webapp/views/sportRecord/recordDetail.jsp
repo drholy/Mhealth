@@ -14,6 +14,13 @@
 <body>
 <%@ include file="/views/base/nav.jsp" %>
 <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="<%=path%>/record/overview.ui">首页</a></li>
+        <li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=${time}">年</a></li>
+        <li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
+        <li><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=${time}">日</a></li>
+        <li><a href="<%=path%>/record/recordByTime.ui?key=${key}&time=${time}">详情</a></li>
+    </ol>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table id="valTable" class="table table-striped table-hover">
@@ -82,7 +89,7 @@
                 var detail = details[i];
                 var dbDate = new Date(Number(detail["beginTime"]));
                 var xt = dbDate.getHours() + ":" + dbDate.getMinutes();
-                var row = "<tr id='1' data-toggle='modal' data-target='#myModal' data-detail=" + JSON.stringify(detail) + " style='cursor:pointer'><td>" + xt + "</td><td>" + detail["${key}"] + "</td></tr>";
+                var row = "<tr data-toggle='modal' data-target='#myModal' data-detail='" + JSON.stringify(detail) + "' style='cursor:pointer'><td>" + xt + "</td><td>" + detail["${key}"] + "</td></tr>";
                 $("#valTable").append(row);
             }
         }
@@ -97,20 +104,20 @@
             modal.find("#val .col-md-8 p").text(recipient["${key}"]);
 
             dbDate = new Date(Number(recipient["beginTime"]));
-            month=dbDate.getMonth() + 1;
-            xt = dbDate.getFullYear() + "年" + month+ "月" + dbDate.getDate() + "日 "
+            month = dbDate.getMonth() + 1;
+            xt = dbDate.getFullYear() + "年" + month + "月" + dbDate.getDate() + "日 "
                     + dbDate.getHours() + "时" + dbDate.getMinutes() + "分" + dbDate.getSeconds() + "秒";
             modal.find("#btime .col-md-8 p").text(xt);
 
             dbDate = new Date(Number(recipient["endTime"]));
-            month=dbDate.getMonth() + 1;
+            month = dbDate.getMonth() + 1;
             xt = dbDate.getFullYear() + "年" + month + "月" + dbDate.getDate() + "日 "
                     + dbDate.getHours() + "时" + dbDate.getMinutes() + "分" + dbDate.getSeconds() + "秒";
             modal.find("#etime .col-md-8 p").text(xt);
 
             dbDate = new Date(Number(recipient["uploadTime"]));
-            month=dbDate.getMonth() + 1;
-            xt = dbDate.getFullYear() + "年" + month + 1 + "月" + dbDate.getDate() + "日 "
+            month = dbDate.getMonth() + 1;
+            xt = dbDate.getFullYear() + "年" + month + "月" + dbDate.getDate() + "日 "
                     + dbDate.getHours() + "时" + dbDate.getMinutes() + "分" + dbDate.getSeconds() + "秒";
             modal.find("#utime .col-md-8 p").text(xt);
         });

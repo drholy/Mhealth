@@ -15,6 +15,9 @@
 <%@include file="/views/base/nav.jsp" %>
 
 <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="<%=path%>/record/overview.ui">首页</a></li>
+    </ol>
 
     <div class="starter-template">
         <h1>体征值概览</h1>

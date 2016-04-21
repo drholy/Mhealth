@@ -14,6 +14,11 @@
 <body>
 <%@ include file="/views/base/nav.jsp" %>
 <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="<%=path%>/record/overview.ui">首页</a></li>
+        <li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=${time}">年</a></li>
+        <li class="active"><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>
+    </ol>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
@@ -74,6 +79,11 @@
         getValue("${key}", "${time}", "1");
 
         $("#weekCal").datetimepicker().on("changeDate", function (ev) {
+            $(".breadcrumb").html("");
+            var bread = '<li><a href="<%=path%>/record/overview.ui">首页</a></li>' +
+                    '<li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=' + ev.date.valueOf() + '">年</a></li>' +
+                    '<li class="active"><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=' + ev.date.valueOf() + '">周</a></li>';
+            $(".breadcrumb").append(bread);
             getValue("${key}", ev.date.valueOf(), "1");
         });
 
@@ -96,6 +106,7 @@
         function getDayChart(xVal, yVal) {
             var xt = new Array();
             for (var i in xVal) {
+                if (yVal[i] == 0) continue;
                 xt[i] = new Date(Number(xVal[i])).getDate();
             }
             $("#weekChart").remove();

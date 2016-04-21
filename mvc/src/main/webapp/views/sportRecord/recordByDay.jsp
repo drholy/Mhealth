@@ -14,11 +14,17 @@
 <body>
 <%@ include file="/views/base/nav.jsp" %>
 <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="<%=path%>/record/overview.ui">首页</a></li>
+        <li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=${time}">年</a></li>
+        <li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
+        <li class="active"><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=${time}">日</a></li>
+    </ol>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
                 <label for="day" class="control-label">选择日期：</label>
-                <div id="dayCal" class="input-group date form_datetime" data-date="" data-date-format="yyyy-m-dd"
+                <div id="dayCal" class="input-group date form_datetime" data-date="" data-date-format="yyyy-m-d"
                      data-link-field="day">
                     <input id="dayVal" class="form-control" size="16" type="text" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -74,6 +80,12 @@
         getValue("${key}", "${time}", "0");
 
         $("#dayCal").datetimepicker().on("changeDate", function (ev) {
+            $(".breadcrumb").html("");
+            var bread = '<li><a href="<%=path%>/record/overview.ui">首页</a></li>' +
+                    '<li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=' + ev.date.valueOf() + '">年</a></li>' +
+                    '<li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=' + ev.date.valueOf() + '">月</a></li>' +
+                    '<li class="active"><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=' + ev.date.valueOf() + '">日</a></li>';
+            $(".breadcrumb").append(bread);
             getValue("${key}", ev.date.valueOf(), "0");
         });
 

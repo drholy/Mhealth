@@ -1,5 +1,6 @@
 package com.mhealth.service;
 
+import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.AverageHeartRate;
 import com.mhealth.model.SportRecord;
 import com.mhealth.model.SumVal;
@@ -34,11 +35,21 @@ public class SportRecordService {
         return sportRecordDao.getSportRecords(userId, minTime, maxTime);
     }
 
-    public List<AverageHeartRate> getAverHr(String userId, long minTime, long maxTime){
-        return sportRecordDao.getAverHr(userId,minTime,maxTime);
+    public List<AverageHeartRate> getAverHr(String userId, long minTime, long maxTime) {
+        return sportRecordDao.getAverHr(userId, minTime, maxTime);
     }
 
-    public List<SumVal> getSum(String userId, long minTime, long maxTime, String key){
-        return sportRecordDao.getSum(userId,minTime,maxTime,key);
+    public List<SumVal> getSum(String userId, long minTime, long maxTime, String key) {
+        return sportRecordDao.getSum(userId, minTime, maxTime, key);
+    }
+
+    /**
+     * 根据userId分页查询用户所有体征值
+     *
+     * @param quickPager
+     * @param userId
+     */
+    public void getAllRecords(QuickPager<SportRecord> quickPager, String userId) {
+        sportRecordDao.getAllRecords(quickPager, userId);
     }
 }
