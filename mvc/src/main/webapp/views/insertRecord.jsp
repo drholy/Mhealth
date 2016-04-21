@@ -50,7 +50,7 @@
             });
         });
     </script>
-    <h1>Helloword</h1>
+    <h1>插入数据</h1>
     <button id="insert">插入</button>
     <div id="res"></div>
 </body>

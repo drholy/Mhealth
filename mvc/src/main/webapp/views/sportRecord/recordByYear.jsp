@@ -104,7 +104,8 @@
         function getDayChart(xVal, yVal) {
             var xt = new Array();
             for (var i in xVal) {
-                xt[i] = new Date(Number(xVal[i])).getMonth() + 1;
+                if (yVal[i] == 0) xt[i] = "";
+                else xt[i] = new Date(Number(xVal[i])).getMonth() + 1;
             }
             $("#yearChart").remove();
             $("#chartDiv").append('<canvas id="yearChart" height="300" width="750"></canvas>');

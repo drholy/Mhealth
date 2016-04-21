@@ -108,7 +108,8 @@
         function getDayChart(xVal, yVal) {
             var xt = new Array();
             for (var i in xVal) {
-                xt[i] = new Date(Number(xVal[i])).getHours();
+                if (yVal[i] == 0) xt[i] = "";
+                else xt[i] = new Date(Number(xVal[i])).getHours();
             }
             $("#dayChart").remove();
             $("#chartDiv").append('<canvas id="dayChart" height="300" width="750"></canvas>');

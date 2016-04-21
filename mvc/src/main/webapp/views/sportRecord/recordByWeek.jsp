@@ -106,8 +106,8 @@
         function getDayChart(xVal, yVal) {
             var xt = new Array();
             for (var i in xVal) {
-                if (yVal[i] == 0) continue;
-                xt[i] = new Date(Number(xVal[i])).getDate();
+                if (yVal[i] == 0) xt[i] = "";
+                else xt[i] = new Date(Number(xVal[i])).getDate();
             }
             $("#weekChart").remove();
             $("#chartDiv").append('<canvas id="weekChart" height="300" width="600"></canvas>');
