@@ -14,6 +14,13 @@
 <body>
 <%@ include file="/views/base/nav.jsp" %>
 <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="<%=path%>/record/overview.ui">首页</a></li>
+        <li class="active"><a href="<%=path%>/record/allRecords.ui">所有数据</a></li>
+    </ol>
+    <div class="starter-template">
+        <h1>所有数据</h1>
+    </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table id="allValTable" class="table table-striped table-hover">

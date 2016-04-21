@@ -27,7 +27,6 @@
                         deviceId:"111111",
                         sport_heartRate:parseInt(Math.random()*90+60),
                         distance:Math.random()*20,
-                        heat:Math.random()*1000+500,
                         stepCount:Math.random()*3000+5000,
                         elevation:Math.random()*5,
                         beginTime:beginTime,
