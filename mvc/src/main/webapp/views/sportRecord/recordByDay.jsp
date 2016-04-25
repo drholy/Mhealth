@@ -18,6 +18,7 @@
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>
         <li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=${time}">年</a></li>
         <li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
+        <li><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>
         <li class="active"><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=${time}">日</a></li>
     </ol>
     <div class="starter-template">
@@ -89,6 +90,7 @@
             var bread = '<li><a href="<%=path%>/record/overview.ui">首页</a></li>' +
                     '<li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=' + ev.date.valueOf() + '">年</a></li>' +
                     '<li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=' + ev.date.valueOf() + '">月</a></li>' +
+                    '<li><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>' +
                     '<li class="active"><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=' + ev.date.valueOf() + '">日</a></li>';
             $(".breadcrumb").append(bread);
             getValue("${key}", ev.date.valueOf(), "0");
