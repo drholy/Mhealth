@@ -25,13 +25,13 @@
                     var record={
                         userId:"9677167136687",
                         deviceId:"111111",
-                        sport_heartRate:parseInt(Math.random()*90+60),
-                        distance:Math.random()*20,
-                        stepCount:Math.random()*3000+5000,
-                        elevation:Math.random()*5,
-                        beginTime:beginTime,
-                        endTime:beginTime+parseInt(Math.random()*60*60*1000),
-                        uploadTime:now
+                        sport_heartRate:parseInt(Math.random()*90+60),//60-150
+                        distance:Math.random()*20,//0-20
+                        stepCount:Math.random()*3000+5000,//5000-8000
+                        elevation:Math.random()*5,//0-5
+                        beginTime:beginTime,//一年前-----现在
+                        endTime:beginTime+parseInt(Math.random()*60*60*1000),//beginTime----1小时后
+                        uploadTime:now//现在
                     };
                     dataList[i]=record;
                 }

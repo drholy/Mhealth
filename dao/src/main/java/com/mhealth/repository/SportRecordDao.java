@@ -3,10 +3,10 @@ package com.mhealth.repository;
 import com.mhealth.common.base.BaseDao;
 import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.AverageHeartRate;
+import com.mhealth.model.AvgVal;
 import com.mhealth.model.SportRecord;
 import com.mhealth.model.SumVal;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -44,7 +44,7 @@ public class SportRecordDao extends BaseDao {
     }
 
     /**
-     * 根据条件得到平均值
+     * 根据条件得到心率平均值
      *
      * @param userId
      * @param minTime
@@ -52,7 +52,7 @@ public class SportRecordDao extends BaseDao {
      * @return
      */
     public List<AverageHeartRate> getAverHr(String userId, long minTime, long maxTime) {
-        Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
+        Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lt(maxTime);
         Aggregation agg = Aggregation.newAggregation(Aggregation.match(c)
                 , Aggregation.project("sport_heartRate", "userId")
                 , Aggregation.group("userId").avg("sport_heartRate").as("average")
@@ -61,18 +61,37 @@ public class SportRecordDao extends BaseDao {
         return results.getMappedResults();
     }
 
-
     /**
-     * 根据条件得到和
+     * 根据指定用户、数据键、时间段查询平均值
      *
      * @param userId
+     * @param key
      * @param minTime
      * @param maxTime
-     * @param key
      * @return
      */
-    public List<SumVal> getSum(String userId, long minTime, long maxTime, String key) {
-        Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lte(maxTime);
+    public List<AvgVal> getAvgVal(String userId, String key, long minTime, long maxTime) {
+        Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lt(maxTime);
+        Aggregation agg = Aggregation.newAggregation(Aggregation.match(c)
+                , Aggregation.project("userId", key)
+                , Aggregation.group("userId").avg(key).as("avgVal")
+                , Aggregation.project("avgVal").and("userId").previousOperation());
+        AggregationResults<AvgVal> results = mongoTemplate.aggregate(agg, "sportRecord", AvgVal.class);
+        return results.getMappedResults();
+    }
+
+
+    /**
+     * 根据指定用户、数据键、时间段查询和
+     *
+     * @param userId
+     * @param key
+     * @param minTime
+     * @param maxTime
+     * @return
+     */
+    public List<SumVal> getSumVal(String userId, String key, long minTime, long maxTime) {
+        Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lt(maxTime);
         Aggregation agg = Aggregation.newAggregation(Aggregation.match(c)
                 , Aggregation.project(key, "userId")
                 , Aggregation.group("userId").sum(key).as("sumVal")
