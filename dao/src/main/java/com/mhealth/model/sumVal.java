@@ -4,8 +4,8 @@ package com.mhealth.model;
  * Created by pengt on 2016.4.14.0014.
  */
 public class SumVal {
-    String userId;
-    long sumVal;
+    private String userId;
+    private long sumVal;
 
     public String getUserId() {
         return userId;

@@ -62,6 +62,7 @@
 </div><!-- /.container -->
 <script type="text/javascript">
     $(document).ready(function () {
+        var dateExp = "h";
         getOverview("0");
 
         $("#timeGroup button").click(function () {
@@ -71,59 +72,98 @@
             switch (atr) {
                 case "day":
                     getOverview("0");
-                    $("#heartRate a").attr("href","<%=path%>/record/recordByDay.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href","<%=path%>/record/recordByDay.ui?key=stepCount");
-                    $("#distance a").attr("href","<%=path%>/record/recordByDay.ui?key=distance");
-                    $("#elevation a").attr("href","<%=path%>/record/recordByDay.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByDay.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByDay.ui?key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByDay.ui?key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByDay.ui?key=elevation");
+                    dateExp = "h";
                     break;
                 case "week":
                     getOverview("1");
-                    $("#heartRate a").attr("href","<%=path%>/record/recordByWeek.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href","<%=path%>/record/recordByWeek.ui?key=stepCount");
-                    $("#distance a").attr("href","<%=path%>/record/recordByWeek.ui?key=distance");
-                    $("#elevation a").attr("href","<%=path%>/record/recordByWeek.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByWeek.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByWeek.ui?key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByWeek.ui?key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByWeek.ui?key=elevation");
+                    dateExp = "d";
                     break;
                 case "month":
                     getOverview("2");
-                    $("#heartRate a").attr("href","<%=path%>/record/recordByMonth.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href","<%=path%>/record/recordByMonth.ui?key=stepCount");
-                    $("#distance a").attr("href","<%=path%>/record/recordByMonth.ui?key=distance");
-                    $("#elevation a").attr("href","<%=path%>/record/recordByMonth.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByMonth.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByMonth.ui?key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByMonth.ui?key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByMonth.ui?key=elevation");
+                    dateExp = "d";
                     break;
                 case "year":
                     getOverview("3");
-                    $("#heartRate a").attr("href","<%=path%>/record/recordByYear.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href","<%=path%>/record/recordByYear.ui?key=stepCount");
-                    $("#distance a").attr("href","<%=path%>/record/recordByYear.ui?key=distance");
-                    $("#elevation a").attr("href","<%=path%>/record/recordByYear.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByYear.ui?key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByYear.ui?key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByYear.ui?key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByYear.ui?key=elevation");
+                    dateExp = "M";
                     break;
             }
         });
 
         function getOverview(timeCycle) {
             $.ajax({
-                url: "<%=path%>/service/sportRecord/getAllByTime",
-                data: {userId: "9677167136687", timeUnit: timeCycle},
+                url: "<%=path%>/service/sportRecord/getAvgVal",
+                data: {userId: "9677167136687", key: "sport_heartRate", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        getheartValue(data.data.xTime, data.data.avgHeart);
-                        getStepValue(data.data.xTime, data.data.sumStep);
-                        getDistanceValue(data.data.xTime, data.data.sumDistance);
-                        getEleValue(data.data.xTime, data.data.sumELe);
+                        getheartValue(data.data.xTime, data.data.result);
+                    }
+                }
+            });
+            $.ajax({
+                url: "<%=path%>/service/sportRecord/getSumVal",
+                data: {userId: "9677167136687", key: "stepCount", beginTime: "", timeUnit: timeCycle},
+                dataType: "json",
+                type: "post",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        getStepValue(data.data.xTime, data.data.result);
+                    }
+                }
+            });
+            $.ajax({
+                url: "<%=path%>/service/sportRecord/getSumVal",
+                data: {userId: "9677167136687", key: "distance", beginTime: "", timeUnit: timeCycle},
+                dataType: "json",
+                type: "post",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        getDistanceValue(data.data.xTime, data.data.result);
+                    }
+                }
+            });
+            $.ajax({
+                url: "<%=path%>/service/sportRecord/getSumVal",
+                data: {userId: "9677167136687", key: "elevation", beginTime: "", timeUnit: timeCycle},
+                dataType: "json",
+                type: "post",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        getEleValue(data.data.xTime, data.data.result);
                     }
                 }
             });
         }
 
         function getheartValue(xVal, yVal) {
+            var xt = new Array();
+            for (var i in xVal) {
+                if (yVal[i] == 0) xt[i] = "";
+                else xt[i] = new Date(Number(xVal[i])).format(dateExp);
+            }
             $("#heartRateChart").remove();
             $("#heartRate a").append('<canvas id="heartRateChart"></canvas>');
             var heartRateCtx = $("#heartRateChart").get(0).getContext("2d");
             var heartRateChart = new Chart(heartRateCtx);
             var data = {
-                labels: xVal,
+                labels: xt,
                 datasets: [
                     {
                         fillColor: "rgba(220,220,220,0.5)",
@@ -136,12 +176,17 @@
         }
 
         function getStepValue(xVal, yVal) {
+            var xt = new Array();
+            for (var i in xVal) {
+                if (yVal[i] == 0) xt[i] = "";
+                else xt[i] = new Date(Number(xVal[i])).format(dateExp);
+            }
             $("#stepChart").remove();
             $("#stepCount a").append('<canvas id="stepChart"></canvas>');
             var stepCtx = $("#stepChart").get(0).getContext("2d");
             var stepChart = new Chart(stepCtx);
             var data = {
-                labels: xVal,
+                labels: xt,
                 datasets: [
                     {
                         fillColor: "rgba(220,220,220,0.5)",
@@ -154,12 +199,17 @@
         }
 
         function getDistanceValue(xVal, yVal) {
+            var xt = new Array();
+            for (var i in xVal) {
+                if (yVal[i] == 0) xt[i] = "";
+                else xt[i] = new Date(Number(xVal[i])).format(dateExp);
+            }
             $("#distanceChart").remove();
             $("#distance a").append('<canvas id="distanceChart"></canvas>');
             var distanceCtx = $("#distanceChart").get(0).getContext("2d");
             var distanceChart = new Chart(distanceCtx);
             var data = {
-                labels: xVal,
+                labels: xt,
                 datasets: [
                     {
                         fillColor: "rgba(220,220,220,0.5)",
@@ -172,12 +222,17 @@
         }
 
         function getEleValue(xVal, yVal) {
+            var xt = new Array();
+            for (var i in xVal) {
+                if (yVal[i] == 0) xt[i] = "";
+                else xt[i] = new Date(Number(xVal[i])).format(dateExp);
+            }
             $("#eleChart").remove();
             $("#elevation a").append('<canvas id="eleChart"></canvas>');
             var eleCtx = $("#eleChart").get(0).getContext("2d");
             var eleChart = new Chart(eleCtx);
             var data = {
-                labels: xVal,
+                labels: xt,
                 datasets: [
                     {
                         fillColor: "rgba(220,220,220,0.5)",

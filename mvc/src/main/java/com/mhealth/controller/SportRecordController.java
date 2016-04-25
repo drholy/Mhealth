@@ -318,7 +318,7 @@ public class SportRecordController {
             xTime[i] = minTime;
             minTime = upTime;
         }
-        return new Response().addObject("result", result).addObject("xTime", xTime).toJson();
+        return new Response().addObject("result", result).addObject("xTime", xTime).addString("timeUnit", timeUnit).toJson();
     }
 
     /**
@@ -383,6 +383,6 @@ public class SportRecordController {
             xTime[i] = minTime;
             minTime = upTime;
         }
-        return new Response().addObject("result", result).addObject("xTime", xTime).toJson();
+        return new Response().addObject("result", result).addObject("xTime", xTime).addString("timeUnit", timeUnit).toJson();
     }
 }

@@ -75,24 +75,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var title;
-        switch ("${key}") {
-            case "sport_heartRate":
-                title = "运动心率";
-                break;
-            case "stepCount":
-                title = "步数";
-                break;
-            case "distance":
-                title = "距离";
-                break;
-            case "elevation":
-                title = "海拔";
-                break;
-            default:
-                break;
-        }
-        $(".starter-template h1").html(title);
+        showTitle("${key}");
 
         $.ajax({
             url: "<%=path%>/service/sportRecord/getRecordByBTime",
