@@ -33,6 +33,7 @@ public class Response{
 	public final static String PARAMS_IS_EMPTY = "100101"    ;// 参数不能为空
 	public final static String PARAMS_CHECK_ERROR = "100102" ;// 参数校验错误
 	public final static String ACTIVITE_FAILURE = "100103"   ;// 激活失败
+	public final static String DONOT_ACTIVITE = "100104"   ;// 未激活
 	public final static String SERVICE_ERROR = "500100"      ;// 服务端系统发生错误
 	
 	public final static String ADD_FAILURE = "500101"        ;// 添加数据失败

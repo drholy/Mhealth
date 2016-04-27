@@ -9,10 +9,10 @@
 <html>
 <head>
     <title>mhealth</title>
-    <%@include file="/views/base/head.jsp" %>
+    <%@ include file="/views/base/head.jsp" %>
 </head>
 <body>
-<%@include file="/views/base/nav.jsp" %>
+<%@ include file="/views/base/nav.jsp" %>
 
 <div class="container">
     <ol class="breadcrumb">

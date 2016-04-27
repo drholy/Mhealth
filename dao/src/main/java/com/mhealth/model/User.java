@@ -7,14 +7,6 @@ import com.mhealth.common.base.BaseEntity;
  */
 public class User extends BaseEntity{
 
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
     private String loginName;
     private String username;
     private String password;
@@ -27,6 +19,14 @@ public class User extends BaseEntity{
     private String active; //0:未激活,1:激活
     private long regTime;
     private String status; //0:不可用,1:可用
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
 
     public String getUsername() {
         return username;

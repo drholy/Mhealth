@@ -48,9 +48,9 @@ public class UserDao extends BaseDao {
 
     public boolean active(User user) {
         WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(user.getId()))),
-                new Update().set("sex", user.getSex()).set("birthday", user.getBirthday())
+                new Update().set("username", user.getUsername()).set("sex", user.getSex()).set("birthday", user.getBirthday())
                         .set("bloodType", user.getBloodType()).set("mobilePhone", user.getMobilePhone())
-                        .set("email", user.getEmail()).set("active",user.getActive()).set("status",user.getStatus()), User.class);
-        return wr.getN() == 1 ? true : false;
+                        .set("email", user.getEmail()).set("active", user.getActive()).set("status", user.getStatus()), User.class);
+        return wr.getN() == 1;
     }
 }

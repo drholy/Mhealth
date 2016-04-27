@@ -45,19 +45,19 @@
                 <div class="tab-content">
                     <!-- login -->
                     <div role="tabpanel" class="tab-pane fade in active" id="login">
-                        <form>
+                        <form id="loginForm">
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" class="form-control" placeholder="用户名">
+                                    <input type="text" name="loginName" class="form-control" placeholder="用户名">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-lock"></span></span>
-                                    <input type="password" class="form-control" placeholder="密码">
+                                    <input name="password" type="password" class="form-control" placeholder="密码">
                                 </div>
                             </div>
                             <div class="checkbox">
@@ -65,23 +65,25 @@
                                     <input type="checkbox"> 记住我
                                 </label>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg btn-block">登录</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">登录</button>
                         </form>
                     </div>
                     <!--End login-->
                     <!-- register -->
                     <div role="tabpanel" class="tab-pane fade" id="register">
-                        <form class="form-horizontal">
+                        <form id="registerForm" class="form-horizontal">
                             <div class="form-group">
-                                <label for="regUsername" class="col-md-4 control-label">用户名*</label>
+                                <label for="regLoginName" class="col-md-4 control-label">用户名*</label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="regUsername" placeholder="用户名">
+                                    <input name="loginName" type="text" class="form-control" id="regLoginName"
+                                           placeholder="用户名">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="regPassword" class="col-md-4 control-label">密码*</label>
                                 <div class="col-md-8">
-                                    <input type="password" class="form-control" id="regPassword" placeholder="密码">
+                                    <input name="password" type="password" class="form-control" id="regPassword"
+                                           placeholder="密码">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -93,11 +95,11 @@
                             <div class="form-group">
                                 <label for="valid" class="col-md-4 control-label">验证码*</label>
                                 <div class="input-group col-md-8">
-                                    <input id="valid" type="text" class="form-control" placeholder="验证码">
+                                    <input id="valid" name="valid" type="text" class="form-control" placeholder="验证码">
                                     <span class="input-group-addon"><img src="" alt="验证码"></span>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg btn-block">提交</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
                         </form>
                     </div>
                     <!--End register-->
@@ -117,6 +119,46 @@
         var height = (Number(ufh) - Number(h1h)) / 2;
         $("#logo>h1").css("margin-top", height);
         $("#logo,#userFrame").css("margin-top", "50px");
+
+        $("#loginForm").submit(function () {
+            $.ajax({
+                url: "<%=path%>/service/user/login",
+                type: "post",
+                data: $("#loginForm").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        location.href = "<%=path%>/record/overview.ui";
+                    } else if (data.resCode == "100104") {
+                        location.href = "<%=path%>/user/active.ui"
+                    } else alert(data.resCode + ":" + data.resMsg);
+                }
+            });
+            return false;
+        });
+
+        $("#registerForm").submit(function () {
+            if ($("#regPassword").val() != $("#regPwAgain").val()) {
+                alert("密码不一致");
+                return false;
+            }
+            var user = {};
+            user["loginName"] = $("#regLoginName").val();
+            user["password"] = $("#regPassword").val();
+            user = JSON.stringify(user);
+            $.ajax({
+                url: "<%=path%>/service/user/insertUser",
+                type: "post",
+                data: {userJson: user},
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        alert(data.data.loginName);
+                    } else alert(data.resCode + ":" + data.resMsg);
+                }
+            });
+            return false;
+        });
     });
 </script>
 </body>

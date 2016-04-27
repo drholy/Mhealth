@@ -1,6 +1,8 @@
 package com.mhealth.ui.controller;
 
+import com.mhealth.common.util.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -11,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserUI {
 
     @RequestMapping("login.ui")
-    public String login(){
+    public String login() {
         return "user/login";
+    }
+
+    @RequestMapping("active.ui")
+    public String active() {
+        return "user/active";
     }
 }
