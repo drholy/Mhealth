@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAKey;
-import java.util.UUID;
+import java.util.Random;
 
 /**
  * Created by pengt on 2016.4.6.0006.
@@ -40,8 +44,9 @@ public class UserController {
      */
     @RequestMapping(value = "insertUser", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String insertUser(String userJson) {
-        if (userJson == null || userJson.equals("")) return Response.paramsIsEmpty("注册信息");
+    public String insertUser(String userJson, String valid, HttpServletRequest request) {
+        if (StringUtils.isEmpty(userJson, valid)) return Response.paramsIsEmpty("注册信息");
+        if (!valid.equals(request.getSession().getAttribute("rand"))) return Response.failuer("验证码错误！");
         User user = (User) JSONObject.toBean(JSONObject.fromObject(userJson), User.class);
         String loginName = user.getLoginName();
         if (!userService.checkUserByLn(loginName)) return Response.isExist("用户已存在！");
@@ -100,7 +105,7 @@ public class UserController {
             e.printStackTrace();
         }
         if (dbUser.getActive().equals("0")) {
-            request.getSession().setAttribute("userId",dbUser.getId());
+            request.getSession().setAttribute("userId", dbUser.getId());
             request.getSession().setAttribute("loginName", dbUser.getLoginName());
             return new Response().setError(Response.DONOT_ACTIVITE, "账户未激活！").toJson();
         }
@@ -151,5 +156,71 @@ public class UserController {
         } else {
             return Response.failuer("激活失败！");
         }
+    }
+
+    @RequestMapping(value = "validCode", produces = {"image/jpeg;charset=UTF-8"})
+    public void validCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //声明字符串型的arrNumber用于保存产生随机数的数字,其中包括26个英文字母(大写小写)和0-9的数字
+        String arrNumber = "0123456789";
+        //设置页面不缓存
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        // 在内存中创建图象
+        int width = 60, height = 20;
+        BufferedImage image = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_RGB);
+        // 获取图形上下文
+        Graphics g = image.getGraphics();
+        //生成随机类
+        Random random = new Random();
+        // 设定背景色
+        g.setColor(getRandColor(200, 250));
+        g.fillRect(0, 0, width, height);
+        //设定字体
+        g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        // 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
+        g.setColor(getRandColor(160, 200));
+        for (int i = 0; i < 155; i++) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            int xl = random.nextInt(12);
+            int yl = random.nextInt(12);
+            g.drawLine(x, y, x + xl, y + yl);
+        }
+
+    /* 取随机产生的认证码(4位数字)*/
+        String sRand = "";
+        for (int i = 0; i < 4; i++) {
+            int rand = random.nextInt(10);
+            sRand += String.valueOf(arrNumber.charAt(rand));
+
+            // 将认证码显示到图象中
+            g.setColor(new Color(20 + random.nextInt(110), 20 + random
+                    .nextInt(110), 20 + random.nextInt(110)));
+            //调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
+            g.drawString(String.valueOf(arrNumber.charAt(rand)), 13 * i + 6, 16);
+            //g.drawString(rand, 13 * i + 6, 16);
+        }
+        // 将认证码存入SESSION
+        request.getSession().setAttribute("rand", sRand);
+        // 图象生效
+        g.dispose();
+        // 输出图象到页面
+        ImageIO.write(image, "JPEG", response.getOutputStream());
+    }
+
+    //给定范围获得随机颜色
+
+    Color getRandColor(int fc, int bc) {
+        Random random = new Random();
+        if (fc > 255)
+            fc = 255;
+        if (bc > 255)
+            bc = 255;
+        int r = fc + random.nextInt(bc - fc);
+        int g = fc + random.nextInt(bc - fc);
+        int b = fc + random.nextInt(bc - fc);
+        return new Color(r, g, b);
     }
 }

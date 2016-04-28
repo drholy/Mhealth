@@ -50,14 +50,14 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" name="loginName" class="form-control" placeholder="用户名">
+                                    <input type="text" name="loginName" class="form-control" placeholder="用户名" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-lock"></span></span>
-                                    <input name="password" type="password" class="form-control" placeholder="密码">
+                                    <input name="password" type="password" class="form-control" placeholder="密码" required="required">
                                 </div>
                             </div>
                             <div class="checkbox">
@@ -76,27 +76,29 @@
                                 <label for="regLoginName" class="col-md-4 control-label">用户名*</label>
                                 <div class="col-md-8">
                                     <input name="loginName" type="text" class="form-control" id="regLoginName"
-                                           placeholder="用户名">
+                                           placeholder="用户名" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="regPassword" class="col-md-4 control-label">密码*</label>
                                 <div class="col-md-8">
                                     <input name="password" type="password" class="form-control" id="regPassword"
-                                           placeholder="密码">
+                                           placeholder="密码" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="regPwAgain" class="col-md-4 control-label">密码确认*</label>
                                 <div class="col-md-8">
-                                    <input type="password" class="form-control" id="regPwAgain" placeholder="密码确认">
+                                    <input type="password" class="form-control" id="regPwAgain" placeholder="密码确认" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="valid" class="col-md-4 control-label">验证码*</label>
                                 <div class="input-group col-md-8">
-                                    <input id="valid" name="valid" type="text" class="form-control" placeholder="验证码">
-                                    <span class="input-group-addon"><img src="" alt="验证码"></span>
+                                    <input id="valid" name="valid" type="text" class="form-control" placeholder="验证码" required="required">
+                                    <span class="input-group-addon"><img src="<%=path%>/service/user/validCode"
+                                                                         onclick="this.src='<%=path%>/service/user/validCode?r='+Math.random()+';'"
+                                                                         style="cursor:hand" alt="验证码"></span>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
@@ -149,7 +151,7 @@
             $.ajax({
                 url: "<%=path%>/service/user/insertUser",
                 type: "post",
-                data: {userJson: user},
+                data: {userJson: user, valid: $("#valid").val()},
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
