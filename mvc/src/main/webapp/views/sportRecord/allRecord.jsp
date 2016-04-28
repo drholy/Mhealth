@@ -93,7 +93,7 @@
 <script>
     $(document).ready(function () {
         var PAGESIZE = 20;
-        getData("9677167136687", 1, PAGESIZE);
+        getData("${sessionScope.user.id}", 1, PAGESIZE);
         $('#detailModal').on('show.bs.modal', function (event) {
             var dbDate;
             var month;
@@ -174,7 +174,7 @@
                 next: '&raquo;',
                 last: data.totalPages + '页',
                 onPageClick: function (event, page) {
-                    getData("9677167136687", page, PAGESIZE);
+                    getData("${sessionScope.user.id}", page, PAGESIZE);
                 }
             });
         }

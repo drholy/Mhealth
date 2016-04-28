@@ -23,7 +23,7 @@
                     var now=new Date().getTime();
                     var beginTime=Math.random()*(365*24*60*60*1000)+now-(365*24*60*60*1000);
                     var record={
-                        userId:"9677167136687",
+                        userId:"${sessionScope.user.id}",
                         deviceId:"111111",
                         sport_heartRate:parseInt(Math.random()*90+60),//60-150
                         distance:Math.random()*20,//0-20

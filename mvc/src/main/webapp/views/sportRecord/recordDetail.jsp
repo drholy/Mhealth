@@ -80,7 +80,7 @@
         $.ajax({
             url: "<%=path%>/service/sportRecord/getRecordByBTime",
             type: "post",
-            data: {userId: "9677167136687", key: "${key}", beginTime: "${time}"},
+            data: {userId: "${sessionScope.user.id}", key: "${key}", beginTime: "${time}"},
             dataType: "json",
             success: function (data) {
                 if (data.resCode == "000000") {

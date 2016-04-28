@@ -108,7 +108,7 @@
         function getOverview(timeCycle) {
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getAvgVal",
-                data: {userId: "9677167136687", key: "sport_heartRate", beginTime: "", timeUnit: timeCycle},
+                data: {userId: "${sessionScope.user.id}", key: "sport_heartRate", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {
@@ -119,7 +119,7 @@
             });
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getSumVal",
-                data: {userId: "9677167136687", key: "stepCount", beginTime: "", timeUnit: timeCycle},
+                data: {userId: "${sessionScope.user.id}", key: "stepCount", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {
@@ -130,7 +130,7 @@
             });
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getSumVal",
-                data: {userId: "9677167136687", key: "distance", beginTime: "", timeUnit: timeCycle},
+                data: {userId: "${sessionScope.user.id}", key: "distance", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {
@@ -141,7 +141,7 @@
             });
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getSumVal",
-                data: {userId: "9677167136687", key: "elevation", beginTime: "", timeUnit: timeCycle},
+                data: {userId: "${sessionScope.user.id}", key: "elevation", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {

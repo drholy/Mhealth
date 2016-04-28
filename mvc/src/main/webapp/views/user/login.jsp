@@ -60,11 +60,6 @@
                                     <input name="password" type="password" class="form-control" placeholder="密码" required="required">
                                 </div>
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> 记住我
-                                </label>
-                            </div>
                             <button type="submit" class="btn btn-primary btn-lg btn-block">登录</button>
                         </form>
                     </div>

@@ -95,7 +95,7 @@
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getRecordByTime",
                 type: "post",
-                data: {userId: "9677167136687", key: key, beginTime: beginTime, timeUnit: timeUnit},
+                data: {userId: "${sessionScope.user.id}", key: key, beginTime: beginTime, timeUnit: timeUnit},
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
