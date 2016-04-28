@@ -47,6 +47,7 @@ public class UserController {
     public String insertUser(String userJson, String valid, HttpServletRequest request) {
         if (StringUtils.isEmpty(userJson, valid)) return Response.paramsIsEmpty("注册信息");
         if (!valid.equals(request.getSession().getAttribute("rand"))) return Response.failuer("验证码错误！");
+        request.getSession().removeAttribute("rand");
         User user = (User) JSONObject.toBean(JSONObject.fromObject(userJson), User.class);
         String loginName = user.getLoginName();
         if (!userService.checkUserByLn(loginName)) return Response.isExist("用户已存在！");
