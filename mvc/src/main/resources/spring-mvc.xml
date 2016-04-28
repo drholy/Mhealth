@@ -26,4 +26,15 @@
 
     <mvc:default-servlet-handler/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/sportRecord/*"/>
+            <!--<mvc:exclude-mapping path="/service/user/insertUser"/>-->
+            <!--<mvc:exclude-mapping path="/service/user/login"/>-->
+            <!--<mvc:exclude-mapping path="/service/user/active"/>-->
+            <!--<mvc:exclude-mapping path="/service/user/validCode"/>-->
+            <bean class="com.mhealth.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>
