@@ -24,8 +24,9 @@
                 <li><a href="<%=request.getContextPath()%>/record/allRecords.ui">所有数据</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><p class="navbar-text">欢迎</p></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎，${sessionScope.user.loginName}<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${sessionScope.user.loginName}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">个人资料</a></li>
                         <li role="separator" class="divider"></li>
