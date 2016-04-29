@@ -49,21 +49,44 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <div id="val" class="row">
-                        <div class="col-md-4"><p>数据值：</p></div>
-                        <div class="col-md-8"><p></p></div>
+                    <div class="row">
+                        <div id="valK" class="col-md-4"><p>数据值：</p></div>
+                        <div id="valV" class="col-md-8"><p></p></div>
                     </div>
-                    <div id="btime" class="row">
-                        <div class="col-md-4"><p>开始时间：</p></div>
-                        <div class="col-md-8"><p></p></div>
+                    <div class="row">
+                        <div id="btimeK" class="col-md-4"><p>开始时间：</p></div>
+                        <div id="btimeV" class="col-md-8"><p></p></div>
                     </div>
-                    <div id="etime" class="row">
-                        <div class="col-md-4"><p>结束时间：</p></div>
-                        <div class="col-md-8"><p></p></div>
+                    <div class="row">
+                        <div id="etimeK" class="col-md-4"><p>结束时间：</p></div>
+                        <div id="etimeV" class="col-md-8"><p></p></div>
                     </div>
-                    <div id="utime" class="row">
-                        <div class="col-md-4"><p>上传时间：</p></div>
-                        <div class="col-md-8"><p></p></div>
+                    <div class="row">
+                        <div id="utimeK" class="col-md-4"><p>上传时间：</p></div>
+                        <div id="utimeV" class="col-md-8"><p></p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><h4>设备信息：</h4></div>
+                    </div>
+                    <div class="row">
+                        <div id="dnameK" class="col-md-4"><p>名称：</p></div>
+                        <div id="dnameV" class="col-md-8"><p></p></div>
+                    </div>
+                    <div class="row">
+                        <div id="dbrandK" class="col-md-4"><p>品牌：</p></div>
+                        <div id="dbrandV" class="col-md-8"><p></p></div>
+                    </div>
+                    <div class="row">
+                        <div id="dmodelK" class="col-md-4"><p>型号：</p></div>
+                        <div id="dmodelV" class="col-md-8"><p></p></div>
+                    </div>
+                    <div class="row">
+                        <div id="dosK" class="col-md-4"><p>系统：</p></div>
+                        <div id="dosV" class="col-md-8"><p></p></div>
+                    </div>
+                    <div class="row">
+                        <div id="dtypeK" class="col-md-4"><p>类型：</p></div>
+                        <div id="dtypeV" class="col-md-8"><p></p></div>
                     </div>
                 </div>
             </div>
@@ -100,31 +123,38 @@
         }
 
         $('#myModal').on('show.bs.modal', function (event) {
+
+            var fmt = "yyyy年M月d日 h时m分s秒";
             var dbDate;
-            var month;
-            var xt;
             var button = $(event.relatedTarget);
             var recipient = button.data('detail');
             var modal = $(this);
-            modal.find("#val .col-md-8 p").text(recipient["${key}"]);
+            modal.find("#valV").text(recipient["${key}"]);
 
-            dbDate = new Date(Number(recipient["beginTime"]));
-            month = dbDate.getMonth() + 1;
-            xt = dbDate.getFullYear() + "年" + month + "月" + dbDate.getDate() + "日 "
-                    + dbDate.getHours() + "时" + dbDate.getMinutes() + "分" + dbDate.getSeconds() + "秒";
-            modal.find("#btime .col-md-8 p").text(xt);
+            dbDate = new Date(Number(recipient["beginTime"])).format(fmt);
+            modal.find("#btimeV").text(dbDate);
 
-            dbDate = new Date(Number(recipient["endTime"]));
-            month = dbDate.getMonth() + 1;
-            xt = dbDate.getFullYear() + "年" + month + "月" + dbDate.getDate() + "日 "
-                    + dbDate.getHours() + "时" + dbDate.getMinutes() + "分" + dbDate.getSeconds() + "秒";
-            modal.find("#etime .col-md-8 p").text(xt);
+            dbDate = new Date(Number(recipient["endTime"])).format(fmt);
+            modal.find("#etimeV").text(dbDate);
 
-            dbDate = new Date(Number(recipient["uploadTime"]));
-            month = dbDate.getMonth() + 1;
-            xt = dbDate.getFullYear() + "年" + month + "月" + dbDate.getDate() + "日 "
-                    + dbDate.getHours() + "时" + dbDate.getMinutes() + "分" + dbDate.getSeconds() + "秒";
-            modal.find("#utime .col-md-8 p").text(xt);
+            dbDate = new Date(Number(recipient["uploadTime"])).format(fmt);
+            modal.find("#utimeV").text(dbDate);
+
+            $.ajax({
+                url: "<%=path%>/service/deviceData/getDevice",
+                type: "post",
+                data: {id: recipient["deviceId"]},
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        modal.find("#dnameV").text(data.data.name);
+                        modal.find("#dbrandV").text(data.data.brand);
+                        modal.find("#dmodelV").text(data.data.model);
+                        modal.find("#dosV").text(data.data.os);
+                        modal.find("#dtypeV").text(data.data.type);
+                    } else alert(data.resCode + ":" + data.resMsg);
+                }
+            });
         });
     });
 </script>
