@@ -26,7 +26,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><p class="navbar-text">欢迎</p></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${sessionScope.user.loginName}<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">${sessionScope.user.loginName}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">个人资料</a></li>
                         <li role="separator" class="divider"></li>
@@ -41,12 +42,12 @@
     $(document).ready(function () {
         $("#logout").click(function () {
             $.ajax({
-                url:"<%=request.getContextPath()%>/service/user/logout",
-                type:"post",
-                dataType:"json",
-                success:function (data) {
-                    if(data.resCode=="000000"){
-                        location.href="<%=request.getContextPath()%>/";
+                url: "<%=request.getContextPath()%>/service/user/logout",
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        location.href = "<%=request.getContextPath()%>/";
                     }
                 }
             });
