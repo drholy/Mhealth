@@ -46,7 +46,33 @@ public class UserService {
         return userDao.getUser(loginName);
     }
 
+    /**
+     * 根据id返回用户
+     *
+     * @param id
+     * @return
+     */
+    public User getUserById(String id) {
+        return userDao.getUserById(id);
+    }
+
+    /**
+     * 账户激活
+     *
+     * @param user
+     * @return
+     */
     public boolean active(User user) {
         return userDao.active(user);
+    }
+
+    /**
+     * 资料修改
+     *
+     * @param user
+     * @return
+     */
+    public boolean modify(User user) {
+        return userDao.modify(user);
     }
 }

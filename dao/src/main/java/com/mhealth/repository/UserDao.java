@@ -46,11 +46,41 @@ public class UserDao extends BaseDao {
         return mongoTemplate.findOne(new Query(Criteria.where("loginName").is(loginName)), User.class);
     }
 
+    /**
+     * 根据id返回用户
+     *
+     * @param id
+     * @return
+     */
+    public User getUserById(String id) {
+        return mongoTemplate.findOne(new Query(Criteria.where("_id").is(id)), User.class);
+    }
+
+    /**
+     * 账户激活
+     *
+     * @param user
+     * @return
+     */
     public boolean active(User user) {
         WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(user.getId()))),
                 new Update().set("username", user.getUsername()).set("sex", user.getSex()).set("birthday", user.getBirthday())
                         .set("bloodType", user.getBloodType()).set("mobilePhone", user.getMobilePhone())
                         .set("email", user.getEmail()).set("active", user.getActive()).set("status", user.getStatus()), User.class);
+        return wr.getN() == 1;
+    }
+
+    /**
+     * 资料修改
+     *
+     * @param user
+     * @return
+     */
+    public boolean modify(User user) {
+        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(user.getId()))),
+                new Update().set("username", user.getUsername()).set("sex", user.getSex()).set("birthday", user.getBirthday())
+                        .set("bloodType", user.getBloodType()).set("mobilePhone", user.getMobilePhone())
+                        .set("email", user.getEmail()), User.class);
         return wr.getN() == 1;
     }
 }

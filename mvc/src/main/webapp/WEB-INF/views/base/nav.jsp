@@ -29,7 +29,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">${sessionScope.user.loginName}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">个人资料</a></li>
+                        <li><a href="<%=request.getContextPath()%>/user/profile.ui">个人资料</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#" id="logout">退出</a></li>
                     </ul>
@@ -38,19 +38,3 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#logout").click(function () {
-            $.ajax({
-                url: "<%=request.getContextPath()%>/service/user/logout",
-                type: "post",
-                dataType: "json",
-                success: function (data) {
-                    if (data.resCode == "000000") {
-                        location.href = "<%=request.getContextPath()%>/";
-                    }
-                }
-            });
-        });
-    });
-</script>

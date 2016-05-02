@@ -9,15 +9,15 @@
 <html>
 <head>
     <title>mhealth</title>
-    <%@ include file="/views/base/head.jsp" %>
+    <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body>
-<%@ include file="/views/base/nav.jsp" %>
+<%@ include file="/WEB-INF/views/base/nav.jsp" %>
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>
         <li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=${time}">年</a></li>
-        <li class="active"><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>
+        <li class="active"><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
     </ol>
     <div class="starter-template">
         <h1></h1>
@@ -25,20 +25,20 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
-                <label for="week" class="control-label">选择日期：</label>
-                <div id="weekCal" class="input-group date form_datetime" data-date="" data-date-format="yyyy-m-dd"
-                     data-link-field="week">
-                    <input id="weekVal" class="form-control" size="16" type="text" value="" readonly>
+                <label for="month" class="control-label">选择日期：</label>
+                <div id="monthCal" class="input-group date form_datetime" data-date="" data-date-format="yyyy-m"
+                     data-link-field="month">
+                    <input id="monthVal" class="form-control" size="16" type="text" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
-                <input type="hidden" id="week" value=""/><br/>
+                <input type="hidden" id="month" value=""/><br/>
             </div>
         </div>
     </div>
     <div class="row">
         <div id="chartDiv" class="col-md-12" style="text-align: center;">
-            <canvas id="weekChart"></canvas>
+            <canvas id="monthChart"></canvas>
         </div>
     </div>
     <div class="row"><!--table-->
@@ -61,17 +61,17 @@
     $(document).ready(function () {
         showTitle("${key}");
 
-        $("#weekCal").datetimepicker({
+        $("#monthCal").datetimepicker({
             language: 'zh-CN',
             weekStart: 1,
             todayBtn: 1,
             autoclose: 1,
             todayHighlight: 1,
-            startView: 2,//开始视图：月内
+            startView: 3,//开始视图：年内
             forceParse: 0,
             showMeridian: 1,
             pickerPosition: "bottom-left",
-            minView: 2,
+            minView: 3,
             initialDate: new Date(Number("${time}"))
         });
 
@@ -79,17 +79,17 @@
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
         var day = date.getDate();
-        $("#weekVal").val(year + "-" + month + "-" + day);
+        $("#monthVal").val(year + "-" + month);
 
-        getValue("${key}", "${time}", "1");
+        getValue("${key}", "${time}", "2");
 
-        $("#weekCal").datetimepicker().on("changeDate", function (ev) {
+        $("#monthCal").datetimepicker().on("changeMonth", function (ev) {
             $(".breadcrumb").html("");
             var bread = '<li><a href="<%=path%>/record/overview.ui">首页</a></li>' +
                     '<li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=' + ev.date.valueOf() + '">年</a></li>' +
-                    '<li class="active"><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=' + ev.date.valueOf() + '">周</a></li>';
+                    '<li class="active"><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=' + ev.date.valueOf() + '">月</a></li>';
             $(".breadcrumb").append(bread);
-            getValue("${key}", ev.date.valueOf(), "1");
+            getValue("${key}", ev.date.valueOf(), "2");
         });
 
         function getValue(key, beginTime, timeUnit) {
@@ -114,10 +114,10 @@
                 if (yVal[i] == 0) xt[i] = "";
                 else xt[i] = new Date(Number(xVal[i])).getDate();
             }
-            $("#weekChart").remove();
-            $("#chartDiv").append('<canvas id="weekChart" height="300" width="600"></canvas>');
-            var weekChartCtx = $("#weekChart").get(0).getContext("2d");
-            var weekChart = new Chart(weekChartCtx);
+            $("#monthChart").remove();
+            $("#chartDiv").append('<canvas id="monthChart" height="300" width="750"></canvas>');
+            var monthChartCtx = $("#monthChart").get(0).getContext("2d");
+            var monthChart = new Chart(monthChartCtx);
             var data = {
                 labels: xt,
                 datasets: [
@@ -128,7 +128,7 @@
                     }
                 ]
             };
-            weekChart.Bar(data);
+            monthChart.Bar(data);
         }
 
         function getTable(xVal, yVal) {

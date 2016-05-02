@@ -2,7 +2,7 @@
     background: url(/images/background.jpg) no-repeat fixed;
 }
 
-#loginbg{
+#loginbg {
     position: relative;
 }
 
@@ -13,7 +13,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(39,39,39,0.7);
+    background: rgba(39, 39, 39, 0.7);
 }
 
 .userContent {
@@ -23,7 +23,7 @@
     position: relative;
 }
 
-.userContent label{
+.userContent label {
     color: white;
 }
 
@@ -45,24 +45,55 @@
     margin-bottom: 20px;
 }
 
-#logo>h1 {
+#logo > h1 {
     font-family: "Arial", sans-serif;
     font-size: 85px;
     text-align: center;
     font-weight: bold;
-    color: rgba(236,177,173,1);
+    color: rgba(236, 177, 173, 1);
 }
 
-#logo>h1>span {
-    text-shadow:
-            0 -1px 0 #ffffff,
-            0 1px 0 #000000,
-            0 1px 10px rgba(0,0,0,.9),
-            0 6px 1px rgba(0,0,0,.7),
-            0 0 5px rgba(0,0,0,.6),
-            0 1px 3px rgba(0,0,0,.8),
-            0 3px 5px rgba(0,0,0,.6),
-            0 7px 10px rgba(0,0,0,.7),
-            0 15px 10px rgba(0,0,0,.6),
-            0 25px 15px rgba(0,0,0,.5);
+#logo > h1 > span {
+    text-shadow: 0 -1px 0 #ffffff,
+    0 1px 0 #000000,
+    0 1px 10px rgba(0, 0, 0, .9),
+    0 6px 1px rgba(0, 0, 0, .7),
+    0 0 5px rgba(0, 0, 0, .6),
+    0 1px 3px rgba(0, 0, 0, .8),
+    0 3px 5px rgba(0, 0, 0, .6),
+    0 7px 10px rgba(0, 0, 0, .7),
+    0 15px 10px rgba(0, 0, 0, .6),
+    0 25px 15px rgba(0, 0, 0, .5);
+}
+
+/*个人资料左侧导航块*/
+.sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+}
+
+/*个人资料左侧导航ul*/
+.nav-sidebar {
+    margin-right: -21px;
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+
+.nav-sidebar > li.active {
+    background: rgb(66, 139, 202);
+}
+.nav-sidebar > li.active a{
+    color: white;
+}
+.nav-sidebar > li.active a:hover{
+    background: rgb(66, 139, 202);
 }

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>mhealth</title>
-    <%@ include file="/views/base/head.jsp" %>
+    <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -85,7 +85,11 @@
                        placeholder="邮箱">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">提交</button>
+        <div class="form-group">
+            <div class="col-md-1 col-md-offset-4">
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
     </form>
 </div>
 <script type="text/javascript">

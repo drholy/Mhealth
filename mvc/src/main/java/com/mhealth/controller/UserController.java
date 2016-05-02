@@ -84,6 +84,19 @@ public class UserController {
     }
 
     /**
+     * 根据id返回用户
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "getUserById", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getUserById(String id) {
+        if (StringUtils.isEmpty(id)) return Response.paramsIsEmpty("id");
+        return new Response().addObject("user", userService.getUserById(id)).toJson();
+    }
+
+    /**
      * 登录
      *
      * @param loginName
@@ -137,6 +150,14 @@ public class UserController {
         return new Response().setMessage("注销成功！").toJson();
     }
 
+    /**
+     * 账户激活
+     *
+     * @param dataJson
+     * @param deviceJson
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "active", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String active(String dataJson, String deviceJson, HttpServletRequest request) {
@@ -159,6 +180,13 @@ public class UserController {
         }
     }
 
+    /**
+     * 验证码
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping(value = "validCode", produces = {"image/jpeg;charset=UTF-8"})
     public void validCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //声明字符串型的arrNumber用于保存产生随机数的数字,其中包括26个英文字母(大写小写)和0-9的数字
@@ -212,8 +240,7 @@ public class UserController {
     }
 
     //给定范围获得随机颜色
-
-    Color getRandColor(int fc, int bc) {
+    public Color getRandColor(int fc, int bc) {
         Random random = new Random();
         if (fc > 255)
             fc = 255;
@@ -223,5 +250,23 @@ public class UserController {
         int g = fc + random.nextInt(bc - fc);
         int b = fc + random.nextInt(bc - fc);
         return new Color(r, g, b);
+    }
+
+    /**
+     * 资料修改
+     *
+     * @param dataJson
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "modify", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String modify(String dataJson, HttpServletRequest request) {
+        if (StringUtils.isEmpty(dataJson)) return Response.paramsIsEmpty("用户数据");
+        User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
+        user.setId(((User) request.getSession().getAttribute("user")).getId());
+        if (userService.modify(user)) {
+            return new Response().setMessage("修改成功！").toJson();
+        } else return Response.failuer("修改失败！");
     }
 }

@@ -1,6 +1,21 @@
 /**
  * Created by pengt on 2016.4.25.0025.
  */
+$(document).ready(function () {
+    //注销
+    $("#logout").click(function () {
+        $.ajax({
+            url: "/service/user/logout",
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.resCode == "000000") {
+                    location.href = "../../../";
+                }
+            }
+        });
+    });
+});
 function showTitle(key) {
     var title;
     switch (key) {

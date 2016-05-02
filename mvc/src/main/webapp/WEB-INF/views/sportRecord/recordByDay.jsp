@@ -9,10 +9,10 @@
 <html>
 <head>
     <title>mhealth</title>
-    <%@ include file="/views/base/head.jsp" %>
+    <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body>
-<%@ include file="/views/base/nav.jsp" %>
+<%@ include file="/WEB-INF/views/base/nav.jsp" %>
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>

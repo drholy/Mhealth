@@ -21,4 +21,14 @@ public class UserUI {
     public String active() {
         return "user/active";
     }
+
+    @RequestMapping("modify.ui")
+    public String modify(){
+        return "user/modify";
+    }
+
+    @RequestMapping("profile.ui")
+    public String profile(){
+        return "user/profile";
+    }
 }

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>mhealth</title>
-    <%@ include file="/views/base/head.jsp" %>
+    <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body id="loginbg">
 
