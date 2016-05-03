@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -268,5 +269,33 @@ public class UserController {
         if (userService.modify(user)) {
             return new Response().setMessage("修改成功！").toJson();
         } else return Response.failuer("修改失败！");
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param passwdJson
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
+    @RequestMapping(value = "changePasswd", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String changePasswd(String passwdJson, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        if (StringUtils.isEmpty(passwdJson)) return Response.paramsIsEmpty("password json信息");
+        Map passwdMap = (Map) JSONObject.toBean(JSONObject.fromObject(passwdJson), Map.class);
+        String oldPassword = (String) passwdMap.get("oldPassword");
+        String newPassword = (String) passwdMap.get("newPassword");
+        String againPassword = (String) passwdMap.get("againPassword");
+        if (!newPassword.equals(againPassword)) return Response.failuer("两次密码不一致！");
+        User user = userService.getUserById((String) passwdMap.get("id"));
+        if (user == null) Response.notExist("用户不存在！");
+        if (!PasswordUtils.validPasswd(oldPassword, user.getPassword()))
+            return Response.failuer("密码错误！");
+        user.setPassword(PasswordUtils.getEncryptedPwd(newPassword));
+        if (userService.changePasswd(user)) {
+            request.getSession().setAttribute("user", user);
+            return Response.success("修改成功！");
+        } else return Response.failuer("数据库错误！");
     }
 }

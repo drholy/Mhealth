@@ -75,4 +75,14 @@ public class UserService {
     public boolean modify(User user) {
         return userDao.modify(user);
     }
+
+    /**
+     * 密码修改
+     *
+     * @param user
+     * @return
+     */
+    public boolean changePasswd(User user) {
+        return userDao.changePasswd(user);
+    }
 }

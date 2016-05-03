@@ -10,6 +10,7 @@
     <ul class="nav nav-sidebar">
         <li><a href="<%=request.getContextPath()%>/user/profile.ui">个人资料</a></li>
         <li><a href="<%=request.getContextPath()%>/user/modify.ui">修改资料</a></li>
+        <li><a href="<%=request.getContextPath()%>/user/changePasswd.ui">密码修改</a></li>
     </ul>
 </div>
 <script type="text/javascript">

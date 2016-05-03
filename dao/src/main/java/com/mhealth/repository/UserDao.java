@@ -83,4 +83,16 @@ public class UserDao extends BaseDao {
                         .set("email", user.getEmail()), User.class);
         return wr.getN() == 1;
     }
+
+    /**
+     * 密码修改
+     *
+     * @param user
+     * @return
+     */
+    public boolean changePasswd(User user) {
+        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(user.getId()))),
+                new Update().set("password", user.getPassword()), User.class);
+        return wr.getN() == 1;
+    }
 }
