@@ -1,3 +1,7 @@
+* {
+    font-family: "Microsoft YaHei";
+}
+
 #loginbg, .userContent:before {
     background: url(/images/background.jpg) no-repeat fixed;
 }
@@ -96,4 +100,8 @@
 }
 .nav-sidebar > li.active a:hover{
     background: rgb(66, 139, 202);
+}
+
+.modal-body .page-header{
+    margin-top: 0px;
 }

@@ -49,7 +49,14 @@
                 <h4 class="modal-title" id="myModalLabel">详细信息</h4>
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="page-header">
+                                <h5><span class="glyphicon glyphicon-dashboard"> 体征信息：</span></h5>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div id="valK" class="col-md-4"><p>数据值：</p></div>
                         <div id="valV" class="col-md-8"><p></p></div>
@@ -67,7 +74,11 @@
                         <div id="utimeV" class="col-md-8"><p></p></div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12"><h4>设备信息：</h4></div>
+                        <div class="col-md-12">
+                            <div class="page-header">
+                                <h5><span class="glyphicon glyphicon-phone"> 设备信息：</span></h5>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div id="dnameK" class="col-md-4"><p>名称：</p></div>

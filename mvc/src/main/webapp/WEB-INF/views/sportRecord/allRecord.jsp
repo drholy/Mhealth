@@ -53,21 +53,28 @@
                 <h4 class="modal-title" id="detailModalTitle">详细信息</h4>
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
-                        <div id="shrK" class="col-md-4"><p>运动心率：</p></div>
+                        <div class="col-md-12">
+                            <div class="page-header">
+                                <h5><span class="glyphicon glyphicon-dashboard"> 体征信息：</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="shrK" class="col-md-4"><p>运动心率（次/分）：</p></div>
                         <div id="shrV" class="col-md-8"><p></p></div>
                     </div>
                     <div class="row">
-                        <div id="scK" class="col-md-4"><p>步数：</p></div>
+                        <div id="scK" class="col-md-4"><p>步数（步）：</p></div>
                         <div id="scV" class="col-md-8"><p></p></div>
                     </div>
                     <div class="row">
-                        <div id="disK" class="col-md-4"><p>距离：</p></div>
+                        <div id="disK" class="col-md-4"><p>距离（千米）：</p></div>
                         <div id="disV" class="col-md-8"><p></p></div>
                     </div>
                     <div class="row">
-                        <div id="eleK" class="col-md-4"><p>海拔：</p></div>
+                        <div id="eleK" class="col-md-4"><p>海拔（米）：</p></div>
                         <div id="eleV" class="col-md-8"><p></p></div>
                     </div>
                     <div class="row">
@@ -83,7 +90,11 @@
                         <div id="utimeV" class="col-md-8"><p></p></div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12"><h4>设备信息：</h4></div>
+                        <div class="col-md-12">
+                            <div class="page-header">
+                                <h5><span class="glyphicon glyphicon-phone"> 设备信息：</span></h5>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div id="dnameK" class="col-md-4"><p>名称：</p></div>
@@ -124,19 +135,19 @@
             var recipient = button.data('result');
             var modal = $(this);
 
-            modal.find("#shrV").text(recipient["sport_heartRate"]);
-            modal.find("#scV").text(recipient["stepCount"]);
-            modal.find("#disV").text(recipient["distance"]);
-            modal.find("#eleV").text(recipient["elevation"]);
+            modal.find("#shrV").find("p").text(recipient["sport_heartRate"]);
+            modal.find("#scV").find("p").text(recipient["stepCount"]);
+            modal.find("#disV").find("p").text(recipient["distance"]);
+            modal.find("#eleV").find("p").text(recipient["elevation"]);
 
             dbDate = new Date(Number(recipient["beginTime"])).format(fmt);
-            modal.find("#btimeV").text(dbDate);
+            modal.find("#btimeV").find("p").text(dbDate);
 
             dbDate = new Date(Number(recipient["endTime"])).format(fmt);
-            modal.find("#etimeV").text(dbDate);
+            modal.find("#etimeV").find("p").text(dbDate);
 
             dbDate = new Date(Number(recipient["uploadTime"])).format(fmt);
-            modal.find("#utimeV").text(dbDate);
+            modal.find("#utimeV").find("p").text(dbDate);
 
             $.ajax({
                 url: "<%=path%>/service/deviceData/getDevice",
