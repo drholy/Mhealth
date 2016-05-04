@@ -91,7 +91,6 @@
     margin-bottom: 20px;
     margin-left: -20px;
 }
-
 .nav-sidebar > li.active {
     background: rgb(66, 139, 202);
 }
@@ -102,6 +101,7 @@
     background: rgb(66, 139, 202);
 }
 
+/*模态框页头*/
 .modal-body .page-header{
     margin-top: 0px;
 }

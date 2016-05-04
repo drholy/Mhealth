@@ -18,6 +18,9 @@
     <div class="row">
         <%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
         <div class="col-md-10 col-md-offset-2">
+            <div class="page-header">
+                <h1>密码修改</h1>
+            </div>
             <form id="changepwForm" class="form-horizontal">
                 <div class="form-group">
                     <label for="oldPassword" class="col-md-4 control-label">旧密码*</label>

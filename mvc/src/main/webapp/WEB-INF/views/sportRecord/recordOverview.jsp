@@ -35,25 +35,25 @@
     </div>
     <div class="row">
         <div id="heartRate" class="col-md-6">
-            <p>运动心率</p>
+            <p>运动心率（次/秒）</p>
             <a href="<%=path%>/record/recordByDay.ui?key=sport_heartRate">
                 <canvas id="heartRateChart"></canvas>
             </a>
         </div>
         <div id="stepCount" class="col-md-6">
-            <p>步数</p>
+            <p>步数（步）</p>
             <a href="<%=path%>/record/recordByDay.ui?key=stepCount">
                 <canvas id="stepChart"></canvas>
             </a>
         </div>
         <div id="distance" class="col-md-6">
-            <p>距离</p>
+            <p>距离（千米）</p>
             <a href="<%=path%>/record/recordByDay.ui?key=distance">
                 <canvas id="distanceChart"></canvas>
             </a>
         </div>
         <div id="elevation" class="col-md-6">
-            <p>海拔</p>
+            <p>海拔（米）</p>
             <a href="<%=path%>/record/recordByDay.ui?key=distance">
                 <canvas id="eleChart"></canvas>
             </a>

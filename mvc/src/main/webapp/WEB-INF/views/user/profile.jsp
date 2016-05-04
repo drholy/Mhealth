@@ -18,6 +18,9 @@
     <div class="row">
         <%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
         <div class="col-md-10 col-md-offset-2">
+            <div class="page-header">
+                <h1>个人资料</h1>
+            </div>
             <div>
                 <div class="row">
                     <div class="col-md-4"><h4>昵称：</h4></div>
