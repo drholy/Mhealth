@@ -46,7 +46,7 @@
                 <thead>
                 <tr>
                     <th>时间（月）</th>
-                    <th>数值</th>
+                    <th class="thUnit">数值</th>
                 </tr>
                 </thead>
                 <tfoot></tfoot>
@@ -130,6 +130,7 @@
         }
 
         function getTable(xVal, yVal) {
+            $(".thUnit").html("数值（" + getUnit("${key}") + "）");
             $("#valTable tbody").html("");
             for (var i in xVal) {
                 if (yVal[i] == 0) continue;

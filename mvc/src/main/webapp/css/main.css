@@ -82,7 +82,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     /*background-color: #f5f5f5;*/
-    background: rgba(245,245,245,0.7);
+    background: rgba(245, 245, 245, 0.7);
     border-right: 1px solid #eee;
 }
 
@@ -144,18 +144,20 @@
     margin-bottom: 30px;
 }
 
-.breadcrumb{
-    background: rgba(0,0,0,0);
+.breadcrumb {
+    background: rgba(0, 0, 0, 0);
 }
 
-.pfbg{
+.pfbg {
     background: url("/images/profile.jpg") no-repeat fixed;
     background-size: 100% 100%;
 }
-.pfcontent h1,.pfcontent  h4,.pfcontent p,.pfcontent label{
-    color: rgba(255,255,255,1);
+
+.pfcontent h1, .pfcontent h4, .pfcontent p, .pfcontent label {
+    color: rgba(255, 255, 255, 1);
 }
-.pfcontent>.page-header>h1{
+
+.pfcontent > .page-header > h1 {
     color: rgb(236, 177, 172);
     text-shadow: 0 -1px 0 rgb(255, 255, 255), 0 2px 0 rgb(0, 0, 0);
 }

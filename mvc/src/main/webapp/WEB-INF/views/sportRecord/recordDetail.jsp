@@ -31,7 +31,7 @@
                 <thead>
                 <tr>
                     <th>时间（时:分）</th>
-                    <th>数值</th>
+                    <th class="thUnit">数值</th>
                 </tr>
                 </thead>
                 <tfoot></tfoot>
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div id="valK" class="col-md-4"><p>数据值：</p></div>
+                        <div id="valK" class="col-md-4"><p class="mdUnit">数据值：</p></div>
                         <div id="valV" class="col-md-8"><p></p></div>
                     </div>
                     <div class="row">
@@ -125,6 +125,7 @@
         })
 
         function getTable(details) {
+            $(".thUnit").html("数值（" + getUnit("${key}") + ")");
             for (var i in details) {
                 var detail = details[i];
                 var dbDate = new Date(Number(detail["beginTime"]));
@@ -136,6 +137,7 @@
 
         $('#myModal').on('show.bs.modal', function (event) {
 
+            $(".mdUnit").html("数据值（" + getUnit("${key}") + "）：");
             var fmt = "yyyy年M月d日 h时m分s秒";
             var dbDate;
             var button = $(event.relatedTarget);

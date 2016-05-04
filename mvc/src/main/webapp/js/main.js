@@ -36,6 +36,26 @@ function showTitle(key) {
     }
     $(".starter-template h1").html(title);
 }
+function getUnit(key) {
+    var unit;
+    switch (key) {
+        case "sport_heartRate":
+            unit = "次/分";
+            break;
+        case "stepCount":
+            unit = "步";
+            break;
+        case "distance":
+            unit = "千米";
+            break;
+        case "elevation":
+            unit = "米";
+            break;
+        default:
+            break;
+    }
+    return unit;
+}
 Date.prototype.format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份

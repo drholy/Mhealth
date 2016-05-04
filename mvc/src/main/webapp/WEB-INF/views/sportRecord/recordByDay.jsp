@@ -49,7 +49,7 @@
                 <thead>
                 <tr>
                     <th>时间（时）</th>
-                    <th>数值</th>
+                    <th class="thUnit">数值</th>
                 </tr>
                 </thead>
                 <tfoot></tfoot>
@@ -118,7 +118,7 @@
                 if (yVal[i] == 0) xt[i] = "";
                 else xt[i] = new Date(Number(xVal[i])).getHours();
             }
-            $("#dayChart").remove();
+            $("#chartDiv").html("");
             $("#chartDiv").append('<canvas id="dayChart" height="300" width="750"></canvas>');
             var dayChartCtx = $("#dayChart").get(0).getContext("2d");
             var dayChart = new Chart(dayChartCtx);
@@ -136,6 +136,7 @@
         }
 
         function getTable(xVal, yVal) {
+            $(".thUnit").html("数值（" + getUnit("${key}") + ")");
             $("#valTable tbody").html("");
             for (var i in xVal) {
                 if (yVal[i] == 0) continue;

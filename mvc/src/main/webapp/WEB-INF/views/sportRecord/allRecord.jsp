@@ -26,10 +26,10 @@
             <table id="allValTable" class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>运动心率</th>
-                    <th>步数</th>
-                    <th>距离</th>
-                    <th>海拔</th>
+                    <th>运动心率（次/分）</th>
+                    <th>步数（步）</th>
+                    <th>距离（千米）</th>
+                    <th>海拔（米）</th>
                     <th>时间</th>
                 </tr>
                 </thead>
