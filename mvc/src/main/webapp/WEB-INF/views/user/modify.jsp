@@ -11,13 +11,12 @@
     <title>mhealth</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body class="pfbg">
 <%@ include file="/WEB-INF/views/base/nav.jsp" %>
 
 <div class="container">
-    <%--<%@ include file="/WEB-INF/views/base/sidebar.jsp" %>--%>
-    <jsp:include page="/WEB-INF/views/base/sidebar.jsp"></jsp:include>
-    <div class="col-md-10 col-md-offset-2">
+    <%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
+    <div class="col-md-10 col-md-offset-2 pfcontent">
         <div class="page-header">
             <h1>资料修改</h1>
         </div>

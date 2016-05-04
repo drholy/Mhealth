@@ -73,7 +73,7 @@
 /*个人资料左侧导航块*/
 .sidebar {
     position: fixed;
-    top: 51px;
+    top: 52px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -81,11 +81,11 @@
     padding: 20px;
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
+    background: rgba(245,245,245,0.7);
     border-right: 1px solid #eee;
 }
 
-/*个人资料左侧导航ul*/
 .nav-sidebar {
     margin-right: -21px;
     margin-bottom: 20px;
@@ -131,7 +131,12 @@
     text-shadow: 0 -1px 0 rgb(255, 255, 255), 0 2px 0 rgb(0, 0, 0);
 }
 
-#heartRate p, #stepCount p, #distance p, #elevation p {
+.bgable table {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+}
+
+#heartRate p, #heartRate span, #stepCount p, #stepCount span, #distance p, #distance span, #elevation p, #elevation span, .bgable label {
     color: rgb(255, 255, 255);
 }
 
@@ -141,4 +146,16 @@
 
 .breadcrumb{
     background: rgba(0,0,0,0);
+}
+
+.pfbg{
+    background: url("/images/profile.jpg") no-repeat fixed;
+    background-size: 100% 100%;
+}
+.pfcontent h1,.pfcontent  h4,.pfcontent p,.pfcontent label{
+    color: rgba(255,255,255,1);
+}
+.pfcontent>.page-header>h1{
+    color: rgb(236, 177, 172);
+    text-shadow: 0 -1px 0 rgb(255, 255, 255), 0 2px 0 rgb(0, 0, 0);
 }

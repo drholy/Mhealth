@@ -35,7 +35,7 @@
                 <p>运动心率（次/秒）</p>
                 <a href="<%=path%>/record/recordByDay.ui?key=sport_heartRate">
                     <canvas id="heartRateChart"></canvas>
-                </a>
+                </a><span>时</span>
             </div>
         </div>
         <div class="col-md-6">
@@ -43,7 +43,7 @@
                 <p>步数（步）</p>
                 <a href="<%=path%>/record/recordByDay.ui?key=stepCount">
                     <canvas id="stepChart"></canvas>
-                </a>
+                </a><span>时</span>
             </div>
         </div>
         <div class="col-md-6">
@@ -51,7 +51,7 @@
                 <p>距离（千米）</p>
                 <a href="<%=path%>/record/recordByDay.ui?key=distance">
                     <canvas id="distanceChart"></canvas>
-                </a>
+                </a><span>时</span>
             </div>
         </div>
         <div class="col-md-6">
@@ -59,7 +59,7 @@
                 <p>海拔（米）</p>
                 <a href="<%=path%>/record/recordByDay.ui?key=distance">
                     <canvas id="eleChart"></canvas>
-                </a>
+                </a><span>时</span>
             </div>
         </div>
     </div>
@@ -80,6 +80,10 @@
                     $("#stepCount a").attr("href", "<%=path%>/record/recordByDay.ui?key=stepCount");
                     $("#distance a").attr("href", "<%=path%>/record/recordByDay.ui?key=distance");
                     $("#elevation a").attr("href", "<%=path%>/record/recordByDay.ui?key=elevation");
+                    $("#heartRate").find("span").html("时");
+                    $("#stepCount").find("span").html("时");
+                    $("#distance").find("span").html("时");
+                    $("#elevation").find("span").html("时");
                     dateExp = "h";
                     break;
                 case "week":
@@ -88,6 +92,10 @@
                     $("#stepCount a").attr("href", "<%=path%>/record/recordByWeek.ui?key=stepCount");
                     $("#distance a").attr("href", "<%=path%>/record/recordByWeek.ui?key=distance");
                     $("#elevation a").attr("href", "<%=path%>/record/recordByWeek.ui?key=elevation");
+                    $("#heartRate").find("span").html("日");
+                    $("#stepCount").find("span").html("日");
+                    $("#distance").find("span").html("日");
+                    $("#elevation").find("span").html("日");
                     dateExp = "d";
                     break;
                 case "month":
@@ -96,6 +104,10 @@
                     $("#stepCount a").attr("href", "<%=path%>/record/recordByMonth.ui?key=stepCount");
                     $("#distance a").attr("href", "<%=path%>/record/recordByMonth.ui?key=distance");
                     $("#elevation a").attr("href", "<%=path%>/record/recordByMonth.ui?key=elevation");
+                    $("#heartRate").find("span").html("日");
+                    $("#stepCount").find("span").html("日");
+                    $("#distance").find("span").html("日");
+                    $("#elevation").find("span").html("日");
                     dateExp = "d";
                     break;
                 case "year":
@@ -104,12 +116,14 @@
                     $("#stepCount a").attr("href", "<%=path%>/record/recordByYear.ui?key=stepCount");
                     $("#distance a").attr("href", "<%=path%>/record/recordByYear.ui?key=distance");
                     $("#elevation a").attr("href", "<%=path%>/record/recordByYear.ui?key=elevation");
+                    $("#heartRate").find("span").html("月");
+                    $("#stepCount").find("span").html("月");
+                    $("#distance").find("span").html("月");
+                    $("#elevation").find("span").html("月");
                     dateExp = "M";
                     break;
             }
         });
-//        $("#heartRate, #stepCount, #distance, #elevation").css("background", "rgba(255, 255, 255, 0.9)");
-//        $("#heartRate, #stepCount, #distance, #elevation").css("text-align", "center");
 
         function getOverview(timeCycle) {
             $.ajax({

@@ -11,7 +11,7 @@
     <title>mhealth</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body class="bgable">
 <%@ include file="/WEB-INF/views/base/nav.jsp" %>
 <div class="container">
     <ol class="breadcrumb">

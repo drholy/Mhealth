@@ -56,11 +56,11 @@ barOption = {
     //String - Colour of the scale line
     scaleLineColor: "rgba(255,255,255,1)",
     //Number - Pixel width of the scale line	
-    scaleLineWidth : 2,
+    scaleLineWidth: 2,
     //String - Scale label font colour
     scaleFontColor: "rgba(255,255,255,1)",
     //String - Colour of the grid lines
     scaleGridLineColor: "rgba(255,255,255,0.6)",
     //Number - Width of the grid lines
-    scaleGridLineWidth : 1
+    scaleGridLineWidth: 1
 }

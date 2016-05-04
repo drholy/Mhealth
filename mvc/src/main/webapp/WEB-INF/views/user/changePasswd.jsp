@@ -11,13 +11,13 @@
     <title>mhealth</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body class="pfbg">
 <%@ include file="/WEB-INF/views/base/nav.jsp" %>
 
 <div class="container">
     <div class="row">
         <%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
-        <div class="col-md-10 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-2 pfcontent">
             <div class="page-header">
                 <h1>密码修改</h1>
             </div>
