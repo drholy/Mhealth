@@ -11,14 +11,10 @@
     <title>mhealth</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body class="bgable">
 <%@ include file="/WEB-INF/views/base/nav.jsp" %>
 
 <div class="container">
-    <ol class="breadcrumb">
-        <li><a href="<%=path%>/record/overview.ui">首页</a></li>
-    </ol>
-
     <div class="starter-template">
         <h1>体征值概览</h1>
         <p class="lead">以下内容为基本体征信息的概览图</p>
@@ -33,30 +29,38 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div id="heartRate" class="col-md-6">
-            <p>运动心率（次/秒）</p>
-            <a href="<%=path%>/record/recordByDay.ui?key=sport_heartRate">
-                <canvas id="heartRateChart"></canvas>
-            </a>
+    <div class="row barChartRow">
+        <div class="col-md-6">
+            <div id="heartRate">
+                <p>运动心率（次/秒）</p>
+                <a href="<%=path%>/record/recordByDay.ui?key=sport_heartRate">
+                    <canvas id="heartRateChart"></canvas>
+                </a>
+            </div>
         </div>
-        <div id="stepCount" class="col-md-6">
-            <p>步数（步）</p>
-            <a href="<%=path%>/record/recordByDay.ui?key=stepCount">
-                <canvas id="stepChart"></canvas>
-            </a>
+        <div class="col-md-6">
+            <div id="stepCount">
+                <p>步数（步）</p>
+                <a href="<%=path%>/record/recordByDay.ui?key=stepCount">
+                    <canvas id="stepChart"></canvas>
+                </a>
+            </div>
         </div>
-        <div id="distance" class="col-md-6">
-            <p>距离（千米）</p>
-            <a href="<%=path%>/record/recordByDay.ui?key=distance">
-                <canvas id="distanceChart"></canvas>
-            </a>
+        <div class="col-md-6">
+            <div id="distance">
+                <p>距离（千米）</p>
+                <a href="<%=path%>/record/recordByDay.ui?key=distance">
+                    <canvas id="distanceChart"></canvas>
+                </a>
+            </div>
         </div>
-        <div id="elevation" class="col-md-6">
-            <p>海拔（米）</p>
-            <a href="<%=path%>/record/recordByDay.ui?key=distance">
-                <canvas id="eleChart"></canvas>
-            </a>
+        <div class="col-md-6">
+            <div id="elevation">
+                <p>海拔（米）</p>
+                <a href="<%=path%>/record/recordByDay.ui?key=distance">
+                    <canvas id="eleChart"></canvas>
+                </a>
+            </div>
         </div>
     </div>
 </div><!-- /.container -->
@@ -104,6 +108,8 @@
                     break;
             }
         });
+//        $("#heartRate, #stepCount, #distance, #elevation").css("background", "rgba(255, 255, 255, 0.9)");
+//        $("#heartRate, #stepCount, #distance, #elevation").css("text-align", "center");
 
         function getOverview(timeCycle) {
             $.ajax({
@@ -172,7 +178,7 @@
                     }
                 ]
             };
-            heartRateChart.Bar(data);
+            heartRateChart.Bar(data, barOption);
         }
 
         function getStepValue(xVal, yVal) {
@@ -195,7 +201,7 @@
                     }
                 ]
             };
-            stepChart.Bar(data);
+            stepChart.Bar(data, barOption);
         }
 
         function getDistanceValue(xVal, yVal) {
@@ -218,7 +224,7 @@
                     }
                 ]
             };
-            distanceChart.Bar(data);
+            distanceChart.Bar(data, barOption);
         }
 
         function getEleValue(xVal, yVal) {
@@ -241,7 +247,7 @@
                     }
                 ]
             };
-            eleChart.Bar(data);
+            eleChart.Bar(data, barOption);
         }
     });
 </script>

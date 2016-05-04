@@ -52,3 +52,15 @@ Date.prototype.format = function (fmt) { //author: meizz
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+barOption = {
+    //String - Colour of the scale line
+    scaleLineColor: "rgba(255,255,255,1)",
+    //Number - Pixel width of the scale line	
+    scaleLineWidth : 2,
+    //String - Scale label font colour
+    scaleFontColor: "rgba(255,255,255,1)",
+    //String - Colour of the grid lines
+    scaleGridLineColor: "rgba(255,255,255,0.6)",
+    //Number - Width of the grid lines
+    scaleGridLineWidth : 1
+}

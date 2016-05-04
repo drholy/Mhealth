@@ -91,17 +91,54 @@
     margin-bottom: 20px;
     margin-left: -20px;
 }
+
 .nav-sidebar > li.active {
     background: rgb(66, 139, 202);
 }
-.nav-sidebar > li.active a{
+
+.nav-sidebar > li.active a {
     color: white;
 }
-.nav-sidebar > li.active a:hover{
+
+.nav-sidebar > li.active a:hover {
     background: rgb(66, 139, 202);
 }
 
 /*模态框页头*/
-.modal-body .page-header{
+.modal-body .page-header {
     margin-top: 0px;
+}
+
+.bgable {
+    background: url("/images/ovbg.jpg") no-repeat fixed;
+    background-size: 100% 100%;
+    position: relative;
+}
+
+.bgable:before {
+    content: '';
+    background: rgba(39, 39, 39, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1000;
+}
+
+.bgable .starter-template h1, .bgable .starter-template p {
+    color: rgb(236, 177, 172);
+    text-shadow: 0 -1px 0 rgb(255, 255, 255), 0 2px 0 rgb(0, 0, 0);
+}
+
+#heartRate p, #stepCount p, #distance p, #elevation p {
+    color: rgb(255, 255, 255);
+}
+
+.barChartRow > div {
+    margin-bottom: 30px;
+}
+
+.breadcrumb{
+    background: rgba(0,0,0,0);
 }
