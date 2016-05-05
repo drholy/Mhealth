@@ -11,11 +11,14 @@
 <link href="<%=path%>/css/bootstrap.css" rel="stylesheet">
 <link href="<%=path%>/css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="<%=path%>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="<%=path%>/css/bootstrapValidator.min.css" rel="stylesheet">
 <link href="<%=path%>/css/main.css" rel="stylesheet">
+
 <script src="<%=path%>/js/jquery-1.11.3.min.js"></script>
 <script src="<%=path%>/js/bootstrap.min.js"></script>
 <script src="<%=path%>/js/Chart.min.js"></script>
 <script src="<%=path%>/js/bootstrap-datetimepicker.min.js"></script>
 <script src="<%=path%>/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="<%=path%>/js/jquery.twbsPagination.min.js"></script>
+<script src="<%=path%>/js/bootstrapValidator.min.js"></script>
 <script src="<%=path%>/js/main.js"></script>

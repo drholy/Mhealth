@@ -120,7 +120,53 @@
             }
         });
 
-        $("#modifyForm").submit(function () {
+        $("#modifyForm").bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                username: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        }
+                    }
+                },
+                birthday: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        date: {
+                            format: 'YYYY-M-D',
+                            message: '日期格式错误'
+                        }
+                    }
+                },
+                mobilePhone: {
+                    enabled: true,
+                    validators: {
+                        regexp: {
+                            regexp: /^1(3|4|5|7|8)\d{9}$/,
+                            message: '手机号格式错误'
+                        }
+                    }
+                },
+                email: {
+                    enabled: true,
+                    validators: {
+                        emailAddress: {
+                            message: '邮箱格式错误'
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function (e) {
+            e.preventDefault();
             var user = {};
             user["username"] = $.trim($("#username").val());
             user["sex"] = $('input:radio[name="sex"]:checked').val();
@@ -141,7 +187,6 @@
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });
-            return false;
         });
     });
 </script>
