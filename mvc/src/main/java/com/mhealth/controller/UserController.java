@@ -3,9 +3,12 @@ package com.mhealth.controller;
 import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.PasswordUtils;
 import com.mhealth.common.util.StringUtils;
+import com.mhealth.common.util.UUIDUtils;
 import com.mhealth.model.Device;
+import com.mhealth.model.Token;
 import com.mhealth.model.User;
 import com.mhealth.service.DeviceService;
+import com.mhealth.service.TokenService;
 import com.mhealth.service.UserService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -36,6 +41,9 @@ public class UserController {
 
     @Resource(name = "deviceService")
     private DeviceService deviceService;
+
+    @Resource(name = "tokenService")
+    private TokenService tokenService;
 
     /**
      * 用户注册
@@ -135,6 +143,61 @@ public class UserController {
             request.getSession().setAttribute("device", device);
         }
         return new Response().setMessage("登录成功！").toJson();
+    }
+
+    /**
+     * 客户端登录借口
+     *
+     * @param loginName
+     * @param password
+     * @param deviceJson
+     * @return
+     */
+    @RequestMapping(value = "mobileLogin", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String mobileLogin(String loginName, String password, String deviceJson) {
+        if (StringUtils.isEmpty(loginName, password, deviceJson)) return Response.paramsIsEmpty("用户名、密码、设备");
+        User dbUser = userService.getUser(loginName);
+        if (dbUser == null) return Response.notExist("用户不存在！");
+        try {
+            if (!PasswordUtils.validPasswd(password, dbUser.getPassword())) return Response.failuer("用户名或密码错误！");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (dbUser.getActive().equals("0")) {
+            return new Response().addString("userId", dbUser.getId()).addString("loginName", dbUser.getLoginName())
+                    .setError(Response.DONOT_ACTIVITE, "账户未激活！").toJson();
+        }
+        if (dbUser.getStatus().equals("0")) return new Response().setError(Response.FAILURE, "账户异常，请与管理员联系！").toJson();
+
+        Token token = tokenService.getTokenByUser(dbUser.getId());
+        if (token == null) token = new Token();
+
+        //设置token过期时间30天
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.add(Calendar.DAY_OF_MONTH, 30);
+
+        token.setUserId(dbUser.getId());
+        token.setAccess_token(UUIDUtils.getUUID());
+        token.setExpire(cal.getTimeInMillis());
+
+        tokenService.upsertToken(token);
+
+        Device device = (Device) JSONObject.toBean(JSONObject.fromObject(deviceJson), Device.class);
+        Device dbDevice = deviceService.getDevice(device.getId());
+        if (dbDevice == null) {
+            deviceService.insertDevice(device);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", dbUser.getId());
+        map.put("loginName", dbUser.getLoginName());
+        map.put("access_token", token.getAccess_token());
+
+        return new Response().addMap(map).setMessage("登陆成功！").toJson();
     }
 
     /**

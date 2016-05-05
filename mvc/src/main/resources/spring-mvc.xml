@@ -28,12 +28,14 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/sportRecord/*"/>
-            <mvc:mapping path="/deviceData/*"/>
-            <!--<mvc:exclude-mapping path="/service/user/insertUser"/>-->
-            <!--<mvc:exclude-mapping path="/service/user/login"/>-->
-            <!--<mvc:exclude-mapping path="/service/user/active"/>-->
-            <!--<mvc:exclude-mapping path="/service/user/validCode"/>-->
+            <!--<mvc:mapping path="/sportRecord/*"/>-->
+            <!--<mvc:mapping path="/deviceData/*"/>-->
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/**/*.ui"/>
+            <mvc:exclude-mapping path="/user/insertUser"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <mvc:exclude-mapping path="/user/active"/>
+            <mvc:exclude-mapping path="/user/validCode"/>
             <bean class="com.mhealth.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

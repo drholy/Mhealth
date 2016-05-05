@@ -11,7 +11,9 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.resCode == "000000") {
                     location.href = "../../../";
-                }
+                } else if (data.resCode == "100105" || data.resCode == "100106") {
+                    location.href = "/";
+                } else alert(data.resCode + ":" + data.resMsg)
             }
         });
     });
