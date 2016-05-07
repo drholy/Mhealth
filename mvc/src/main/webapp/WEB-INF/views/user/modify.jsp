@@ -99,6 +99,13 @@
         }).on("changeDate", function (ev) {
             $("#birthday").val("");
             $("#birthday").val(ev.date.valueOf());
+            $('#modifyForm')
+            // Get the bootstrapValidator instance
+                    .data('bootstrapValidator')
+                    // Mark the field as not validated, so it'll be re-validated when the user change date
+                    .updateStatus('calV', 'NOT_VALIDATED', null)
+                    // Validate the field
+                    .validateField('calV');
         });
 
         $.ajax({
@@ -126,6 +133,7 @@
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
+            trigger: "blur",
             fields: {
                 username: {
                     enabled: true,
@@ -135,15 +143,12 @@
                         }
                     }
                 },
-                birthday: {
+                calV: {
                     enabled: true,
+                    selector: "#calV",
                     validators: {
                         notEmpty: {
                             message: "此项为必填项"
-                        },
-                        date: {
-                            format: 'YYYY-M-D',
-                            message: '日期格式错误'
                         }
                     }
                 },

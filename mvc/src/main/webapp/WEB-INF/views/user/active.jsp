@@ -52,11 +52,14 @@
         </div>
         <div class="form-group">
             <label for="birthday" class="col-md-4 control-label">出生日期*</label>
-            <div id="dayCal" class="input-group date form_datetime col-md-4" data-date="" data-date-format="yyyy-m-d"
-                 data-link-field="birthday">
-                <input class="form-control" size="16" type="text" value="" readonly>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            <div class=" col-md-4">
+                <div id="dayCal" class="input-group date form_datetime" data-date=""
+                     data-date-format="yyyy-m-d"
+                     data-link-field="birthday">
+                    <input id="birthStr" class="form-control" type="text" readonly="readonly">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
             </div>
             <input type="hidden" id="birthday" name="birthday" value=""/><br/>
         </div>
@@ -108,13 +111,64 @@
         }).on("changeDate", function (ev) {
             $("#birthday").val("");
             $("#birthday").val(ev.date.valueOf());
+            $('#activeForm')
+            // Get the bootstrapValidator instance
+                    .data('bootstrapValidator')
+                    // Mark the field as not validated, so it'll be re-validated when the user change date
+                    .updateStatus('birthStr', 'NOT_VALIDATED', null)
+                    // Validate the field
+                    .validateField('birthStr');
         });
 
-        $("#activeForm").submit(function () {
+        $("#activeForm").bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            trigger: "blur",
+            fields: {
+                username: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        }
+                    }
+                },
+                birthStr: {
+                    enabled: true,
+                    selector: "#birthStr",
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        }
+                    }
+                },
+                mobilePhone: {
+                    enabled: true,
+                    validators: {
+                        regexp: {
+                            regexp: /^1(3|4|5|7|8)\d{9}$/,
+                            message: '手机号格式错误'
+                        }
+                    }
+                },
+                email: {
+                    enabled: true,
+                    validators: {
+                        emailAddress: {
+                            message: '邮箱格式错误'
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function (e) {
+            e.preventDefault();
             var user = {};
             user["id"] = "${sessionScope.userId}";
             user["loginName"] = "${sessionScope.loginName}";
-            user["username"]=$("#username").val();
+            user["username"] = $("#username").val();
             user["sex"] = $('input:radio[name="sex"]:checked').val();
             user["birthday"] = $("#birthday").val();
             user["bloodType"] = $("#bloodType").val();
@@ -133,7 +187,6 @@
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });
-            return false;
         });
     });
 </script>

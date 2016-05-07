@@ -52,4 +52,14 @@ public class TokenService {
     public Token getTokenByUser(String userId) {
         return tokenDao.getTokenByUser(userId);
     }
+
+    /**
+     * 根据userId删除token
+     *
+     * @param userId
+     * @return
+     */
+    public boolean delTokenByUser(String userId) {
+        return tokenDao.delTokenByUser(userId);
+    }
 }

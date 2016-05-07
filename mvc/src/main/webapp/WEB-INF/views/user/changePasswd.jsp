@@ -54,7 +54,59 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#changepwForm").submit(function () {
+        $("#changepwForm").bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            trigger: "blur",
+            fields: {
+                oldPassword: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        stringLength: {
+                            min: 6,
+                            message: '密码长度少于6位'
+                        }
+                    }
+                },
+                newPassword: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        stringLength: {
+                            min: 6,
+                            message: '密码长度少于6位'
+                        }
+                    }
+                },
+                againPassword: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        stringLength: {
+                            min: 6,
+                            message: '密码长度少于6位'
+                        },
+                        callback: {
+                            message: '确认密码不一致',
+                            callback: function (value, validator) {
+                                return value == $("#newPassword").val();
+                            }
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function (e) {
+            e.preventDefault();
             var pw = {};
             pw["id"] = "${sessionScope.user.id}";
             pw["oldPassword"] = $("#oldPassword").val();
@@ -75,7 +127,6 @@
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });
-            return false;
         });
     });
 </script>

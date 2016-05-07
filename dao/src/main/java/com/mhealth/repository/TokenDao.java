@@ -54,4 +54,15 @@ public class TokenDao extends BaseDao {
     public Token getTokenByUser(String userId) {
         return mongoTemplate.findOne(new Query(Criteria.where("userId").is(userId)), Token.class);
     }
+
+    /**
+     * 根据userId删除token
+     *
+     * @param userId
+     * @return
+     */
+    public boolean delTokenByUser(String userId) {
+        WriteResult wr = mongoTemplate.remove(new Query(Criteria.where("userId").is(userId)), Token.class);
+        return wr.getN() == 1;
+    }
 }

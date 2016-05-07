@@ -24,10 +24,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by pengt on 2016.4.6.0006.
@@ -75,7 +72,8 @@ public class UserController {
             e.printStackTrace();
         }
         if (userService.insertUser(user).equals(user.getLoginName())) {
-            return new Response().addString("loginName", user.getLoginName()).setMessage("注册成功").toJson();
+            return new Response().addString("loginName", user.getLoginName())
+                    .addString("JSESSIONID", request.getSession().getId()).setMessage("注册成功").toJson();
         } else return Response.addFailuer("注册失败！");
     }
 
@@ -146,7 +144,7 @@ public class UserController {
     }
 
     /**
-     * 客户端登录借口
+     * 客户端登录接口
      *
      * @param loginName
      * @param password
@@ -208,10 +206,23 @@ public class UserController {
      */
     @RequestMapping(value = "logout", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("user");
-        request.getSession().removeAttribute("device");
-        return new Response().setMessage("注销成功！").toJson();
+    public String logout(HttpServletRequest request, String access_token) {
+        if (StringUtils.isEmpty(access_token)) {
+            request.getSession().removeAttribute("user");
+            request.getSession().removeAttribute("device");
+            return Response.success("注销成功！");
+        } else {
+            String userId;
+            try {
+                userId = tokenService.getTokenByAcc(access_token).getUserId();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Response.notExist("token不存在！");
+            }
+            if (tokenService.delTokenByUser(userId)) {
+                return Response.success("注销成功！");
+            } else return Response.failuer("数据库错误！");
+        }
     }
 
     /**
@@ -237,8 +248,27 @@ public class UserController {
                 Device device = (Device) JSONObject.toBean(JSONObject.fromObject(deviceJson), Device.class);
                 if (!deviceService.insertDevice(device).equals(device.getId())) return Response.failuer("激活失败！");
                 request.getSession().setAttribute("device", device);
+
+                Token token = new Token();
+
+                //设置token过期时间30天
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(System.currentTimeMillis());
+                cal.add(Calendar.DAY_OF_MONTH, 30);
+
+                token.setUserId(user.getId());
+                token.setAccess_token(UUIDUtils.getUUID());
+                token.setExpire(cal.getTimeInMillis());
+
+                tokenService.upsertToken(token);
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("userId", user.getId());
+                map.put("loginName", user.getLoginName());
+                map.put("access_token", token.getAccess_token());
+                return new Response().addMap(map).setMessage("激活成功！").toJson();
             }
-            return new Response().setMessage("激活成功！").toJson();
+            return Response.success("激活成功！");
         } else {
             return Response.failuer("激活失败！");
         }
@@ -360,5 +390,40 @@ public class UserController {
             request.getSession().setAttribute("user", user);
             return Response.success("修改成功！");
         } else return Response.failuer("数据库错误！");
+    }
+
+    /**
+     * 检验同户名是否可用
+     *
+     * @param loginName
+     * @return
+     */
+    @RequestMapping(value = "checkLoginName", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String checkLoginName(String loginName) {
+        if (StringUtils.isEmpty(loginName)) return Response.paramsIsEmpty("用户名");
+        User user = userService.getUser(loginName);
+        Map<String, Object> map = new HashMap<>();
+        if (user == null) map.put("valid", true);
+        else map.put("valid", false);
+        return JSONObject.fromObject(map).toString();
+    }
+
+    /**
+     * 检验验证码
+     *
+     * @param request
+     * @param valid
+     * @return
+     */
+    @RequestMapping(value = "checkValid", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String checkValid(HttpServletRequest request, String valid) {
+        if (StringUtils.isEmpty(valid)) return Response.paramsIsEmpty("验证码");
+        String sesseionValid = (String) request.getSession().getAttribute("rand");
+        Map<String, Object> map = new HashMap<>();
+        if (valid.equals(sesseionValid)) map.put("valid", true);
+        else map.put("valid", false);
+        return JSONObject.fromObject(map).toString();
     }
 }

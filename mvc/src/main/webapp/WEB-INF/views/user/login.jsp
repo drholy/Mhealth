@@ -50,14 +50,16 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" name="loginName" class="form-control" placeholder="用户名" required="required">
+                                    <input type="text" name="loginName" class="form-control" placeholder="用户名"
+                                           required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-lock"></span></span>
-                                    <input name="password" type="password" class="form-control" placeholder="密码" required="required">
+                                    <input name="password" type="password" class="form-control" placeholder="密码"
+                                           required="required">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-lg btn-block">登录</button>
@@ -84,17 +86,19 @@
                             <div class="form-group">
                                 <label for="regPwAgain" class="col-md-4 control-label">密码确认*</label>
                                 <div class="col-md-8">
-                                    <input type="password" class="form-control" id="regPwAgain" placeholder="密码确认" required="required">
+                                    <input type="password" class="form-control" id="regPwAgain" placeholder="密码确认"
+                                           required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="valid" class="col-md-4 control-label">验证码*</label>
-                                <div class="input-group col-md-8">
-                                    <input id="valid" name="valid" type="text" class="form-control" placeholder="验证码" required="required">
-                                    <span class="input-group-addon"><img src="<%=path%>/service/user/validCode"
-                                                                         onclick="this.src='<%=path%>/service/user/validCode?r='+Math.random()+';'"
-                                                                         style="cursor:hand" alt="验证码"></span>
+                                <div class="col-md-5">
+                                    <input id="valid" name="valid" type="text" class="form-control" placeholder="验证码"
+                                           required="required">
                                 </div>
+                                <label class="col-md-3 control-label"><img id="validPic"
+                                                                           src="<%=path%>/service/user/validCode"
+                                                                           style="cursor:hand" alt="验证码"></label>
                             </div>
                             <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
                         </form>
@@ -117,7 +121,46 @@
         $("#logo>h1").css("margin-top", height);
         $("#logo,#userFrame").css("margin-top", "50px");
 
-        $("#loginForm").submit(function () {
+        $("#validPic").click(function () {
+            var src = "<%=path%>/service/user/validCode";
+            src = src + "?r=" + Math.random();
+            $(this).attr("src", src);
+            $('#registerForm')
+            // Get the bootstrapValidator instance
+                    .data('bootstrapValidator')
+                    // Mark the field as not validated, so it'll be re-validated when the user change date
+                    .updateStatus('valid', 'NOT_VALIDATED', null)
+                    // Validate the field
+                    .validateField('valid');
+        });
+
+        $("#loginForm").bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            live: 'submitted',
+            fields: {
+                loginName: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        }
+                    }
+                },
+                password: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        }
+                    }
+                }
+            }
+        }).on("success.form.bv", function (e) {
+            e.preventDefault();
             $.ajax({
                 url: "<%=path%>/service/user/login",
                 type: "post",
@@ -131,14 +174,75 @@
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });
-            return false;
         });
 
-        $("#registerForm").submit(function () {
-            if ($("#regPassword").val() != $("#regPwAgain").val()) {
-                alert("密码不一致");
-                return false;
+        $("#registerForm").bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            trigger: "blur",
+            fields: {
+                loginName: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        remote: {
+                            message: '用户名不可用',
+                            url: '<%=path%>/service/user/checkLoginName'
+                        }
+                    }
+                },
+                password: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        stringLength: {
+                            min: 6,
+                            message: '密码长度少于6位'
+                        }
+                    }
+                },
+                regPwAgain: {
+                    enabled: true,
+                    selector: '#regPwAgain',
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        stringLength: {
+                            min: 6,
+                            message: '密码长度少于6位'
+                        },
+                        callback: {
+                            message: '确认密码不一致',
+                            callback: function (value, validator) {
+                                return value == $("#regPassword").val();
+                            }
+                        }
+                    }
+                },
+                valid: {
+                    enabled: true,
+//                    container: '#validMassage',
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        },
+                        remote: {
+                            message: '验证码错误',
+                            url: '<%=path%>/service/user/checkValid'
+                        }
+                    }
+                }
             }
+        }).on('success.form.bv', function (e) {
+            e.preventDefault();
             var user = {};
             user["loginName"] = $("#regLoginName").val();
             user["password"] = $("#regPassword").val();
@@ -154,7 +258,11 @@
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });
-            return false;
+        });
+
+        $(".nav-tabs li a").click(function () {
+            $("#loginForm").data('bootstrapValidator').resetForm(true);
+            $("#registerForm").data('bootstrapValidator').resetForm(true);
         });
     });
 </script>
