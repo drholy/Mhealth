@@ -97,9 +97,13 @@
         });
 
         function getValue(key, beginTime, timeUnit) {
+            var url;
+            if (key == "sport_heartRate") url = "<%=path%>/service/sportRecord/getAvgVal";
+            else url = "<%=path%>/service/sportRecord/getSumVal";
             if (beginTime == null || beginTime == "") beginTime = new Date().getTime();
             $.ajax({
-                url: "<%=path%>/service/sportRecord/getRecordByTime",
+                <%--url: "<%=path%>/service/sportRecord/getRecordByTime",--%>
+                url: url,
                 type: "post",
                 data: {userId: "${sessionScope.user.id}", key: key, beginTime: beginTime, timeUnit: timeUnit},
                 dataType: "json",

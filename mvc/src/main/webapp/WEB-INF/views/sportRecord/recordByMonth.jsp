@@ -93,9 +93,13 @@
         });
 
         function getValue(key, beginTime, timeUnit) {
+            var url;
+            if (key == "sport_heartRate") url = "<%=path%>/service/sportRecord/getAvgVal";
+            else url = "<%=path%>/service/sportRecord/getSumVal";
             if (beginTime == null || beginTime == "") beginTime = new Date().getTime();
             $.ajax({
-                url: "<%=path%>/service/sportRecord/getRecordByTime",
+                <%--url: "<%=path%>/service/sportRecord/getRecordByTime",--%>
+                url: url,
                 type: "post",
                 data: {userId: "${sessionScope.user.id}", key: key, beginTime: beginTime, timeUnit: timeUnit},
                 dataType: "json",
@@ -132,7 +136,7 @@
         }
 
         function getTable(xVal, yVal) {
-            $(".thUnit").html("数值（" + getUnit("${key}") + ")");
+            $(".thUnit").html("数值（" + getUnit("${key}") + ")");//表头单位名称
             $("#valTable tbody").html("");
             for (var i in xVal) {
                 if (yVal[i] == 0) continue;

@@ -55,6 +55,7 @@ public class SportRecordController {
      */
     @RequestMapping(value = "getAllByTime", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
+    @Deprecated
     public String getAllRecordByTime(String userId, String timeUnit) {
         if (StringUtils.isEmpty(userId, timeUnit)) return Response.paramsIsEmpty("查询条件：用户id，时间段");
         long minTime = 0;
@@ -149,6 +150,7 @@ public class SportRecordController {
      */
     @RequestMapping(value = "getRecordByTime", produces = "application/json;charset=UTF-8")
     @ResponseBody
+    @Deprecated
     public String getRecordByTime(String userId, String key, String beginTime, String timeUnit) {
         if (StringUtils.isEmpty(userId, key, beginTime, timeUnit)) return Response.paramsIsEmpty("查询条件");
         Calendar cal = Calendar.getInstance();
