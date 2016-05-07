@@ -55,6 +55,7 @@ public class UserController {
         if (!valid.equals(request.getSession().getAttribute("rand"))) return Response.failuer("验证码错误！");
         request.getSession().removeAttribute("rand");
         User user = (User) JSONObject.toBean(JSONObject.fromObject(userJson), User.class);
+        if (StringUtils.isEmpty(user.getLoginName(), user.getPassword())) return Response.paramsIsEmpty("注册信息");
         String loginName = user.getLoginName();
         if (!userService.checkUserByLn(loginName)) return Response.isExist("用户已存在！");
         if (user.getPassword().length() < 6) return Response.failuer("密码少于6位！");
@@ -72,8 +73,40 @@ public class UserController {
             e.printStackTrace();
         }
         if (userService.insertUser(user).equals(user.getLoginName())) {
-            return new Response().addString("loginName", user.getLoginName())
-                    .addString("JSESSIONID", request.getSession().getId()).setMessage("注册成功").toJson();
+            return new Response().addString("loginName", user.getLoginName()).setMessage("注册成功").toJson();
+        } else return Response.addFailuer("注册失败！");
+    }
+
+    /**
+     * 移动端注册
+     *
+     * @param userJson
+     * @return
+     */
+    @RequestMapping(value = "mobileRegister", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String mobileRegister(String userJson) {
+        if (StringUtils.isEmpty(userJson)) return Response.paramsIsEmpty("注册信息");
+        User user = (User) JSONObject.toBean(JSONObject.fromObject(userJson), User.class);
+        if (StringUtils.isEmpty(user.getLoginName(), user.getPassword())) return Response.paramsIsEmpty("注册信息");
+        String loginName = user.getLoginName();
+        if (!userService.checkUserByLn(loginName)) return Response.isExist("用户已存在！");
+        if (user.getPassword().length() < 6) return Response.failuer("密码少于6位！");
+
+        user.setId(null);
+        user.setUserType("0");
+        user.setActive("0");
+        user.setRegTime(System.currentTimeMillis());
+        user.setStatus("0");
+        try {
+            user.setPassword(PasswordUtils.getEncryptedPwd(user.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (userService.insertUser(user).equals(user.getLoginName())) {
+            return new Response().addString("loginName", user.getLoginName()).setMessage("注册成功").toJson();
         } else return Response.addFailuer("注册失败！");
     }
 
@@ -115,7 +148,7 @@ public class UserController {
     @RequestMapping(value = "login", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String login(String loginName, String password, String deviceJson, HttpServletRequest request) {
-        if (StringUtils.isEmpty(loginName, password)) return Response.paramsIsEmpty("用户名；密码");
+        if (StringUtils.isEmpty(loginName, password, deviceJson)) return Response.paramsIsEmpty("用户名；密码");
         User dbUser = userService.getUser(loginName);
         if (dbUser == null) return Response.notExist("用户不存在！");
         try {
@@ -140,7 +173,7 @@ public class UserController {
             }
             request.getSession().setAttribute("device", device);
         }
-        return new Response().setMessage("登录成功！").toJson();
+        return Response.success("登录成功！");
     }
 
     /**
@@ -168,7 +201,9 @@ public class UserController {
             return new Response().addString("userId", dbUser.getId()).addString("loginName", dbUser.getLoginName())
                     .setError(Response.DONOT_ACTIVITE, "账户未激活！").toJson();
         }
-        if (dbUser.getStatus().equals("0")) return new Response().setError(Response.FAILURE, "账户异常，请与管理员联系！").toJson();
+        if (dbUser.getStatus().equals("0"))
+            return new Response().setError(Response.FAILURE, "账户异常，请与管理员联系！")
+                    .addString("id", dbUser.getId()).addString("loginName", dbUser.getLoginName()).toJson();
 
         Token token = tokenService.getTokenByUser(dbUser.getId());
         if (token == null) token = new Token();
@@ -185,6 +220,10 @@ public class UserController {
         tokenService.upsertToken(token);
 
         Device device = (Device) JSONObject.toBean(JSONObject.fromObject(deviceJson), Device.class);
+        if (StringUtils.isEmpty(device.getId(), device.getName(), device.getBrand(), device.getModel(), device.getOs(), device.getType()))
+            return Response.paramsIsEmpty("设备信息");
+        device.setUserId(dbUser.getId());
+        device.setStatus("1");
         Device dbDevice = deviceService.getDevice(device.getId());
         if (dbDevice == null) {
             deviceService.insertDevice(device);
@@ -238,6 +277,8 @@ public class UserController {
     public String active(String dataJson, String deviceJson, HttpServletRequest request) {
         if (StringUtils.isEmpty(dataJson)) return Response.paramsIsEmpty("用户信息");
         User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
+        if (StringUtils.isEmpty(user.getId(), user.getUsername(), user.getSex(), String.valueOf(user.getBirthday()), user.getBloodType()))
+            return Response.paramsIsEmpty("用户信息");
         user.setActive("1");
         user.setStatus("1");
         if (userService.active(user)) {
@@ -246,6 +287,10 @@ public class UserController {
             request.getSession().setAttribute("user", user);
             if (!StringUtils.isEmpty(deviceJson)) {
                 Device device = (Device) JSONObject.toBean(JSONObject.fromObject(deviceJson), Device.class);
+                if (StringUtils.isEmpty(device.getId(), device.getName(), device.getBrand(), device.getModel(), device.getOs(), device.getType()))
+                    return Response.paramsIsEmpty("设备信息");
+                device.setUserId(user.getId());
+                device.setStatus("1");
                 if (!deviceService.insertDevice(device).equals(device.getId())) return Response.failuer("激活失败！");
                 request.getSession().setAttribute("device", device);
 
@@ -358,9 +403,10 @@ public class UserController {
     public String modify(String dataJson, HttpServletRequest request) {
         if (StringUtils.isEmpty(dataJson)) return Response.paramsIsEmpty("用户数据");
         User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
-        user.setId(((User) request.getSession().getAttribute("user")).getId());
+        if (StringUtils.isEmpty(user.getId(), user.getUsername(), user.getSex(), String.valueOf(user.getBirthday()), user.getBloodType()))
+            return Response.paramsIsEmpty("用户信息");
         if (userService.modify(user)) {
-            return new Response().setMessage("修改成功！").toJson();
+            return Response.success("修改成功！");
         } else return Response.failuer("修改失败！");
     }
 
@@ -377,11 +423,21 @@ public class UserController {
     public String changePasswd(String passwdJson, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (StringUtils.isEmpty(passwdJson)) return Response.paramsIsEmpty("password json信息");
         Map passwdMap = (Map) JSONObject.toBean(JSONObject.fromObject(passwdJson), Map.class);
-        String oldPassword = (String) passwdMap.get("oldPassword");
-        String newPassword = (String) passwdMap.get("newPassword");
-        String againPassword = (String) passwdMap.get("againPassword");
+        String oldPassword;
+        String newPassword;
+        String againPassword;
+        String userId;
+        try {
+            userId = (String) passwdMap.get("id");
+            oldPassword = (String) passwdMap.get("oldPassword");
+            newPassword = (String) passwdMap.get("newPassword");
+            againPassword = (String) passwdMap.get("againPassword");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.paramsIsEmpty("密码信息");
+        }
         if (!newPassword.equals(againPassword)) return Response.failuer("两次密码不一致！");
-        User user = userService.getUserById((String) passwdMap.get("id"));
+        User user = userService.getUserById(userId);
         if (user == null) Response.notExist("用户不存在！");
         if (!PasswordUtils.validPasswd(oldPassword, user.getPassword()))
             return Response.failuer("密码错误！");

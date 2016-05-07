@@ -173,6 +173,7 @@
         }).on('success.form.bv', function (e) {
             e.preventDefault();
             var user = {};
+            user["id"] = "${sessionScope.user.id}";
             user["username"] = $.trim($("#username").val());
             user["sex"] = $('input:radio[name="sex"]:checked').val();
             user["birthday"] = $("#birthday").val();

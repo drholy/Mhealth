@@ -43,7 +43,7 @@ public class SportRecordController {
         JSONArray ja = JSONArray.fromObject(dataList);
         List datas = (List) JSONArray.toList(ja, new SportRecord(), new JsonConfig());
         sportRecordService.insertRecord(datas);
-        return new Response().setMessage("上传成功！").toJson();
+        return Response.success("上传成功！");
     }
 
     /**
@@ -309,7 +309,7 @@ public class SportRecordController {
         }
 
         long result[] = new long[cycle];
-        long xTime[] = new long[cycle];
+        String xTime[] = new String[cycle];
         long minTime = cal.getTimeInMillis();
         for (int i = 0; i < cycle; i++) {
             cal.add(nextTime, +1);
@@ -317,7 +317,7 @@ public class SportRecordController {
 
             List<AvgVal> avgList = sportRecordService.getAvgVal(userId, key, minTime, upTime);
             result[i] = (avgList == null || avgList.size() == 0) ? 0 : avgList.get(0).getAvgVal();
-            xTime[i] = minTime;
+            xTime[i] = (avgList == null || avgList.size() == 0) ? "" : String.valueOf(minTime);
             minTime = upTime;
         }
         return new Response().addObject("result", result).addObject("xTime", xTime).addString("timeUnit", timeUnit).toJson();
@@ -374,7 +374,7 @@ public class SportRecordController {
         }
 
         long result[] = new long[cycle];
-        long xTime[] = new long[cycle];
+        String xTime[] = new String[cycle];
         long minTime = cal.getTimeInMillis();
         for (int i = 0; i < cycle; i++) {
             cal.add(nextTime, +1);
@@ -382,7 +382,7 @@ public class SportRecordController {
 
             List<SumVal> sumList = sportRecordService.getSumVal(userId, key, minTime, upTime);
             result[i] = (sumList == null || sumList.size() == 0) ? 0 : sumList.get(0).getSumVal();
-            xTime[i] = minTime;
+            xTime[i] = (sumList == null || sumList.size() == 0) ? "" : String.valueOf(minTime);
             minTime = upTime;
         }
         return new Response().addObject("result", result).addObject("xTime", xTime).addString("timeUnit", timeUnit).toJson();
