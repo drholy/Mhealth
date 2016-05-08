@@ -141,14 +141,13 @@ public class UserController {
      *
      * @param loginName
      * @param password
-     * @param deviceJson
      * @param request
      * @return
      */
     @RequestMapping(value = "login", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String login(String loginName, String password, String deviceJson, HttpServletRequest request) {
-        if (StringUtils.isEmpty(loginName, password, deviceJson)) return Response.paramsIsEmpty("用户名；密码");
+    public String login(String loginName, String password, HttpServletRequest request) {
+        if (StringUtils.isEmpty(loginName, password)) return Response.paramsIsEmpty("用户名；密码");
         User dbUser = userService.getUser(loginName);
         if (dbUser == null) return Response.notExist("用户不存在！");
         try {
@@ -165,14 +164,6 @@ public class UserController {
         }
         if (dbUser.getStatus().equals("0")) return new Response().setError(Response.FAILURE, "账户异常，请与管理员联系！").toJson();
         request.getSession().setAttribute("user", dbUser);
-        if (!StringUtils.isEmpty(deviceJson)) { //移动端登录
-            Device device = (Device) JSONObject.toBean(JSONObject.fromObject(deviceJson), Device.class);
-            Device dbDevice = deviceService.getDevice(device.getId());
-            if (dbDevice == null) {
-                deviceService.insertDevice(device);
-            }
-            request.getSession().setAttribute("device", device);
-        }
         return Response.success("登录成功！");
     }
 

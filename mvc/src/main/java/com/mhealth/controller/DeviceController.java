@@ -6,6 +6,7 @@ import com.mhealth.model.Device;
 import com.mhealth.service.DeviceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -20,6 +21,7 @@ public class DeviceController {
     private DeviceService deviceService;
 
     @RequestMapping(value = "getDevice", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
     public String getDevice(String id) {
         if (StringUtils.isEmpty(id)) return Response.paramsIsEmpty("设备id");
         Device device = deviceService.getDevice(id);

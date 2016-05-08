@@ -156,11 +156,11 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        modal.find("#dnameV").text(data.data.name);
-                        modal.find("#dbrandV").text(data.data.brand);
-                        modal.find("#dmodelV").text(data.data.model);
-                        modal.find("#dosV").text(data.data.os);
-                        modal.find("#dtypeV").text(data.data.type);
+                        modal.find("#dnameV").text(data.data.device.name);
+                        modal.find("#dbrandV").text(data.data.device.brand);
+                        modal.find("#dmodelV").text(data.data.device.model);
+                        modal.find("#dosV").text(data.data.device.os);
+                        modal.find("#dtypeV").text(data.data.device.type);
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });
