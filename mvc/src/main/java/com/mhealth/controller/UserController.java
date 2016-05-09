@@ -270,6 +270,8 @@ public class UserController {
         User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
         if (StringUtils.isEmpty(user.getId(), user.getUsername(), user.getSex(), String.valueOf(user.getBirthday()), user.getBloodType()))
             return Response.paramsIsEmpty("用户信息");
+        if (!StringUtils.isPhone(user.getMobilePhone())) return Response.paramsCheckError("手机号格式有误！");
+        if (!StringUtils.isEmail(user.getEmail())) return Response.paramsCheckError("email格式有误！");
         user.setActive("1");
         user.setStatus("1");
         if (userService.active(user)) {
@@ -396,6 +398,8 @@ public class UserController {
         User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
         if (StringUtils.isEmpty(user.getId(), user.getUsername(), user.getSex(), String.valueOf(user.getBirthday()), user.getBloodType()))
             return Response.paramsIsEmpty("用户信息");
+        if (!StringUtils.isPhone(user.getMobilePhone())) return Response.paramsCheckError("手机号格式有误！");
+        if (!StringUtils.isEmail(user.getEmail())) return Response.paramsCheckError("email格式有误！");
         if (userService.modify(user)) {
             return Response.success("修改成功！");
         } else return Response.failuer("修改失败！");
