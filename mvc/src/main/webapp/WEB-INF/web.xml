@@ -36,4 +36,8 @@
   <welcome-file-list>
     <welcome-file>/user/login.ui</welcome-file>
   </welcome-file-list>
+
+  <session-config>
+    <session-timeout>1440</session-timeout>
+  </session-config>
 </web-app>
