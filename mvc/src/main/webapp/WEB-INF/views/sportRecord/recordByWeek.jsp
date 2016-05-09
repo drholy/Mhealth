@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>mhealth</title>
@@ -17,6 +18,7 @@
     <ol class="breadcrumb">
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>
         <li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=${time}">年</a></li>
+        <li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
         <li class="active"><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>
     </ol>
     <div class="starter-template">
@@ -72,6 +74,7 @@
             showMeridian: 1,
             pickerPosition: "bottom-left",
             minView: 2,
+            endDate: new Date(),
             initialDate: new Date(Number("${time}"))
         });
 

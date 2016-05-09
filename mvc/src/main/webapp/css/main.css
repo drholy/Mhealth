@@ -6,13 +6,9 @@
     background: url(/images/background.jpg) no-repeat fixed;
 }
 
-#loginbg {
-    position: relative;
-}
-
 #loginbg:before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
@@ -112,13 +108,14 @@
 .bgable {
     background: url("/images/ovbg.jpg") no-repeat fixed;
     background-size: 100% 100%;
-    position: relative;
+    height: 100%;
+    width: 100%;
 }
 
 .bgable:before {
     content: '';
     background: rgba(39, 39, 39, 0.7);
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;

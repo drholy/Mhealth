@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>mhealth</title>
@@ -74,6 +75,7 @@
             showMeridian: 1,
             pickerPosition: "bottom-left",
             minView: 2,
+            endDate: new Date(),
             initialDate: new Date(Number("${time}"))
         });
 
@@ -90,7 +92,7 @@
             var bread = '<li><a href="<%=path%>/record/overview.ui">首页</a></li>' +
                     '<li><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=' + ev.date.valueOf() + '">年</a></li>' +
                     '<li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=' + ev.date.valueOf() + '">月</a></li>' +
-                    '<li><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>' +
+                    '<li><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=' + ev.date.valueOf() + '">周</a></li>' +
                     '<li class="active"><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=' + ev.date.valueOf() + '">日</a></li>';
             $(".breadcrumb").append(bread);
             getValue("${key}", ev.date.valueOf(), "0");
