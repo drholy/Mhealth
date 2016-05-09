@@ -401,6 +401,7 @@ public class UserController {
         if (!StringUtils.isPhone(user.getMobilePhone())) return Response.paramsCheckError("手机号格式有误！");
         if (!StringUtils.isEmail(user.getEmail())) return Response.paramsCheckError("email格式有误！");
         if (userService.modify(user)) {
+            request.getSession().setAttribute("user",user);
             return Response.success("修改成功！");
         } else return Response.failuer("修改失败！");
     }
