@@ -5,6 +5,7 @@ import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.PasswordUtils;
 import com.mhealth.common.util.StringUtils;
 import com.mhealth.common.util.UUIDUtils;
+import com.mhealth.model.Comment;
 import com.mhealth.model.Doctor;
 import com.mhealth.model.User;
 import com.mhealth.service.DoctorService;
@@ -183,4 +184,55 @@ public class DoctorController {
         else return Response.failuer("数据库错误！");
     }
 
+    /**
+     * 取消医生
+     *
+     * @param userId
+     * @param doctorId
+     * @return
+     */
+    @RequestMapping(value = "cancelDoctor", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String cancelDoc(String userId, String doctorId) {
+        if (StringUtils.isEmpty(userId, doctorId)) return Response.paramsIsEmpty("用户id，医生id");
+        User user = userService.getUserById(userId);
+        Doctor doctor = doctorService.getDocById(doctorId);
+        if (user == null || doctor == null) return Response.failuer("id未找到");
+        if (doctorService.getDocByUser(user.getId()) == null) return Response.failuer("您未选择过医生");
+        if (doctorService.cancelDoc(userId, doctorId)) return Response.success("取消成功！");
+        else return Response.failuer("数据库错误！");
+    }
+
+    /**
+     * 返回医生负责的所有用户
+     *
+     * @param doctorId
+     * @return
+     */
+    @RequestMapping(value = "getUsersByDoc", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getUsersByDoc(String doctorId) {
+        if (StringUtils.isEmpty(doctorId)) return Response.paramsIsEmpty("医生id");
+        Doctor doctor = doctorService.getDocById(doctorId);
+        List<Map<String, Object>> userList = doctor.getUserList();
+        return new Response().addList("userList", userList).toJson();
+    }
+
+    /**
+     * 医生评论用户
+     *
+     * @param userId
+     * @param commentJson
+     * @return
+     */
+    @RequestMapping(value = "commentUser", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String commentUser(String userId, String commentJson) {
+        if (StringUtils.isEmpty(userId, commentJson)) return Response.paramsIsEmpty("用户id，评论信息");
+        Comment comment = (Comment) JSONObject.toBean(JSONObject.fromObject(commentJson), Comment.class);
+        if (StringUtils.isEmpty(comment.getDoctorId(), comment.getDocRealName(), comment.getTitle()
+                , comment.getContent(), String.valueOf(comment.getTime()))) return Response.paramsIsEmpty("评论");
+        if (userService.addComment(userId, comment)) return Response.success("评论成功！");
+        else return Response.failuer("评论失败！");
+    }
 }

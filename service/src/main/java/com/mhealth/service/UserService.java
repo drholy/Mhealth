@@ -1,5 +1,6 @@
 package com.mhealth.service;
 
+import com.mhealth.model.Comment;
 import com.mhealth.model.User;
 import com.mhealth.repository.UserDao;
 import org.springframework.stereotype.Service;
@@ -84,5 +85,16 @@ public class UserService {
      */
     public boolean changePasswd(User user) {
         return userDao.changePasswd(user);
+    }
+
+    /**
+     * 添加评论
+     *
+     * @param userId
+     * @param comment
+     * @return
+     */
+    public boolean addComment(String userId, Comment comment) {
+        return userDao.addComment(userId, comment);
     }
 }

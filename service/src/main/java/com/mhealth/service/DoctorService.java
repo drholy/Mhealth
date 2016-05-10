@@ -77,6 +77,17 @@ public class DoctorService {
     }
 
     /**
+     * 取消医生
+     *
+     * @param userId
+     * @param doctorId
+     * @return
+     */
+    public boolean cancelDoc(String userId, String doctorId) {
+        return doctorDao.cancelDoc(userId, doctorId);
+    }
+
+    /**
      * 根据用户返回医生
      *
      * @param userId

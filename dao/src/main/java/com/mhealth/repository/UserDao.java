@@ -1,6 +1,7 @@
 package com.mhealth.repository;
 
 import com.mhealth.common.base.BaseDao;
+import com.mhealth.model.Comment;
 import com.mhealth.model.User;
 import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
@@ -93,6 +94,18 @@ public class UserDao extends BaseDao {
     public boolean changePasswd(User user) {
         WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(user.getId()))),
                 new Update().set("password", user.getPassword()), User.class);
+        return wr.getN() == 1;
+    }
+
+    /**
+     * 添加评论
+     *
+     * @param userId
+     * @param comment
+     * @return
+     */
+    public boolean addComment(String userId, Comment comment) {
+        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(userId))), new Update().push("comments", comment), User.class);
         return wr.getN() == 1;
     }
 }

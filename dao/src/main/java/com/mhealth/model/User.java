@@ -2,6 +2,9 @@ package com.mhealth.model;
 
 import com.mhealth.common.base.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by pengt on 2016.4.9.0009.
  */
@@ -19,6 +22,7 @@ public class User extends BaseEntity {
     private long regTime;
     private String headImg;
     private String status; //0:不可用,1:可用
+    private List<Comment> comments = new ArrayList<>();
 
     public String getLoginName() {
         return loginName;
@@ -114,5 +118,13 @@ public class User extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

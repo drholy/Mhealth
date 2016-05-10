@@ -90,6 +90,19 @@ public class DoctorDao extends BaseDao {
     }
 
     /**
+     * 取消医生
+     *
+     * @param userId
+     * @param doctorId
+     * @return
+     */
+    public boolean cancelDoc(String userId, String doctorId) {
+        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(doctorId)))
+                , new Update().pull("userList.id", userId), Doctor.class);
+        return wr.getN() == 1;
+    }
+
+    /**
      * 根据用户返回医生
      *
      * @param userId
