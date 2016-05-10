@@ -5,7 +5,7 @@ import com.mhealth.common.base.BaseEntity;
 /**
  * Created by pengt on 2016.4.9.0009.
  */
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     private String loginName;
     private String username;
@@ -15,9 +15,9 @@ public class User extends BaseEntity{
     private String bloodType;
     private String mobilePhone;
     private String email;
-    private String userType; //0:普通
     private String active; //0:未激活,1:激活
     private long regTime;
+    private String headImg;
     private String status; //0:不可用,1:可用
 
     public String getLoginName() {
@@ -84,14 +84,6 @@ public class User extends BaseEntity{
         this.email = email;
     }
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
     public String getActive() {
         return active;
     }
@@ -106,6 +98,14 @@ public class User extends BaseEntity{
 
     public void setRegTime(long regTime) {
         this.regTime = regTime;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 
     public String getStatus() {

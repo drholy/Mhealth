@@ -44,8 +44,8 @@
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"/>
 
     <!--<mongo:mongo-client host="192.168.56.180" port="27017">-->
-    <!--<mongo:mongo-client host="10.0.2.1" port="55562">-->
-    <mongo:mongo-client host="localhost" port="27017">
+    <mongo:mongo-client host="10.0.2.1" port="55562">
+    <!--<mongo:mongo-client host="localhost" port="27017">-->
         <mongo:client-options write-concern="FSYNC_SAFE"/>
     </mongo:mongo-client>
 

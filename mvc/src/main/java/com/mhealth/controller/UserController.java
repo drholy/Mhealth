@@ -61,7 +61,6 @@ public class UserController {
         if (user.getPassword().length() < 6) return Response.failuer("密码少于6位！");
 
         user.setId(null);
-        user.setUserType("0");
         user.setActive("0");
         user.setRegTime(System.currentTimeMillis());
         user.setStatus("0");
@@ -94,7 +93,6 @@ public class UserController {
         if (user.getPassword().length() < 6) return Response.failuer("密码少于6位！");
 
         user.setId(null);
-        user.setUserType("0");
         user.setActive("0");
         user.setRegTime(System.currentTimeMillis());
         user.setStatus("0");
@@ -270,8 +268,10 @@ public class UserController {
         User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
         if (StringUtils.isEmpty(user.getId(), user.getUsername(), user.getSex(), String.valueOf(user.getBirthday()), user.getBloodType()))
             return Response.paramsIsEmpty("用户信息");
-        if (!StringUtils.isPhone(user.getMobilePhone())) return Response.paramsCheckError("手机号格式有误！");
-        if (!StringUtils.isEmail(user.getEmail())) return Response.paramsCheckError("email格式有误！");
+        if (!StringUtils.isEmpty(user.getMobilePhone()) && !StringUtils.isPhone(user.getMobilePhone()))
+            return Response.paramsCheckError("手机号格式有误！");
+        if (!StringUtils.isEmpty(user.getEmail()) && !StringUtils.isEmail(user.getEmail()))
+            return Response.paramsCheckError("email格式有误！");
         user.setActive("1");
         user.setStatus("1");
         if (userService.active(user)) {
@@ -398,10 +398,12 @@ public class UserController {
         User user = (User) JSONObject.toBean(JSONObject.fromObject(dataJson), User.class);
         if (StringUtils.isEmpty(user.getId(), user.getUsername(), user.getSex(), String.valueOf(user.getBirthday()), user.getBloodType()))
             return Response.paramsIsEmpty("用户信息");
-        if (!StringUtils.isPhone(user.getMobilePhone())) return Response.paramsCheckError("手机号格式有误！");
-        if (!StringUtils.isEmail(user.getEmail())) return Response.paramsCheckError("email格式有误！");
+        if (!StringUtils.isEmpty(user.getMobilePhone()) && !StringUtils.isPhone(user.getMobilePhone()))
+            return Response.paramsCheckError("手机号格式有误！");
+        if (!StringUtils.isEmpty(user.getEmail()) && !StringUtils.isEmail(user.getEmail()))
+            return Response.paramsCheckError("email格式有误！");
         if (userService.modify(user)) {
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user", user);
             return Response.success("修改成功！");
         } else return Response.failuer("修改失败！");
     }
