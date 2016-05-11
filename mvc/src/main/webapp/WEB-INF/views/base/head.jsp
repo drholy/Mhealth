@@ -5,6 +5,7 @@
   Time: 下午 10:21
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%String path = request.getContextPath();%>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

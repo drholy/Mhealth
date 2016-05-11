@@ -100,8 +100,8 @@
             dbDate = new Date(Number(recipient["regTime"])).format(fmt);
             modal.find("#regTimeV").find("p").text(dbDate);
 
-            modal.find("#mobileV").find("p").text(recipient["mobile"]);
-            modal.find("#emilV").find("p").text(recipient["email"]);
+            modal.find("#mobilePhoneV").find("p").text(recipient["mobilePhone"]);
+            modal.find("#emailV").find("p").text(recipient["email"]);
 
             modal.find("#certificateV").find("p").html("<img src='<%=path%>/service/pic/getUserImg/" + recipient["certificate"]
                     + "' width='450' height='200'/>");
@@ -150,14 +150,16 @@
                 var headImg = doctor["headImg"];
                 var users = doctor["userList"];
                 var docContent = "<div class='col-md-3' data-result='" + JSON.stringify(doctor)
-                        + "' data-toggle='modal' data-target='#docModal' style='cursor:pointer;background:rgba(255,255,255,0.7);'>"
-                        + "<div style='text-align:center;padding-top:10px;overflow:hidden;'>"
+                        + "' data-toggle='modal' data-target='#docModal'>"
+                        + "<div style='cursor:pointer;background:rgba(255,255,255,0.7);overflow:hidden;padding:0 10px;'>"
+                        + "<div style='text-align:center;padding-top:10px;'>"
                         + "<img src='<%=path%>/service/pic/getUserImg/" + headImg + "' width='120' height='160'/>"
                         + "</div>"
                         + "<p>姓名：" + name + "</p>"
                         + "<p>单位：" + org + "</p>"
                         + "<p>部门：" + office + "</p>"
                         + "<p>监护人数：" + users.length + "</p>"
+                        + "</div>"
                         + "</div>";
                 $("#allDocs").append(docContent);
             }

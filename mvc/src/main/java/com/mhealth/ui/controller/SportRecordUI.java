@@ -19,32 +19,36 @@ public class SportRecordUI {
      * @return
      */
     @RequestMapping("overview.ui")
-    public String overview() {
+    public String overview(String id, ModelMap modelMap) {
+        modelMap.put("id", id);
         return "sportRecord/recordOverview";
     }
 
     @RequestMapping("recordByDay.ui")
-    public String recordByDay(String key, String time, ModelMap modelMap) {
+    public String recordByDay(String id, String key, String time, ModelMap modelMap) {
         if (StringUtils.isEmpty(key)) return null;
         if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("id", id);
         modelMap.put("key", key);
         modelMap.put("time", time);
         return "sportRecord/recordByDay";
     }
 
     @RequestMapping("recordByWeek.ui")
-    public String recordByWeek(String key, String time, ModelMap modelMap) {
+    public String recordByWeek(String id, String key, String time, ModelMap modelMap) {
         if (StringUtils.isEmpty(key)) return null;
         if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("id", id);
         modelMap.put("key", key);
         modelMap.put("time", time);
         return "sportRecord/recordByWeek";
     }
 
     @RequestMapping("recordByMonth.ui")
-    public String recordByMonth(String key, String time, ModelMap modelMap) {
+    public String recordByMonth(String id, String key, String time, ModelMap modelMap) {
         if (StringUtils.isEmpty(key)) return null;
         if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("id", id);
         modelMap.put("key", key);
         modelMap.put("time", time);
         return "sportRecord/recordByMonth";
@@ -56,25 +60,28 @@ public class SportRecordUI {
      * @return
      */
     @RequestMapping("recordByYear.ui")
-    public String recordByYear(String key, String time, ModelMap modelMap) {
+    public String recordByYear(String id, String key, String time, ModelMap modelMap) {
         if (StringUtils.isEmpty(key)) return null;
         if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("id", id);
         modelMap.put("key", key);
         modelMap.put("time", time);
         return "sportRecord/recordByYear";
     }
 
     @RequestMapping("recordByBTime.ui")
-    public String recordByBTime(String key,String time,ModelMap modelMap){
+    public String recordByBTime(String id, String key, String time, ModelMap modelMap) {
         if (StringUtils.isEmpty(key)) return null;
         if (StringUtils.isEmpty(time)) time = String.valueOf(System.currentTimeMillis());
+        modelMap.put("id", id);
         modelMap.put("key", key);
         modelMap.put("time", time);
         return "sportRecord/recordDetail";
     }
 
     @RequestMapping("allRecords.ui")
-    public String allRecords(){
+    public String allRecords(String id, ModelMap modelMap) {
+        modelMap.put("id", id);
         return "sportRecord/allRecord";
     }
 }

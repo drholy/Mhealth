@@ -21,14 +21,13 @@
             <table id="usersTable" class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>序号</th>
                     <th>头像</th>
                     <th>用户名</th>
                     <th>性别</th>
                     <th>出生日期</th>
                     <th>血型</th>
                     <th>查看</th>
-                    <th>评论</th>
+                    <th>点评</th>
                 </tr>
                 </thead>
                 <tfoot></tfoot>
@@ -49,19 +48,24 @@
             }
         }
     });
+    $("#usersTable").on("click", "#check", function () {
+        var userId = $(this).attr("data-userId");
+        location.href = "<%=path%>/record/overview.ui?id=" + userId;
+    })
 
     function showTable(list) {
         var fmt = "yyyy年M月d日";
         for (var i in list) {
             var user = list[i];
             var dbDate = new Date(Number(user["birthday"])).format(fmt);
+            var sex = (user["sex"] == "0") ? "女" : "男";
             var row = "<td><img src='#'  alt='头像' /></td>"
                     + "<td>" + user["loginName"] + "</td>"
-                    + "<td>" + user["sex"] + "</td>"
+                    + "<td>" + sex + "</td>"
                     + "<td>" + dbDate + "</td>"
                     + "<td>" + user["bloodType"] + "</td>"
-                    + "<td><button></button></td>"
-                    + "<td><button></button></td>";
+                    + "<td><button id='check' class='btn btn-default' data-userId='" + user["id"] + "'>查看</button></td>"
+                    + "<td><button class='btn btn-default'>点评</button></td>";
             $("#usersTable").find("tbody").append(row);
         }
     }

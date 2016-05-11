@@ -13,7 +13,12 @@
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body class="bgable">
-<%@ include file="/WEB-INF/views/base/nav.jsp" %>
+<c:if test="${sessionScope.user!=null}">
+    <%@ include file="/WEB-INF/views/base/nav.jsp" %>
+</c:if>
+<c:if test="${sessionScope.doctor!=null}">
+    <%@ include file="/WEB-INF/views/base/doctor_sportRecord_nav.jsp" %>
+</c:if>
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>
@@ -128,7 +133,12 @@
 <script>
     $(document).ready(function () {
         var PAGESIZE = 20;
-        getData("${sessionScope.user.id}", 1, PAGESIZE);
+        var USERID = ("${sessionScope.user.id}" == "") ? "${id}" : "${sessionScope.user.id}";
+        $(".breadcrumb").html("");
+        var bread = '<li><a href="<%=path%>/record/overview.ui?id=' + USERID + '">首页</a></li>' +
+                '<li><a href="<%=path%>/record/allRecords.ui?id=' + USERID + '">所有数据</a></li>';
+        $(".breadcrumb").append(bread);
+        getData(USERID, 1, PAGESIZE);
         $('#detailModal').on('show.bs.modal', function (event) {
             var dbDate;
             var fmt = "yyyy年M月d日 h时m分s秒";
@@ -213,7 +223,7 @@
                 next: '&raquo;',
                 last: data.totalPages + '页',
                 onPageClick: function (event, page) {
-                    getData("${sessionScope.user.id}", page, PAGESIZE);
+                    getData(USERID, page, PAGESIZE);
                 }
             });
         }

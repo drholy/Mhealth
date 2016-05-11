@@ -13,7 +13,12 @@
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body class="bgable">
-<%@ include file="/WEB-INF/views/base/nav.jsp" %>
+<c:if test="${sessionScope.user!=null}">
+    <%@ include file="/WEB-INF/views/base/nav.jsp" %>
+</c:if>
+<c:if test="${sessionScope.doctor!=null}">
+    <%@ include file="/WEB-INF/views/base/doctor_sportRecord_nav.jsp" %>
+</c:if>
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>
@@ -111,12 +116,21 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        var USERID = ("${sessionScope.user.id}" == "") ? "${id}" : "${sessionScope.user.id}";
+        $(".breadcrumb").html("");
+        var bread = '<li><a href="<%=path%>/record/overview.ui?id=' + USERID + '">首页</a></li>' +
+                '<li><a href="<%=path%>/record/recordByYear.ui?id=' + USERID + '&key=${key}&time=${time}">年</a></li>'
+                + '<li><a href="<%=path%>/record/recordByMonth.ui?id=' + USERID + '&key=${key}&time=${time}">月</a></li>'
+                + '<li><a href="<%=path%>/record/recordByWeek.ui?id=' + USERID + '&key=${key}&time=${time}">周</a></li>'
+                + '<li><a href="<%=path%>/record/recordByDay.ui?id=' + USERID + '&key=${key}&time=${time}">日</a></li>'
+                + '<li class="active"><a href="<%=path%>/record/recordByTime.ui?id=' + USERID + '&key=${key}&time=${time}">详情</a></li>';
+        $(".breadcrumb").append(bread);
         showTitle("${key}");
 
         $.ajax({
             url: "<%=path%>/service/sportRecord/getRecordByBTime",
             type: "post",
-            data: {userId: "${sessionScope.user.id}", key: "${key}", beginTime: "${time}"},
+            data: {userId: USERID, key: "${key}", beginTime: "${time}"},
             dataType: "json",
             success: function (data) {
                 if (data.resCode == "000000") {

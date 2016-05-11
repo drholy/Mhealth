@@ -13,7 +13,12 @@
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body class="bgable">
-<%@ include file="/WEB-INF/views/base/nav.jsp" %>
+<c:if test="${sessionScope.user!=null}">
+    <%@ include file="/WEB-INF/views/base/nav.jsp" %>
+</c:if>
+<c:if test="${sessionScope.doctor!=null}">
+    <%@ include file="/WEB-INF/views/base/doctor_sportRecord_nav.jsp" %>
+</c:if>
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>
@@ -59,6 +64,11 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var USERID = ("${sessionScope.user.id}" == "") ? "${id}" : "${sessionScope.user.id}";
+        $(".breadcrumb").html("");
+        var bread = '<li><a href="<%=path%>/record/overview.ui?id=' + USERID + '&key=${key}">首页</a></li>' +
+                '<li class="active"><a href="<%=path%>/record/recordByYear.ui?id=' + USERID + '&key=${key}&time=${time}">年</a></li>';
+        $(".breadcrumb").append(bread);
         showTitle("${key}");
 
         $("#yearCal").datetimepicker({
@@ -86,8 +96,8 @@
 
         $("#yearCal").datetimepicker().on("changeYear", function (ev) {
             $(".breadcrumb").html("");
-            var bread = '<li><a href="<%=path%>/record/overview.ui">首页</a></li>' +
-                    '<li class="active"><a href="<%=path%>/record/recordByYear.ui?key=${key}&time=' + ev.date.valueOf() + '">年</a></li>';
+            var bread = '<li><a href="<%=path%>/record/overview.ui?id=' + USERID + '">首页</a></li>' +
+                    '<li class="active"><a href="<%=path%>/record/recordByYear.ui?id=' + USERID + '&key=${key}&time=' + ev.date.valueOf() + '">年</a></li>';
             $(".breadcrumb").append(bread);
             getValue("${key}", ev.date.valueOf(), "3");
         });
@@ -101,7 +111,7 @@
                 <%--url: "<%=path%>/service/sportRecord/getRecordByTime",--%>
                 url: url,
                 type: "post",
-                data: {userId: "${sessionScope.user.id}", key: key, beginTime: beginTime, timeUnit: timeUnit},
+                data: {userId: USERID, key: key, beginTime: beginTime, timeUnit: timeUnit},
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
@@ -148,7 +158,7 @@
 
         $("#valTable tbody").on("click", "tr", function () {
             var node = $(this).children("td").get(0);
-            window.location.href = "<%=path%>/record/recordByMonth.ui?key=${key}&time=" + $(this).attr("id");
+            window.location.href = "<%=path%>/record/recordByMonth.ui?id=" + USERID + "&key=${key}&time=" + $(this).attr("id");
         });
     });
 </script>

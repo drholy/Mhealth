@@ -13,7 +13,12 @@
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body class="bgable">
-<%@ include file="/WEB-INF/views/base/nav.jsp" %>
+<c:if test="${sessionScope.user!=null}">
+    <%@ include file="/WEB-INF/views/base/nav.jsp" %>
+</c:if>
+<c:if test="${sessionScope.doctor!=null}">
+    <%@ include file="/WEB-INF/views/base/doctor_sportRecord_nav.jsp" %>
+</c:if>
 
 <div class="container">
     <div class="starter-template">
@@ -68,6 +73,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var dateExp = "h";
+        var USERID = ("${sessionScope.user.id}" == "") ? "${id}" : "${sessionScope.user.id}";
+        $("#heartRate a").attr("href", "<%=path%>/record/recordByDay.ui?id=" + USERID + "&key=sport_heartRate");
+        $("#stepCount a").attr("href", "<%=path%>/record/recordByDay.ui?id=" + USERID + "&key=stepCount");
+        $("#distance a").attr("href", "<%=path%>/record/recordByDay.ui?id=" + USERID + "&key=distance");
+        $("#elevation a").attr("href", "<%=path%>/record/recordByDay.ui&?id=" + USERID + "&key=elevation");
         getOverview("0");
 
         $("#timeGroup button").click(function () {
@@ -77,10 +87,10 @@
             switch (atr) {
                 case "day":
                     getOverview("0");
-                    $("#heartRate a").attr("href", "<%=path%>/record/recordByDay.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href", "<%=path%>/record/recordByDay.ui?key=stepCount");
-                    $("#distance a").attr("href", "<%=path%>/record/recordByDay.ui?key=distance");
-                    $("#elevation a").attr("href", "<%=path%>/record/recordByDay.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByDay.ui?id=" + USERID + "&key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByDay.ui?id=" + USERID + "&key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByDay.ui?id=" + USERID + "&key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByDay.ui&?id=" + USERID + "&key=elevation");
                     $("#heartRate").find("span").html("时");
                     $("#stepCount").find("span").html("时");
                     $("#distance").find("span").html("时");
@@ -89,10 +99,10 @@
                     break;
                 case "week":
                     getOverview("1");
-                    $("#heartRate a").attr("href", "<%=path%>/record/recordByWeek.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href", "<%=path%>/record/recordByWeek.ui?key=stepCount");
-                    $("#distance a").attr("href", "<%=path%>/record/recordByWeek.ui?key=distance");
-                    $("#elevation a").attr("href", "<%=path%>/record/recordByWeek.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByWeek.ui?id=" + USERID + "&key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByWeek.ui?id=" + USERID + "&key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByWeek.ui?id=" + USERID + "&key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByWeek.ui?id=" + USERID + "&key=elevation");
                     $("#heartRate").find("span").html("日");
                     $("#stepCount").find("span").html("日");
                     $("#distance").find("span").html("日");
@@ -101,10 +111,10 @@
                     break;
                 case "month":
                     getOverview("2");
-                    $("#heartRate a").attr("href", "<%=path%>/record/recordByMonth.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href", "<%=path%>/record/recordByMonth.ui?key=stepCount");
-                    $("#distance a").attr("href", "<%=path%>/record/recordByMonth.ui?key=distance");
-                    $("#elevation a").attr("href", "<%=path%>/record/recordByMonth.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByMonth.ui?id=" + USERID + "&key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByMonth.ui?id=" + USERID + "&key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByMonth.ui?id=" + USERID + "&key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByMonth.ui?id=" + USERID + "&key=elevation");
                     $("#heartRate").find("span").html("日");
                     $("#stepCount").find("span").html("日");
                     $("#distance").find("span").html("日");
@@ -113,10 +123,10 @@
                     break;
                 case "year":
                     getOverview("3");
-                    $("#heartRate a").attr("href", "<%=path%>/record/recordByYear.ui?key=sport_heartRate");
-                    $("#stepCount a").attr("href", "<%=path%>/record/recordByYear.ui?key=stepCount");
-                    $("#distance a").attr("href", "<%=path%>/record/recordByYear.ui?key=distance");
-                    $("#elevation a").attr("href", "<%=path%>/record/recordByYear.ui?key=elevation");
+                    $("#heartRate a").attr("href", "<%=path%>/record/recordByYear.ui?id=" + USERID + "&key=sport_heartRate");
+                    $("#stepCount a").attr("href", "<%=path%>/record/recordByYear.ui?id=" + USERID + "&key=stepCount");
+                    $("#distance a").attr("href", "<%=path%>/record/recordByYear.ui?id=" + USERID + "&key=distance");
+                    $("#elevation a").attr("href", "<%=path%>/record/recordByYear.ui?id=" + USERID + "&key=elevation");
                     $("#heartRate").find("span").html("月");
                     $("#stepCount").find("span").html("月");
                     $("#distance").find("span").html("月");
@@ -129,7 +139,7 @@
         function getOverview(timeCycle) {
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getAvgVal",
-                data: {userId: "${sessionScope.user.id}", key: "sport_heartRate", beginTime: "", timeUnit: timeCycle},
+                data: {userId: USERID, key: "sport_heartRate", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {
@@ -140,7 +150,7 @@
             });
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getSumVal",
-                data: {userId: "${sessionScope.user.id}", key: "stepCount", beginTime: "", timeUnit: timeCycle},
+                data: {userId: USERID, key: "stepCount", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {
@@ -151,7 +161,7 @@
             });
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getSumVal",
-                data: {userId: "${sessionScope.user.id}", key: "distance", beginTime: "", timeUnit: timeCycle},
+                data: {userId: USERID, key: "distance", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {
@@ -162,7 +172,7 @@
             });
             $.ajax({
                 url: "<%=path%>/service/sportRecord/getSumVal",
-                data: {userId: "${sessionScope.user.id}", key: "elevation", beginTime: "", timeUnit: timeCycle},
+                data: {userId: USERID, key: "elevation", beginTime: "", timeUnit: timeCycle},
                 dataType: "json",
                 type: "post",
                 success: function (data) {

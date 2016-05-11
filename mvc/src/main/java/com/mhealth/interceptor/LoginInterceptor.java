@@ -24,11 +24,10 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         if (StringUtils.isEmpty(httpServletRequest.getParameter("access_token"))) {//浏览器登录
-            if (httpServletRequest.getSession().getAttribute("user") == null) {
+            if (httpServletRequest.getSession().getAttribute("user") == null && httpServletRequest.getSession().getAttribute("doctor") == null) {
                 httpServletResponse.getWriter().println(Response.error(Response.NOT_LOGIN, "请登录！"));
                 return false;
             }
-            httpServletRequest.setAttribute("userId", ((User) httpServletRequest.getSession().getAttribute("user")).getId());
             return true;
         } else { //移动端登录
             Token token = tokenService.getTokenByAcc(httpServletRequest.getParameter("access_token"));
