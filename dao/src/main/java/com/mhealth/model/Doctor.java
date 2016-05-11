@@ -19,6 +19,8 @@ public class Doctor extends BaseEntity {
     private String office;
     private String certificate;
     private String headImg;
+    private String mobilePhone;
+    private String email;
     private String active;
     private String status;
     private long regTime;
@@ -111,5 +113,21 @@ public class Doctor extends BaseEntity {
 
     public void setRegTime(long regTime) {
         this.regTime = regTime;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

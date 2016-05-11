@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: pengt
-  Date: 2016.5.3.0003
-  Time: 下午 3:38
+  Date: 2016.5.10.0010
+  Time: 下午 3:13
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,8 +13,8 @@
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
 <body class="pfbg">
-<%@ include file="/WEB-INF/views/base/nav.jsp" %>
-<%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
+<%@ include file="/WEB-INF/views/base/doctor_nav.jsp" %>
+<%@ include file="/WEB-INF/views/base/doctor_sidebar.jsp" %>
 
 <div class="container">
     <div class="row">
@@ -109,13 +109,13 @@
         }).on('success.form.bv', function (e) {
             e.preventDefault();
             var pw = {};
-            pw["id"] = "${sessionScope.user.id}";
+            pw["id"] = "${sessionScope.doctor.id}";
             pw["oldPassword"] = $("#oldPassword").val();
             pw["newPassword"] = $("#newPassword").val();
             pw["againPassword"] = $("#againPassword").val();
             pw = JSON.stringify(pw);
             $.ajax({
-                url: "<%=path%>/service/user/changePasswd",
+                url: "<%=path%>/service/doctorData/changePasswd",
                 type: "post",
                 data: {passwdJson: pw},
                 dataType: "json",

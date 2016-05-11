@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.Resource;
+import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +33,7 @@ import java.util.Map;
  * Created by pengt on 2016.5.9.0009.
  */
 @Controller
-@RequestMapping("doctor")
+@RequestMapping("doctorData")
 public class DoctorController {
 
     @Resource(name = "userService")
@@ -60,7 +61,7 @@ public class DoctorController {
         request.getSession().removeAttribute("rand");
 
         Doctor doctor = (Doctor) JSONObject.toBean(JSONObject.fromObject(docJson), Doctor.class);
-        if (StringUtils.isEmpty(doctor.getLoginName(), doctor.getPassword())) return Response.paramsIsEmpty("注册信息");
+//        if (StringUtils.isEmpty(doctor.getLoginName(), doctor.getPassword())) return Response.paramsIsEmpty("注册信息");
         String loginName = doctor.getLoginName();
         if (!doctorService.checkLoginName(loginName)) return Response.isExist("用户已存在！");
         if (doctor.getPassword().length() < 6) return Response.failuer("密码少于6位！");
@@ -84,15 +85,24 @@ public class DoctorController {
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile headImg = multipartRequest.getFile("headImg");
             MultipartFile certificate = multipartRequest.getFile("certificate");
-            String headImgPath = "/images/docHeadImgs/";
-            String certPath = "/images/docCertImgs/";
+
+//            String headImgPath = request.getSession().getServletContext().getRealPath("/images/docHeadImgs");
+//            String certPath = request.getSession().getServletContext().getRealPath("/images/docCertImgs");
+
+            String filePath = "D:\\images\\userImgs";
+
             headName = UUIDUtils.getUUID();
             certName = UUIDUtils.getUUID();
-            File localHeadImg = new File(headImgPath + headName);
-            File localCertificate = new File(certPath + certName);
+
+            File localHeadImg = new File(filePath, headName);
+            File localCertificate = new File(filePath, certName);
+
             try {
                 headImg.transferTo(localHeadImg);
                 certificate.transferTo(localCertificate);
+
+                System.out.println(localHeadImg.getAbsolutePath());
+                System.out.println(localCertificate.getAbsoluteFile());
             } catch (IOException e) {
                 e.printStackTrace();
                 return Response.failuer("文件上传失败！");
@@ -102,7 +112,7 @@ public class DoctorController {
         doctor.setHeadImg(headName);
         doctor.setCertificate(certName);
 
-        if (doctorService.insertDoc(doctor).equals(doctor.getLoginName())) {
+        if (doctorService.insertDoc(doctor) != null) {
             return new Response().addString("loginName", doctor.getLoginName()).setMessage("注册成功").toJson();
         } else return Response.addFailuer("注册失败！");
     }
@@ -140,67 +150,16 @@ public class DoctorController {
     }
 
     /**
-     * 分页返回所有医生
+     * 医生注销
      *
-     * @param currPage
-     * @param pageSize
+     * @param request
      * @return
      */
-    @RequestMapping(value = "allDoctor", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "logout", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String getAllDoc(String currPage, String pageSize) {
-        QuickPager<Doctor> quickPager = new QuickPager<>(currPage, pageSize);
-        doctorService.getAllDoc(quickPager);
-        return new Response().toPageJson(quickPager);
-    }
-
-    /**
-     * 选择医生
-     *
-     * @param userId
-     * @param doctorId
-     * @return
-     */
-    @RequestMapping(value = "chooseDoctor", produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
-    public String chooseDoc(String userId, String doctorId) {
-        if (StringUtils.isEmpty(userId, doctorId)) return Response.paramsIsEmpty("用户id，医生id");
-        User user = userService.getUserById(userId);
-        Doctor doctor = doctorService.getDocById(doctorId);
-        if (user == null || doctor == null) return Response.failuer("id未找到");
-        if (doctorService.getDocByUser(user.getId()) != null) return Response.failuer("您已选择过医生");
-        if (doctor.getUserList().size() >= 20) return Response.failuer("名额已满");
-        Map<String, Object> userMap = new HashMap<>();
-        userMap.put("id", user.getId());
-        userMap.put("loginName", user.getLoginName());
-        userMap.put("username", user.getUsername());
-        userMap.put("sex", user.getSex());
-        userMap.put("birthday", user.getBirthday());
-        userMap.put("bloodType", user.getBloodType());
-        List<Map<String, Object>> list = doctor.getUserList();
-        list.add(userMap);
-        doctor.setUserList(list);
-        if (doctorService.chooseDoc(doctorId, userMap)) return Response.success("选择成功！");
-        else return Response.failuer("数据库错误！");
-    }
-
-    /**
-     * 取消医生
-     *
-     * @param userId
-     * @param doctorId
-     * @return
-     */
-    @RequestMapping(value = "cancelDoctor", produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
-    public String cancelDoc(String userId, String doctorId) {
-        if (StringUtils.isEmpty(userId, doctorId)) return Response.paramsIsEmpty("用户id，医生id");
-        User user = userService.getUserById(userId);
-        Doctor doctor = doctorService.getDocById(doctorId);
-        if (user == null || doctor == null) return Response.failuer("id未找到");
-        if (doctorService.getDocByUser(user.getId()) == null) return Response.failuer("您未选择过医生");
-        if (doctorService.cancelDoc(userId, doctorId)) return Response.success("取消成功！");
-        else return Response.failuer("数据库错误！");
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("doctor");
+        return Response.success("注销成功!");
     }
 
     /**
@@ -234,5 +193,134 @@ public class DoctorController {
                 , comment.getContent(), String.valueOf(comment.getTime()))) return Response.paramsIsEmpty("评论");
         if (userService.addComment(userId, comment)) return Response.success("评论成功！");
         else return Response.failuer("评论失败！");
+    }
+
+    /**
+     * 医生修改密码
+     *
+     * @param passwdJson
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
+    @RequestMapping(value = "changePasswd", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String changePasswd(String passwdJson, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        if (StringUtils.isEmpty(passwdJson)) return Response.paramsIsEmpty("password json信息");
+        Map passwdMap = (Map) JSONObject.toBean(JSONObject.fromObject(passwdJson), Map.class);
+        String oldPassword;
+        String newPassword;
+        String againPassword;
+        String doctorId;
+        try {
+            doctorId = (String) passwdMap.get("id");
+            oldPassword = (String) passwdMap.get("oldPassword");
+            newPassword = (String) passwdMap.get("newPassword");
+            againPassword = (String) passwdMap.get("againPassword");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.paramsIsEmpty("密码信息");
+        }
+        if (!newPassword.equals(againPassword)) return Response.failuer("两次密码不一致！");
+        Doctor doctor = doctorService.getDocById(doctorId);
+        if (doctor == null) Response.notExist("医生不存在！");
+        if (!PasswordUtils.validPasswd(oldPassword, doctor.getPassword()))
+            return Response.failuer("密码错误！");
+        doctor.setPassword(PasswordUtils.getEncryptedPwd(newPassword));
+        if (doctorService.changePasswd(doctor)) {
+            request.getSession().setAttribute("doctor", doctor);
+            return Response.success("修改成功！");
+        } else return Response.failuer("数据库错误！");
+    }
+
+    /**
+     * 检查医生登录名
+     *
+     * @param loginName
+     * @return
+     */
+    @RequestMapping(value = "checkLoginName", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String checkLoginName(String loginName) {
+        if (StringUtils.isEmpty(loginName)) return Response.paramsIsEmpty("用户名");
+        Doctor doctor = doctorService.getDocByLogin(loginName);
+        Map<String, Object> map = new HashMap<>();
+        if (doctor == null) map.put("valid", true);
+        else map.put("valid", false);
+        return JSONObject.fromObject(map).toString();
+    }
+
+    /**
+     * 根据id返回医生信息
+     *
+     * @param doctorId
+     * @return
+     */
+    @RequestMapping(value = "getDocById", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getDocById(String doctorId) {
+        if (StringUtils.isEmpty(doctorId)) return Response.paramsIsEmpty("医生id");
+        Doctor doctor = doctorService.getDocById(doctorId);
+        JSONObject docJson = JSONObject.fromObject(doctor);
+        docJson.remove("password");
+        return new Response().addObject("doctor", docJson).toJson();
+    }
+
+    /**
+     * 医生修改资料
+     *
+     * @param docJson
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "modify", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String modify(String docJson, HttpServletRequest request) {
+        if (StringUtils.isEmpty(docJson)) return Response.paramsIsEmpty("注册信息");
+
+        Doctor doctor = (Doctor) JSONObject.toBean(JSONObject.fromObject(docJson), Doctor.class);
+        String loginName = doctor.getLoginName();
+        if (!doctorService.checkLoginName(loginName)) return Response.isExist("用户已存在！");
+        if (doctor.getPassword().length() < 6) return Response.failuer("密码少于6位！");
+
+        doctor.setActive("0");
+        doctor.setStatus("0");
+
+        multipartResolver.setDefaultEncoding("UTF-8");
+        String headName;
+        String certName;
+        if (multipartResolver.isMultipart(request)) {
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile headImg = multipartRequest.getFile("headImg");
+            MultipartFile certificate = multipartRequest.getFile("certificate");
+
+            String filePath = "D:\\images\\userImgs";
+
+            headName = UUIDUtils.getUUID();
+            certName = UUIDUtils.getUUID();
+
+            File localHeadImg = new File(filePath, headName);
+            File localCertificate = new File(filePath, certName);
+
+            try {
+                headImg.transferTo(localHeadImg);
+                certificate.transferTo(localCertificate);
+
+                System.out.println(localHeadImg.getAbsolutePath());
+                System.out.println(localCertificate.getAbsoluteFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return Response.failuer("文件上传失败！");
+            }
+        } else return Response.failuer("无分段上传组件！");
+
+        doctor.setHeadImg(headName);
+        doctor.setCertificate(certName);
+
+        if (doctorService.modify(doctor)) {
+            request.getSession().removeAttribute("doctor");
+            return Response.success("修改成功！");
+        } else return Response.addFailuer("修改失败！");
     }
 }

@@ -33,9 +33,9 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <!--<mvc:mapping path="/sportRecord/*"/>-->
-            <!--<mvc:mapping path="/deviceData/*"/>-->
-            <mvc:mapping path="/**"/>
+            <mvc:mapping path="/user/*"/>
+            <mvc:mapping path="/sportRecord/*"/>
+            <mvc:mapping path="/deviceData/*"/>
             <mvc:exclude-mapping path="/**/*.ui"/>
             <mvc:exclude-mapping path="/user/insertUser"/>
             <mvc:exclude-mapping path="/user/login"/>

@@ -1,13 +1,16 @@
 package com.mhealth.controller;
 
+import com.mhealth.common.entity.QuickPager;
 import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.PasswordUtils;
 import com.mhealth.common.util.StringUtils;
 import com.mhealth.common.util.UUIDUtils;
 import com.mhealth.model.Device;
+import com.mhealth.model.Doctor;
 import com.mhealth.model.Token;
 import com.mhealth.model.User;
 import com.mhealth.service.DeviceService;
+import com.mhealth.service.DoctorService;
 import com.mhealth.service.TokenService;
 import com.mhealth.service.UserService;
 import net.sf.json.JSONObject;
@@ -25,6 +28,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by pengt on 2016.4.6.0006.
@@ -35,6 +39,9 @@ public class UserController {
 
     @Resource(name = "userService")
     private UserService userService;
+
+    @Resource(name = "doctorService")
+    private DoctorService doctorService;
 
     @Resource(name = "deviceService")
     private DeviceService deviceService;
@@ -479,5 +486,71 @@ public class UserController {
         if (valid.equals(sesseionValid)) map.put("valid", true);
         else map.put("valid", false);
         return JSONObject.fromObject(map).toString();
+    }
+
+
+    /**
+     * 分页返回所有医生
+     *
+     * @param currPage
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "allDoctor", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getAllDoc(String currPage, String pageSize) {
+        QuickPager<Doctor> quickPager = new QuickPager<>(currPage, pageSize);
+        doctorService.getAllDoc(quickPager);
+        return new Response().toPageJson(quickPager);
+    }
+
+    /**
+     * 选择医生
+     *
+     * @param userId
+     * @param doctorId
+     * @return
+     */
+    @RequestMapping(value = "chooseDoctor", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String chooseDoc(String userId, String doctorId) {
+        if (StringUtils.isEmpty(userId, doctorId)) return Response.paramsIsEmpty("用户id，医生id");
+        User user = userService.getUserById(userId);
+        Doctor doctor = doctorService.getDocById(doctorId);
+        if (user == null || doctor == null) return Response.failuer("id未找到");
+        if (doctorService.getDocByUser(user.getId()) != null) return Response.failuer("您已选择过医生");
+        if (doctor.getUserList().size() >= 20) return Response.failuer("名额已满");
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("id", user.getId());
+        userMap.put("loginName", user.getLoginName());
+        userMap.put("username", user.getUsername());
+        userMap.put("sex", user.getSex());
+        userMap.put("birthday", user.getBirthday());
+        userMap.put("bloodType", user.getBloodType());
+        userMap.put("headImg", user.getHeadImg());
+        List<Map<String, Object>> list = doctor.getUserList();
+        list.add(userMap);
+        doctor.setUserList(list);
+        if (doctorService.chooseDoc(doctorId, userMap)) return Response.success("选择成功！");
+        else return Response.failuer("数据库错误！");
+    }
+
+    /**
+     * 取消医生
+     *
+     * @param userId
+     * @param doctorId
+     * @return
+     */
+    @RequestMapping(value = "cancelDoctor", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String cancelDoc(String userId, String doctorId) {
+        if (StringUtils.isEmpty(userId, doctorId)) return Response.paramsIsEmpty("用户id，医生id");
+        User user = userService.getUserById(userId);
+        Doctor doctor = doctorService.getDocById(doctorId);
+        if (user == null || doctor == null) return Response.failuer("id未找到");
+        if (doctorService.getDocByUser(user.getId()) == null) return Response.failuer("您未选择过医生");
+        if (doctorService.cancelDoc(userId, doctorId)) return Response.success("取消成功！");
+        else return Response.failuer("数据库错误！");
     }
 }

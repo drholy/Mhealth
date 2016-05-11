@@ -96,4 +96,24 @@ public class DoctorService {
     public Doctor getDocByUser(String userId) {
         return doctorDao.getDocByUser(userId);
     }
+
+    /**
+     * 修改医生密码
+     *
+     * @param doctor
+     * @return
+     */
+    public boolean changePasswd(Doctor doctor) {
+        return doctorDao.changePasswd(doctor);
+    }
+
+    /**
+     * 修改资料
+     *
+     * @param doctor
+     * @return
+     */
+    public boolean modify(Doctor doctor) {
+        return doctorDao.modify(doctor);
+    }
 }

@@ -17,6 +17,19 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#docLogout").click(function () {
+        $.ajax({
+            url: "/service/doctorData/logout",
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.resCode == "000000") {
+                    location.href = "/doctor/login.ui";
+                } else alert(data.resCode + ":" + data.resMsg)
+            }
+        });
+    });
 });
 function showTitle(key) {
     var title;

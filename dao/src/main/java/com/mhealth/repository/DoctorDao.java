@@ -27,7 +27,8 @@ public class DoctorDao extends BaseDao {
      */
     public String insertDoc(Doctor doctor) {
         mongoTemplate.insert(doctor);
-        return doctor.getLoginName();
+        Doctor dbDoctor = mongoTemplate.findOne(new Query(Criteria.where("loginName").is(doctor.getLoginName())), Doctor.class);
+        return dbDoctor.getId();
     }
 
     /**
@@ -110,5 +111,31 @@ public class DoctorDao extends BaseDao {
      */
     public Doctor getDocByUser(String userId) {
         return mongoTemplate.findOne(new Query(Criteria.where("userList.id").is(userId)), Doctor.class);
+    }
+
+    /**
+     * 修改医生密码
+     *
+     * @param doctor
+     * @return
+     */
+    public boolean changePasswd(Doctor doctor) {
+        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(doctor.getId())))
+                , new Update().set("password", doctor.getPassword()), Doctor.class);
+        return wr.getN() == 1;
+    }
+
+    /**
+     * 修改资料
+     *
+     * @param doctor
+     * @return
+     */
+    public boolean modify(Doctor doctor) {
+        WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(doctor.getId())))
+                , new Update().set("realName", doctor.getRealName()).set("organization", doctor.getOrganization())
+                        .set("office", doctor.getOffice()).set("mobilePhone", doctor.getMobilePhone()).set("email", doctor.getEmail())
+                        .set("certificate", doctor.getCertificate()).set("headImg", doctor.getHeadImg()), Doctor.class);
+        return wr.getN() == 1;
     }
 }
