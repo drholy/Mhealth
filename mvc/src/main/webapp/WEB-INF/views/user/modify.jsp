@@ -14,9 +14,9 @@
 </head>
 <body class="pfbg">
 <%@ include file="/WEB-INF/views/base/nav.jsp" %>
+<%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
 
 <div class="container">
-    <%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
     <div class="col-md-10 col-md-offset-2 pfcontent">
         <div class="page-header">
             <h1>资料修改</h1>

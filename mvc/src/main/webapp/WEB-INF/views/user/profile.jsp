@@ -14,10 +14,10 @@
 </head>
 <body class="pfbg">
 <%@ include file="/WEB-INF/views/base/nav.jsp" %>
+<%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
 
 <div class="container">
     <div class="row">
-        <%@ include file="/WEB-INF/views/base/sidebar.jsp" %>
         <div class="col-md-10 col-md-offset-2 pfcontent">
             <div class="page-header">
                 <h1>个人资料</h1>
