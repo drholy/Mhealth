@@ -41,7 +41,8 @@
             <mvc:exclude-mapping path="/user/login"/>
             <mvc:exclude-mapping path="/user/active"/>
             <mvc:exclude-mapping path="/user/validCode"/>
-            <mvc:exclude-mapping path="/user/check*"/>
+            <mvc:exclude-mapping path="/user/checkLoginName"/>
+            <mvc:exclude-mapping path="/user/checkValid"/>
             <bean class="com.mhealth.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

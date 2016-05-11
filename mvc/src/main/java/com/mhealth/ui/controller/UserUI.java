@@ -34,4 +34,14 @@ public class UserUI {
     public String changePasswd() {
         return "user/changePasswd";
     }
+
+    @RequestMapping("chooseDoctor.ui")
+    public String chooseDoctor() {
+        return "user/chooseDoctor";
+    }
+
+    @RequestMapping("myDoctor.ui")
+    public String myDoctor() {
+        return "user/myDoctor";
+    }
 }

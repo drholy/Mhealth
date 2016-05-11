@@ -553,4 +553,19 @@ public class UserController {
         if (doctorService.cancelDoc(userId, doctorId)) return Response.success("取消成功！");
         else return Response.failuer("数据库错误！");
     }
+
+    /**
+     * 返回当前用户选择的医生
+     *
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "getDocByUser", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getDocByUser(String userId) {
+        if (StringUtils.isEmpty(userId)) return Response.paramsIsEmpty("用户id");
+        Doctor doctor = doctorService.getDocByUser(userId);
+        if (doctor != null) return new Response().addObject("doctor", doctor).toJson();
+        else return Response.failuer("未选择医生！");
+    }
 }

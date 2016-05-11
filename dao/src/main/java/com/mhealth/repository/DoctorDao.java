@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,8 +99,10 @@ public class DoctorDao extends BaseDao {
      * @return
      */
     public boolean cancelDoc(String userId, String doctorId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", userId);
         WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(doctorId)))
-                , new Update().pull("userList.id", userId), Doctor.class);
+                , new Update().pull("userList", map), Doctor.class);
         return wr.getN() == 1;
     }
 

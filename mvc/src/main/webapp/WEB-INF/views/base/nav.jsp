@@ -22,6 +22,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="<%=request.getContextPath()%>/record/overview.ui">首页</a></li>
                 <li><a href="<%=request.getContextPath()%>/record/allRecords.ui">所有数据</a></li>
+                <li><a href="<%=request.getContextPath()%>/user/chooseDoctor.ui">选择医生</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><p class="navbar-text">欢迎</p></li>
