@@ -106,6 +106,9 @@
             <div class="col-md-1 col-md-offset-4">
                 <button type="submit" class="btn btn-primary">提交</button>
             </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-default" onclick="location.href='/doctor/login.ui'">取消</button>
+            </div>
         </div>
     </form>
 </div>

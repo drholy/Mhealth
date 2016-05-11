@@ -20,6 +20,7 @@
             <a class="navbar-brand" href="#">mhealth</a>
             <ul class="nav navbar-nav">
                 <li><a>请您登录</a></li>
+                <li><a href="<%=path%>/doctor/login.ui">前往医生端</a></li>
             </ul>
         </div>
     </div>
