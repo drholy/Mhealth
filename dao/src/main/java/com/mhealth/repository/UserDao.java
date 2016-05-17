@@ -6,12 +6,15 @@ import com.mhealth.model.Comment;
 import com.mhealth.model.User;
 import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by pengt on 2016.4.11.0011.
@@ -119,16 +122,12 @@ public class UserDao extends BaseDao {
      * @param quickPager
      * @param userId
      */
-    public void getComments(QuickPager<User> quickPager, String userId) {
-        Criteria criteria = Criteria.where("_id").is(userId);
-        User user = mongoTemplate.findOne(new Query(criteria), User.class);
-        quickPager.setTotalRows(user.getComments().size());
-        Aggregation agg = Aggregation.newAggregation(Aggregation.match(criteria)
-                , Aggregation.project("comments")
-                , Aggregation.unwind("comments")
-                , Aggregation.skip(quickPager.getBeginNum())
-                , Aggregation.limit(quickPager.getPageSize()));
-        AggregationResults<User> ar = mongoTemplate.aggregate(agg, "user", User.class);
-        quickPager.setData(ar.getMappedResults());
+    public void getComments(QuickPager<Comment> quickPager, String userId) {
+        Query query = new Query(Criteria.where("userId").is(userId));
+        long count = mongoTemplate.count(query, Comment.class);
+        quickPager.setTotalRows(Integer.parseInt(String.valueOf(count)));
+        query.with(new Sort(Sort.Direction.DESC, "time")).skip(quickPager.getBeginNum()).limit(quickPager.getPageSize());
+        List<Comment> list = mongoTemplate.find(query, Comment.class);
+        quickPager.setData(list);
     }
 }

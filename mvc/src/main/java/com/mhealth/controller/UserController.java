@@ -5,10 +5,7 @@ import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.PasswordUtils;
 import com.mhealth.common.util.StringUtils;
 import com.mhealth.common.util.UUIDUtils;
-import com.mhealth.model.Device;
-import com.mhealth.model.Doctor;
-import com.mhealth.model.Token;
-import com.mhealth.model.User;
+import com.mhealth.model.*;
 import com.mhealth.service.DeviceService;
 import com.mhealth.service.DoctorService;
 import com.mhealth.service.TokenService;
@@ -578,7 +575,7 @@ public class UserController {
     @ResponseBody
     public String getComments(String userId) {
         if (StringUtils.isEmpty(userId)) return Response.paramsIsEmpty("userId");
-        QuickPager<User> quickPager = new QuickPager<>();
+        QuickPager<Comment> quickPager = new QuickPager<>();
         userService.getComments(quickPager, userId);
         return new Response().toPageJson(quickPager);
     }

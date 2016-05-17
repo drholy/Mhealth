@@ -121,18 +121,16 @@ public class DoctorService {
     /**
      * 提交评论
      *
-     * @param userId
      * @param comment
      * @return
      */
-    public boolean comment(String userId, Comment comment) {
-        return doctorDao.comment(userId, comment);
+    public boolean comment(Comment comment) {
+        return doctorDao.comment(comment);
     }
 
     /**
      * pending状态恢复
      *
-     * @param tId
      */
     public void pendingRecovery() {
         doctorDao.pendingRecovery(null);
@@ -141,7 +139,6 @@ public class DoctorService {
     /**
      * applied状态恢复
      *
-     * @param tId
      */
     public void appliedRecovery() {
         doctorDao.appliedRecovery(null);

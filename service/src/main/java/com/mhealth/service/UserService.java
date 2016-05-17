@@ -106,7 +106,7 @@ public class UserService {
      * @param quickPager
      * @param userId
      */
-    public void getComments(QuickPager<User> quickPager, String userId) {
+    public void getComments(QuickPager<Comment> quickPager, String userId) {
         userDao.getComments(quickPager, userId);
     }
 }
