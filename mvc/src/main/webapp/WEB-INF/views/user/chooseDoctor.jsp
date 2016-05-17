@@ -189,7 +189,9 @@
                 success: function (data) {
                     if (data.resCode == "000000") {
                         $("#choose").attr("disabled", "disabled");
-                    } else $("#choose").removeAttr("disabled");
+                    } else {
+                        $("#choose").removeAttr("disabled");
+                    }
                 }
             });
         }

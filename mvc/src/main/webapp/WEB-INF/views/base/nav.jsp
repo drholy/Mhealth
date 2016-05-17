@@ -36,7 +36,7 @@
                         <li role="separator" class="divider"></li>
                         <li><a href="<%=request.getContextPath()%>/user/changePasswd.ui">密码修改</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<%=request.getContextPath()%>/user/myDoctor.ui">我的医生</a></li>
+                        <li><a href="<%=request.getContextPath()%>/user/myDoctor.ui">申请评价</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="<%=request.getContextPath()%>/user/comment.ui">健康建议</a></li>
                         <li role="separator" class="divider"></li>

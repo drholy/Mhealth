@@ -43,7 +43,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var PAGESIZE = 20;
+        var PAGESIZE = 10;
         getData("${userId}", 1, PAGESIZE);
 
         $("#commForm").bootstrapValidator({
@@ -116,7 +116,15 @@
                 var comment = rows[i];
                 var date = new Date(Number(comment["time"])).format('yyyy-M-d');
                 var row = '<div class="panel panel-default">'
-                        + '<div class="panel-heading">' + comment["title"] + '</div>'
+                        + '<div class="panel-heading">'
+                        + comment["title"]
+                        + '<div class="docInfo">'
+                        + '<div class="headImg">'
+                        + '<img src="<%=path%>/service/pic/getUserImg/' + comment["docHeadImg"] + '" width="30" height="30" alt="头像"/>'
+                        + '</div>'
+                        + '<div class="docu">' + comment["docRealName"] + '</div>'
+                        + '</div>'
+                        + '</div>'
                         + '<div class="panel-body">'
                         + comment["content"]
                         + '</div>'

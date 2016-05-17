@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-2 pfcontent">
             <div class="page-header">
-                <h1>我的医生</h1>
+                <h1>申请评价</h1>
             </div>
             <div class="row" id="docContent">
                 <div class="col-md-8">
