@@ -2,6 +2,7 @@ package com.mhealth.model;
 
 import com.mhealth.common.base.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class Comment extends BaseEntity {
     private String title;
     private String content;
     private long time;
-    private List<String> pendingTransactions;
+    private List<String> pendingTransactions = new ArrayList<>();
 
     public String getUserId() {
         return userId;

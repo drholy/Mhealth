@@ -51,7 +51,11 @@
     $("#usersTable").on("click", "#check", function () {
         var userId = $(this).attr("data-userId");
         location.href = "<%=path%>/record/overview.ui?id=" + userId;
-    })
+    });
+    $("#usersTable").on("click", "#comment", function () {
+        var userId = $(this).attr("data-userId");
+        location.href = "<%=path%>/doctor/comment.ui?userId=" + userId;
+    });
 
     function showTable(list) {
         var fmt = "yyyy年M月d日";
@@ -65,7 +69,7 @@
                     + "<td>" + dbDate + "</td>"
                     + "<td>" + user["bloodType"] + "</td>"
                     + "<td><button id='check' class='btn btn-default' data-userId='" + user["id"] + "'>查看</button></td>"
-                    + "<td><button class='btn btn-default'>点评</button></td>";
+                    + "<td><button  id='comment' class='btn btn-default' data-userId='" + user["id"] + "'>点评</button></td>";
             $("#usersTable").find("tbody").append(row);
         }
     }

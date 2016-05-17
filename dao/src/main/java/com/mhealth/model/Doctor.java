@@ -25,7 +25,7 @@ public class Doctor extends BaseEntity {
     private String status;
     private long regTime;
     private List<Map<String, Object>> userList = new ArrayList<>();
-    private List<String> pendingTransactions;
+    private List<String> pendingTransactions = new ArrayList<>();
 
     public String getLoginName() {
         return loginName;

@@ -186,9 +186,11 @@ public class DoctorDao extends BaseDao {
             comment = mongoTemplate.findOne(new Query(Criteria.where("userId").is(comment.getUserId())
                     .and("doctorId").is(comment.getDoctorId()).and("time").is(comment.getTime())), Comment.class);
             if (comment == null) throw new Exception();
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", comment.getUserId());
             wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(comment.getDoctorId()))
                             .and("pendingTransactions").ne(commTrans.getId()))
-                    , new Update().pull("userList", new HashMap<String, Object>().put("id", comment.getUserId()))
+                    , new Update().pull("userList", map)
                             .push("pendingTransactions", commTrans.getId()), Doctor.class);
             if (wr.getN() != 1) throw new Exception();
 

@@ -16,7 +16,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 col-md-offset-2" id="commCont">
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -24,12 +24,119 @@
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
+            <form id="commForm">
+                <div class="form-group">
+                    <label for="title">标题</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="标题">
+                </div>
+                <div class="form-group">
+                    <label for="content">内容</label>
+                    <textarea class="form-control" id="content" name="content" rows="3"
+                              style="resize: none;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">提交</button>
+            </form>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        
+        var PAGESIZE = 20;
+        getData("${userId}");
+
+        $("#commForm").bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            trigger: "blur",
+            fields: {
+                title: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        }
+                    }
+                },
+                content: {
+                    enabled: true,
+                    validators: {
+                        notEmpty: {
+                            message: "此项为必填项"
+                        }
+                    }
+                }
+            }
+        }).on('success.form.bv', function (e) {
+            e.preventDefault();
+            var comment = {};
+            comment["userId"] = "${userId}";
+            comment["doctorId"] = "${sessionScope.doctor.id}";
+            comment["docRealName"] = "${sessionScope.doctor.realName}";
+            comment["title"] = $("#title").val();
+            comment["content"] = $("#content").val();
+            comment = JSON.stringify(comment);
+
+            $.ajax({
+                url: "<%=path%>/service/doctorData/comment",
+                type: "post",
+                data: {commentJson: comment},
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        alert("提交成功！");
+                        location.href = "<%=path%>/doctor/getUsers.ui"
+                    } else alert(data.resCode + ":" + data.resMsg);
+                }
+            });
+        });
+
+        function getData(userId) {
+            $.ajax({
+                url: "<%=path%>/service/user/getComments",
+                type: "post",
+                data: {userId: userId},
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        showData(data.data.rows);
+                        showPager(data.data);
+                    } else alert(data.resCode + ":" + data.resMsg);
+                }
+            });
+        }
+
+        function showData(rows) {
+            for (var i in rows) {
+                var comment = rows[i];
+                var date = new Date(Number(comment["time"])).format('yyyy-M-d');
+                var row = '<div class="panel panel-default">'
+                        + '<div class="panel-heading">' + comment["title"] + '</div>'
+                        + '<div class="panel-body">'
+                        + comment["content"]
+                        + '</div>'
+                        + '<div class="panel-footer">' + date + '</div>'
+                        + '</div>';
+                $("#commCont").append(row);
+            }
+        }
+
+        function showPager(data) {
+            $('#pager').twbsPagination({
+                totalPages: Number(data.totalPages),
+                startPage: Number(data.currPage),
+                visiblePages: 5,
+                first: '1页',
+                prev: '&laquo;',
+                next: '&raquo;',
+                last: data.totalPages + '页',
+                onPageClick: function (event, page) {
+                    getData(USERID, page, PAGESIZE);
+                }
+            });
+        }
     });
 </script>
 </body>
