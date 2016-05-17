@@ -44,4 +44,9 @@ public class UserUI {
     public String myDoctor() {
         return "user/myDoctor";
     }
+
+    @RequestMapping("comment.ui")
+    public String myComment() {
+        return "user/comment";
+    }
 }

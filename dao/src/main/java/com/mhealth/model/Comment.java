@@ -13,6 +13,7 @@ public class Comment extends BaseEntity {
     private String userId;
     private String doctorId;
     private String docRealName;
+    private String docHeadImg;
     private String title;
     private String content;
     private long time;
@@ -72,5 +73,13 @@ public class Comment extends BaseEntity {
 
     public void setPendingTransactions(List<String> pendingTransactions) {
         this.pendingTransactions = pendingTransactions;
+    }
+
+    public String getDocHeadImg() {
+        return docHeadImg;
+    }
+
+    public void setDocHeadImg(String docHeadImg) {
+        this.docHeadImg = docHeadImg;
     }
 }

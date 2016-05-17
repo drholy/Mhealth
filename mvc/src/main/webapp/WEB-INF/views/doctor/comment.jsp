@@ -18,11 +18,13 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2" id="commCont">
         </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <ul id="pager"></ul>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <ul id="pager"></ul>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <form id="commForm">
                 <div class="form-group">
@@ -42,7 +44,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var PAGESIZE = 20;
-        getData("${userId}");
+        getData("${userId}", 1, PAGESIZE);
 
         $("#commForm").bootstrapValidator({
             feedbackIcons: {
@@ -93,11 +95,11 @@
             });
         });
 
-        function getData(userId) {
+        function getData(userId, currPage, pageSize) {
             $.ajax({
                 url: "<%=path%>/service/user/getComments",
                 type: "post",
-                data: {userId: userId},
+                data: {userId: userId, currPage: currPage, pageSize: pageSize},
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
@@ -109,6 +111,7 @@
         }
 
         function showData(rows) {
+            $("#commCont").html("");
             for (var i in rows) {
                 var comment = rows[i];
                 var date = new Date(Number(comment["time"])).format('yyyy-M-d');
@@ -133,7 +136,7 @@
                 next: '&raquo;',
                 last: data.totalPages + '页',
                 onPageClick: function (event, page) {
-                    getData(USERID, page, PAGESIZE);
+                    getData("${userId}", page, PAGESIZE);
                 }
             });
         }

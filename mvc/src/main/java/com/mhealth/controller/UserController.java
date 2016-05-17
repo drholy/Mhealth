@@ -573,10 +573,24 @@ public class UserController {
      */
     @RequestMapping(value = "getComments", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String getComments(String userId) {
+    public String getComments(String userId, String currPage, String pageSize) {
         if (StringUtils.isEmpty(userId)) return Response.paramsIsEmpty("userId");
-        QuickPager<Comment> quickPager = new QuickPager<>();
+        QuickPager<Comment> quickPager = new QuickPager<>(currPage, pageSize);
         userService.getComments(quickPager, userId);
         return new Response().toPageJson(quickPager);
+    }
+
+    /**
+     * 返回指定的医生
+     *
+     * @param doctorId
+     * @return
+     */
+    @RequestMapping(value = "getDocById", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getDoctorById(String doctorId) {
+        if (StringUtils.isEmpty(doctorId)) return Response.paramsIsEmpty("doctorId");
+        Doctor doctor = doctorService.getDocById(doctorId);
+        return new Response().addObject("doctor", doctor).toJson();
     }
 }

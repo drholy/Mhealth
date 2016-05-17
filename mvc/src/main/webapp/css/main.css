@@ -164,3 +164,31 @@ body {
     color: rgb(236, 177, 172);
     text-shadow: 0 -1px 0 rgb(255, 255, 255), 0 2px 0 rgb(0, 0, 0);
 }
+
+/*健康建议面板头部*/
+.panel-heading {
+    position: relative;
+}
+
+.panel-heading > .docInfo {
+    float: right;
+    width: 100px;
+    height: 32px;
+    margin-top: -5px;
+    overflow: hidden;
+}
+
+.panel-heading > .docInfo > .headImg {
+    border: 1px black solid;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    display: inline-block;
+}
+.panel-heading > .docInfo >.docu{
+    display: inline-block;
+    position: relative;
+    top:-9px;
+    left: 10px;
+}

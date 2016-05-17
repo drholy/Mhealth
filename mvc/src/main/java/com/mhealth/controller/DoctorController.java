@@ -337,7 +337,9 @@ public class DoctorController {
         Comment comment = (Comment) JSONObject.toBean(JSONObject.fromObject(commentJson), Comment.class);
         if (StringUtils.isEmpty(comment.getDoctorId(), comment.getDocRealName(), comment.getTitle(), comment.getContent()))
             return Response.paramsIsEmpty("comment");
+        Doctor doctor = doctorService.getDocById(comment.getDoctorId());
         comment.setTime(System.currentTimeMillis());
+        comment.setDocHeadImg(doctor.getHeadImg());
         if (doctorService.comment(comment)) return Response.success("评论成功！");
         else return Response.failuer("数据库异常！");
     }
