@@ -1,6 +1,7 @@
 package com.mhealth.service;
 
 import com.mhealth.common.entity.QuickPager;
+import com.mhealth.model.Comment;
 import com.mhealth.model.Doctor;
 import com.mhealth.repository.DoctorDao;
 import org.springframework.stereotype.Service;
@@ -115,5 +116,34 @@ public class DoctorService {
      */
     public boolean modify(Doctor doctor) {
         return doctorDao.modify(doctor);
+    }
+
+    /**
+     * 提交评论
+     *
+     * @param userId
+     * @param comment
+     * @return
+     */
+    public boolean comment(String userId, Comment comment) {
+        return doctorDao.comment(userId, comment);
+    }
+
+    /**
+     * pending状态恢复
+     *
+     * @param tId
+     */
+    public void pendingRecovery() {
+        doctorDao.pendingRecovery(null);
+    }
+
+    /**
+     * applied状态恢复
+     *
+     * @param tId
+     */
+    public void appliedRecovery() {
+        doctorDao.appliedRecovery(null);
     }
 }

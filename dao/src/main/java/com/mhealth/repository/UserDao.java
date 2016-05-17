@@ -1,10 +1,13 @@
 package com.mhealth.repository;
 
 import com.mhealth.common.base.BaseDao;
+import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.Comment;
 import com.mhealth.model.User;
 import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -104,8 +107,28 @@ public class UserDao extends BaseDao {
      * @param comment
      * @return
      */
+    @Deprecated
     public boolean addComment(String userId, Comment comment) {
         WriteResult wr = mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(new ObjectId(userId))), new Update().push("comments", comment), User.class);
         return wr.getN() == 1;
+    }
+
+    /**
+     * 分页获取医生评论
+     *
+     * @param quickPager
+     * @param userId
+     */
+    public void getComments(QuickPager<User> quickPager, String userId) {
+        Criteria criteria = Criteria.where("_id").is(userId);
+        User user = mongoTemplate.findOne(new Query(criteria), User.class);
+        quickPager.setTotalRows(user.getComments().size());
+        Aggregation agg = Aggregation.newAggregation(Aggregation.match(criteria)
+                , Aggregation.project("comments")
+                , Aggregation.unwind("comments")
+                , Aggregation.skip(quickPager.getBeginNum())
+                , Aggregation.limit(quickPager.getPageSize()));
+        AggregationResults<User> ar = mongoTemplate.aggregate(agg, "user", User.class);
+        quickPager.setData(ar.getMappedResults());
     }
 }

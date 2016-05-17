@@ -2,16 +2,28 @@ package com.mhealth.model;
 
 import com.mhealth.common.base.BaseEntity;
 
+import java.util.List;
+
 /**
  * Created by pengt on 2016.5.10.0010.
  */
 public class Comment extends BaseEntity {
 
+    private String userId;
     private String doctorId;
     private String docRealName;
     private String title;
     private String content;
     private long time;
+    private List<String> pendingTransactions;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getDoctorId() {
         return doctorId;
@@ -51,5 +63,13 @@ public class Comment extends BaseEntity {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public List<String> getPendingTransactions() {
+        return pendingTransactions;
+    }
+
+    public void setPendingTransactions(List<String> pendingTransactions) {
+        this.pendingTransactions = pendingTransactions;
     }
 }

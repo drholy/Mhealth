@@ -11,7 +11,6 @@ public class SportRecord extends BaseEntity{
     private String deviceId;
     private long sport_heartRate;
     private long distance;
-    private long heat;
     private long stepCount;
     private long elevation;
     private long beginTime;
@@ -48,14 +47,6 @@ public class SportRecord extends BaseEntity{
 
     public void setDistance(long distance) {
         this.distance = distance;
-    }
-
-    public long getHeat() {
-        return heat;
-    }
-
-    public void setHeat(long heat) {
-        this.heat = heat;
     }
 
     public long getStepCount() {

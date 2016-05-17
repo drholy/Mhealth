@@ -25,6 +25,7 @@ public class Doctor extends BaseEntity {
     private String status;
     private long regTime;
     private List<Map<String, Object>> userList = new ArrayList<>();
+    private List<String> pendingTransactions;
 
     public String getLoginName() {
         return loginName;
@@ -129,5 +130,13 @@ public class Doctor extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getPendingTransactions() {
+        return pendingTransactions;
+    }
+
+    public void setPendingTransactions(List<String> pendingTransactions) {
+        this.pendingTransactions = pendingTransactions;
     }
 }

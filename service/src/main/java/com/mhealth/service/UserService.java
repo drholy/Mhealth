@@ -1,5 +1,6 @@
 package com.mhealth.service;
 
+import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.Comment;
 import com.mhealth.model.User;
 import com.mhealth.repository.UserDao;
@@ -94,7 +95,18 @@ public class UserService {
      * @param comment
      * @return
      */
+    @Deprecated
     public boolean addComment(String userId, Comment comment) {
         return userDao.addComment(userId, comment);
+    }
+
+    /**
+     * 分页获取医生评论
+     *
+     * @param quickPager
+     * @param userId
+     */
+    public void getComments(QuickPager<User> quickPager, String userId) {
+        userDao.getComments(quickPager, userId);
     }
 }

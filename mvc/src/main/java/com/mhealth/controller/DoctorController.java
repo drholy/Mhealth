@@ -323,4 +323,23 @@ public class DoctorController {
             return Response.success("修改成功！");
         } else return Response.addFailuer("修改失败！");
     }
+
+    /**
+     * 评论用户
+     *
+     * @param userId
+     * @param commentJson
+     * @return
+     */
+    @RequestMapping(value = "comment", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String comment(String userId, String commentJson) {
+        if (StringUtils.isEmpty(userId, commentJson)) return Response.paramsIsEmpty("userId,commentJson");
+        Comment comment = (Comment) JSONObject.toBean(JSONObject.fromObject(commentJson), Comment.class);
+        if (StringUtils.isEmpty(comment.getDoctorId(), comment.getDocRealName(), comment.getTitle(), comment.getContent()))
+            return Response.paramsIsEmpty("comment");
+        comment.setTime(System.currentTimeMillis());
+        if (doctorService.comment(userId, comment)) return Response.success("评论成功！");
+        else return Response.failuer("数据库异常！");
+    }
 }

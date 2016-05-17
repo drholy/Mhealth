@@ -519,7 +519,6 @@ public class UserController {
         Doctor doctor = doctorService.getDocById(doctorId);
         if (user == null || doctor == null) return Response.failuer("id未找到");
         if (doctorService.getDocByUser(user.getId()) != null) return Response.failuer("您已选择过医生");
-        if (doctor.getUserList().size() >= 20) return Response.failuer("名额已满");
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", user.getId());
         userMap.put("loginName", user.getLoginName());
@@ -567,5 +566,20 @@ public class UserController {
         Doctor doctor = doctorService.getDocByUser(userId);
         if (doctor != null) return new Response().addObject("doctor", doctor).toJson();
         else return Response.failuer("未选择医生！");
+    }
+
+    /**
+     * 分页返回建议
+     *
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "getComments", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getComments(String userId) {
+        if (StringUtils.isEmpty(userId)) return Response.paramsIsEmpty("userId");
+        QuickPager<User> quickPager = new QuickPager<>();
+        userService.getComments(quickPager, userId);
+        return new Response().toPageJson(quickPager);
     }
 }

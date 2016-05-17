@@ -26,9 +26,9 @@ public class Response {
     }
 
     public final static String SUCCESS = "000000";//成功
-    public final static String IS_EXIST = "100101";// 已经存在
-    public final static String NOT_EXIST = "100102";//不存在
     public final static String FAILURE = "100001";// 失败提示
+    public final static String IS_EXIST = "100002";// 已经存在
+    public final static String NOT_EXIST = "100003";//不存在
 
     public final static String USERTYPE_ERROR = "200100";//用户类型错误 例如:绑定亲属对方是医生 绑定医生对方是普通用户
     public final static String USERNOTEXIST_ERROR = "200101";//用户不存在错误
