@@ -12,7 +12,7 @@
     <title>mhealth_医生端</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body id="docLoginbg">
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -30,9 +30,10 @@
     <div class="row">
         <div id="logo" class="col-md-7">
             <h1><span>mhealth</span></h1>
+            <h4>医生端</h4>>
         </div>
-        <div id="userFrame" class="col-md-4">
-            <div>
+        <div id="docFrame" class="col-md-4">
+            <div class="docContent">
 
                 <!-- Nav tabs -->
                 <ul id="user-tabs" class="nav nav-tabs nav-justified" role="tablist">
@@ -76,13 +77,13 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var uf = $("#userFrame").css("height");
+        var uf = $("#docFrame").css("height");
         var ufh = uf.substr(0, uf.length - 2);
         var h1 = $("#logo>h1").css("height");
         var h1h = h1.substr(0, h1.length - 2);
         var height = (Number(ufh) - Number(h1h)) / 2;
         $("#logo>h1").css("margin-top", height);
-        $("#logo,#userFrame").css("margin-top", "50px");
+        $("#logo,#docFrame").css("margin-top", "50px");
 
         $("#loginForm").bootstrapValidator({
             feedbackIcons: {

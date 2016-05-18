@@ -57,6 +57,24 @@ body {
     color: rgba(236, 177, 173, 1);
 }
 
+#logo > h4 {
+    /*font-family: "Arial", sans-serif;*/
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: rgba(236, 177, 173, 1);
+    text-shadow: 0 -1px 0 #ffffff,
+    0 1px 0 #000000,
+    0 1px 10px rgba(0, 0, 0, .9),
+    0 6px 1px rgba(0, 0, 0, .7),
+    0 0 5px rgba(0, 0, 0, .6),
+    0 1px 3px rgba(0, 0, 0, .8),
+    0 3px 5px rgba(0, 0, 0, .6),
+    0 7px 10px rgba(0, 0, 0, .7),
+    0 15px 10px rgba(0, 0, 0, .6),
+    0 25px 15px rgba(0, 0, 0, .5);
+}
+
 #logo > h1 > span {
     text-shadow: 0 -1px 0 #ffffff,
     0 1px 0 #000000,
@@ -186,9 +204,146 @@ body {
     overflow: hidden;
     display: inline-block;
 }
-.panel-heading > .docInfo >.docu{
+
+.panel-heading > .docInfo > .docu {
     display: inline-block;
     position: relative;
-    top:-9px;
+    top: -9px;
     left: 10px;
+}
+
+/*医生登录界面*/
+#docLoginbg, .docContent:before {
+    background: url("/images/docLoginbg.jpg") fixed no-repeat;
+    background-size: 100% 100%;
+}
+
+#docLoginbg:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(44, 44, 44, 0.7);
+    z-index: -999;
+}
+
+.docContent {
+    padding: 60px 20px;
+    border: 1px white solid;
+    border-radius: 10px;
+    position: relative;
+}
+
+.docContent:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1000;
+    -webkit-filter: blur(20px);
+    -ms-filter: blur(20px);
+    filter: blur(20px);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=20, MakeShadow=true, ShadowOpacity=0.5);
+}
+
+#docRegisterForm {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px 0;
+}
+
+.docCont {
+    background: url("/images/docContbg.jpg") fixed no-repeat;
+    background-size: 100% 100%;
+}
+
+.docCont:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(35, 35, 35, 0.7);
+    z-index: -1000;
+}
+
+#usersTable {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+#usersTable td {
+    padding: 0 0 5px 5px;
+}
+
+#commForm label {
+    color: white;
+}
+
+/*管理端页面*/
+#adminLoginbg, .adminContent:before {
+    background: url("/images/adminLoginbg.jpg") fixed no-repeat;
+    background-size: 100% 100%;
+}
+
+#adminLoginbg:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(45, 45, 45, 0.8);
+    z-index: -999;
+}
+
+.adminContent {
+    padding: 60px 20px;
+    border: 1px white solid;
+    border-radius: 10px;
+    position: relative;
+}
+
+.adminContent:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1000;
+    -webkit-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3, MakeShadow=true, ShadowOpacity=0.5);
+}
+
+.examDoc {
+    background: url("/images/adminbg.jpg") fixed no-repeat;
+    background-size: 100% 100%;
+}
+
+.examDoc:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(45, 45, 45, 0.8);
+    z-index: -999;
+}
+
+#docsTable {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+}
+
+#docsTable td{
+    padding: 0 0 5px 5px;
 }

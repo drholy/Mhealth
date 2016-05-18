@@ -12,7 +12,7 @@
     <title>mhealth_管理端</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body class="examDoc">
 <%@ include file="/WEB-INF/views/base/admin_nav.jsp" %>
 
 <div class="container">
@@ -158,7 +158,7 @@
                 var docContent = "<td>" + name + "</td>"
                         + "<td>" + org + "</td>"
                         + "<td>" + office + "</td>"
-                        + "<td>" + regTime + "</td>"
+                        + "<td>" + new Date(Number(regTime)).format("yyyy年M月d日") + "</td>"
                         + "<td><button type='button' class='btn btn-default' data-result='" + JSON.stringify(doctor)
                         + "' data-toggle='modal' data-target='#docModal'>查看</button></td>"
                         + "</div>"

@@ -515,6 +515,7 @@ public class UserController {
         User user = userService.getUserById(userId);
         Doctor doctor = doctorService.getDocById(doctorId);
         if (user == null || doctor == null) return Response.failuer("id未找到");
+        if (doctor.getUserList().size() > 20) return Response.failuer("该医生已负责了20人！");
         if (doctorService.getDocByUser(user.getId()) != null) return Response.failuer("您已选择过医生");
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", user.getId());

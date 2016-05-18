@@ -11,7 +11,7 @@
     <title>mhealth_医生端</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body class="docCont">
 <%@ include file="/WEB-INF/views/base/doctor_nav.jsp" %>
 
 <div class="container">

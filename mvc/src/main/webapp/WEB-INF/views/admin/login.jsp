@@ -12,7 +12,7 @@
     <title>mhealth_管理端</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body id="adminLoginbg">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -28,9 +28,10 @@
     <div class="row">
         <div id="logo" class="col-md-7">
             <h1><span>mhealth</span></h1>
+            <h4>管理端</h4>
         </div>
         <div id="userFrame" class="col-md-4">
-            <div>
+            <div class="adminContent">
 
                 <!-- Nav tabs -->
                 <ul id="user-tabs" class="nav nav-tabs nav-justified" role="tablist">

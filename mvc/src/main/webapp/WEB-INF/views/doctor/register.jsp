@@ -12,7 +12,7 @@
     <title>mhealth_医生端</title>
     <%@ include file="/WEB-INF/views/base/head.jsp" %>
 </head>
-<body>
+<body id="docLoginbg">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -25,7 +25,7 @@
 </nav>
 
 <div class="container">
-    <form id="registerForm" class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+    <form id="docRegisterForm" class="form-horizontal" action="" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="loginName" class="col-md-4 control-label">登录名*</label>
             <div class="col-md-4">
@@ -115,7 +115,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $("#registerForm").bootstrapValidator({
+        $("#docRegisterForm").bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
                 invalid: 'glyphicon glyphicon-remove',
