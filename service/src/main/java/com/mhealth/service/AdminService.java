@@ -55,4 +55,14 @@ public class AdminService {
     public boolean activeDoc(String doctorId) {
         return adminDao.activeDoc(doctorId);
     }
+
+    /**
+     * 删除未通过医生
+     *
+     * @param doctorId
+     * @return
+     */
+    public boolean delDoc(String doctorId) {
+        return adminDao.delDoc(doctorId);
+    }
 }

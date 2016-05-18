@@ -66,4 +66,16 @@ public class AdminDao extends BaseDao {
                 , new Update().set("active", "1").set("status", "1"), Doctor.class);
         return wr.getN() == 1;
     }
+
+    /**
+     * 删除未通过医生
+     *
+     * @param doctorId
+     * @return
+     */
+    public boolean delDoc(String doctorId) {
+        WriteResult wr = mongoTemplate.remove(new Query(Criteria.where("_id").is(new ObjectId(doctorId)).and("active").is("0"))
+                , Doctor.class);
+        return wr.getN() == 1;
+    }
 }

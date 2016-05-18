@@ -30,6 +30,19 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#adminLogout").click(function () {
+        $.ajax({
+            url: "/service/adminData/logout",
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.resCode == "000000") {
+                    location.href = "/admin/login.ui";
+                } else alert(data.resCode + ":" + data.resMsg)
+            }
+        });
+    });
 });
 function showTitle(key) {
     var title;

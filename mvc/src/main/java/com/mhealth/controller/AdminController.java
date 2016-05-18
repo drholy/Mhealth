@@ -31,7 +31,7 @@ public class AdminController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "login", produces = {"application/json"})
+    @RequestMapping(value = "login", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String login(String loginName, String password, HttpServletRequest request) {
         if (StringUtils.isEmpty(loginName)) return Response.paramsIsEmpty("loginName");
@@ -42,13 +42,27 @@ public class AdminController {
     }
 
     /**
+     * 管理员注销
+     *
+     * @param adminId
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "logout", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("admin");
+        return Response.success("注销成功！");
+    }
+
+    /**
      * 分页返回未激活医生
      *
      * @param currPage
      * @param pageSize
      * @return
      */
-    @RequestMapping(value = "getApplyDoc", produces = {"application/json"})
+    @RequestMapping(value = "getApplyDoc", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getApplyDoc(String currPage, String pageSize) {
         QuickPager<Doctor> quickPager = new QuickPager<>(currPage, pageSize);
@@ -62,9 +76,25 @@ public class AdminController {
      * @param doctorId
      * @return
      */
+    @RequestMapping(value = "activeDoc", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
     public String activeDoc(String doctorId) {
         if (StringUtils.isEmpty(doctorId)) return Response.paramsIsEmpty("doctorId");
         if (adminService.activeDoc(doctorId)) return Response.success("激活成功！");
+        else return Response.failuer("数据库错误！");
+    }
+
+    /**
+     * 删除未通过医生
+     *
+     * @param doctorId
+     * @return
+     */
+    @RequestMapping(value = "delDoc", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String delDoc(String doctorId) {
+        if (StringUtils.isEmpty(doctorId)) return Response.paramsIsEmpty("doctorId");
+        if (adminService.delDoc(doctorId)) return Response.success("删除成功！");
         else return Response.failuer("数据库错误！");
     }
 }
