@@ -21,7 +21,6 @@
             <table id="usersTable" class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>头像</th>
                     <th>用户名</th>
                     <th>性别</th>
                     <th>出生日期</th>
@@ -63,8 +62,7 @@
             var user = list[i];
             var dbDate = new Date(Number(user["birthday"])).format(fmt);
             var sex = (user["sex"] == "0") ? "女" : "男";
-            var row = "<td><img src='#'  alt='头像' /></td>"
-                    + "<td>" + user["loginName"] + "</td>"
+            var row = "<td>" + user["loginName"] + "</td>"
                     + "<td>" + sex + "</td>"
                     + "<td>" + dbDate + "</td>"
                     + "<td>" + user["bloodType"] + "</td>"
