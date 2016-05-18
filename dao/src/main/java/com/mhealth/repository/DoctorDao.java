@@ -229,7 +229,7 @@ public class DoctorDao extends BaseDao {
      */
     public void pendingRecovery(String tId) {
         CommTrans commTrans;
-        if (tId == null || tId.equals("")) {
+        if (tId != null && !tId.equals("")) {
             commTrans = mongoTemplate.findOne(new Query(Criteria.where("state").is("pending")
                     .and("_id").is(new ObjectId(tId))), CommTrans.class);
         } else {
@@ -278,7 +278,7 @@ public class DoctorDao extends BaseDao {
     public void appliedRecovery(String tId) {
         //将当前事务完成
         CommTrans commTrans;
-        if (tId == null || tId.equals("")) {
+        if (tId != null && !tId.equals("")) {
             commTrans = mongoTemplate.findOne(new Query(Criteria.where("state").is("applied")
                     .and("_id").is(new ObjectId(tId))), CommTrans.class);
         } else {

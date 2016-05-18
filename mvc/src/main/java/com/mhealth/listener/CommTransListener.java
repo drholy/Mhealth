@@ -1,6 +1,8 @@
 package com.mhealth.listener;
 
 import com.mhealth.service.DoctorService;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContextEvent;
@@ -13,9 +15,12 @@ public class CommTransListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
+        WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(servletContextEvent.getServletContext());
+        final DoctorService doctorService = (DoctorService) wac.getBean("doctorService");
+
         Runnable rollback = new Runnable() {
-            @Resource(name = "doctorService")
-            private DoctorService doctorService;
+//            @Resource(name = "doctorService")
+//            private DoctorService doctorService;
 
             @Override
             public void run() {
