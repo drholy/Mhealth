@@ -30,6 +30,10 @@
                     <ul class="dropdown-menu">
                         <li><a href="<%=request.getContextPath()%>/doctor/profile.ui">个人资料</a></li>
                         <li role="separator" class="divider"></li>
+                        <li><a href="<%=request.getContextPath()%>/doctor/modify.ui">修改资料</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="<%=request.getContextPath()%>/doctor/changePasswd.ui">密码修改</a></li>
+                        <li role="separator" class="divider"></li>
                         <li><a href="#" id="docLogout">退出</a></li>
                     </ul>
                 </li>

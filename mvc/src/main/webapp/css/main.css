@@ -347,3 +347,8 @@ body {
 #docsTable td{
     padding: 0 0 5px 5px;
 }
+
+/*导航条*/
+.navbar-inverse{
+    background: rgba(34,34,34,0.8);
+}
