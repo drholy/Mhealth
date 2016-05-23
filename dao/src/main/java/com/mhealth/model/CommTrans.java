@@ -10,7 +10,7 @@ public class CommTrans extends BaseEntity {
     private String userId;
     private String doctorId;
     private Comment comment;
-    private String state;       //initial, pending, applied, done, canceling, and canceled
+    private String state;       //initial, pending, applied, done, canceling, canceled
     private long lastModified;
 
     public String getUserId() {

@@ -74,8 +74,7 @@ public class SportRecordDao extends BaseDao {
         Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lt(maxTime);
         Aggregation agg = Aggregation.newAggregation(Aggregation.match(c)
                 , Aggregation.project("userId", key)
-                , Aggregation.group("userId").avg(key).as("avgVal")
-                , Aggregation.project("avgVal").and("userId").previousOperation());
+                , Aggregation.group("userId").avg(key).as("avgVal"));
         AggregationResults<AvgVal> results = mongoTemplate.aggregate(agg, "sportRecord", AvgVal.class);
         return results.getMappedResults();
     }
@@ -94,8 +93,7 @@ public class SportRecordDao extends BaseDao {
         Criteria c = Criteria.where("userId").is(userId).and("beginTime").gte(minTime).lt(maxTime);
         Aggregation agg = Aggregation.newAggregation(Aggregation.match(c)
                 , Aggregation.project(key, "userId")
-                , Aggregation.group("userId").sum(key).as("sumVal")
-                , Aggregation.project("sumVal").and("userId").previousOperation());
+                , Aggregation.group("userId").sum(key).as("sumVal"));
         AggregationResults<SumVal> results = mongoTemplate.aggregate(agg, "sportRecord", SumVal.class);
         return results.getMappedResults();
     }

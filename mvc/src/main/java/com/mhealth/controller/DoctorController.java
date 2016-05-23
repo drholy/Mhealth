@@ -186,6 +186,7 @@ public class DoctorController {
      */
     @RequestMapping(value = "commentUser", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
+    @Deprecated
     public String commentUser(String userId, String commentJson) {
         if (StringUtils.isEmpty(userId, commentJson)) return Response.paramsIsEmpty("用户id，评论信息");
         Comment comment = (Comment) JSONObject.toBean(JSONObject.fromObject(commentJson), Comment.class);
@@ -280,9 +281,8 @@ public class DoctorController {
         if (StringUtils.isEmpty(docJson)) return Response.paramsIsEmpty("注册信息");
 
         Doctor doctor = (Doctor) JSONObject.toBean(JSONObject.fromObject(docJson), Doctor.class);
-        String loginName = doctor.getLoginName();
-        if (!doctorService.checkLoginName(loginName)) return Response.isExist("用户已存在！");
-        if (doctor.getPassword().length() < 6) return Response.failuer("密码少于6位！");
+        String doctorId = doctor.getId();
+        if (doctorService.getDocById(doctorId) == null) return Response.failuer("用户不存在！");
 
         doctor.setActive("0");
         doctor.setStatus("0");
