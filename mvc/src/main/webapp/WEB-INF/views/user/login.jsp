@@ -122,7 +122,8 @@
         var h1h = h1.substr(0, h1.length - 2);
         var height = (Number(ufh) - Number(h1h)) / 2;
         $("#logo>h1").css("margin-top", height);
-        $("#logo,#userFrame").css("margin-top", "50px");
+//        $("#logo,#userFrame").css("margin-top", "50px");
+        $("#logo,#userFrame").css("margin-top", ($(window).height() - $("#userFrame").height()) / 2 - 70);
 
         $("#validPic").click(function () {
             var src = "<%=path%>/service/user/validCode";

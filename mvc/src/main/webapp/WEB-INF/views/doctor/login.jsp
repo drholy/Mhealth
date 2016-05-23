@@ -84,7 +84,8 @@
         var h1h = h1.substr(0, h1.length - 2);
         var height = (Number(ufh) - Number(h1h)) / 2;
         $("#logo>h1").css("margin-top", height);
-        $("#logo,#docFrame").css("margin-top", "50px");
+//        $("#logo,#docFrame").css("margin-top", "50px");
+        $("#logo,#docFrame").css("margin-top", ($(window).height() - $("#docFrame").height()) / 2 - 70);
 
         $("#loginForm").bootstrapValidator({
             feedbackIcons: {
