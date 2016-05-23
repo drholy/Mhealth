@@ -4,6 +4,8 @@
 
 body {
     padding-top: 70px;
+    padding-bottom: 70px;
+    position: relative;
 }
 
 #loginbg, .userContent:before {
@@ -281,8 +283,10 @@ body {
     padding: 0 0 5px 5px;
 }
 
-#commForm label {
-    color: white;
+#commForm{
+    background: rgba(255,255,255,1);
+    padding: 5px;
+    border-radius: 5px;
 }
 
 /*管理端页面*/
@@ -351,4 +355,16 @@ body {
 /*导航条*/
 .navbar-inverse{
     background: rgba(34,34,34,0.8);
+}
+
+/*页脚*/
+.footer{
+    background: rgba(34,34,34,0.8);
+    color: white;
+    text-align: center;
+    height: 50px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding-top: 15px;
 }

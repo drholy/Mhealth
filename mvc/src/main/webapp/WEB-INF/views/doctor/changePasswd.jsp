@@ -53,6 +53,7 @@
         </div>
     </div>
 </div>
+<%@ include file="/WEB-INF/views/base/footer.jsp" %>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#changepwForm").bootstrapValidator({

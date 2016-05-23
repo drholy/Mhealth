@@ -62,7 +62,7 @@
         </div>
     </div>
 </div>
-
+<%@ include file="/WEB-INF/views/base/footer.jsp" %>
 <script type="text/javascript">
     $(document).ready(function () {
         var USERID = ("${sessionScope.user.id}" == "") ? "${id}" : "${sessionScope.user.id}";

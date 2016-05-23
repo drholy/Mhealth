@@ -130,6 +130,7 @@
         </div>
     </div>
 </div>
+<%@ include file="/WEB-INF/views/base/footer.jsp" %>
 <script>
     $(document).ready(function () {
         var PAGESIZE = 20;

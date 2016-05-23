@@ -35,6 +35,7 @@
         </div>
     </div>
 </div>
+<%@ include file="/WEB-INF/views/base/footer.jsp" %>
 <script type="text/javascript">
     $.ajax({
         url: "<%=path%>/service/doctorData/getUsersByDoc",

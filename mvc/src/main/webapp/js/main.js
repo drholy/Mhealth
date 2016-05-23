@@ -2,6 +2,7 @@
  * Created by pengt on 2016.4.25.0025.
  */
 $(document).ready(function () {
+    $("body").css("min-height", $(window).height() + "px");
     //注销
     $("#logout").click(function () {
         $.ajax({
