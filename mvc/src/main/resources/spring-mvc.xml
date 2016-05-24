@@ -32,10 +32,21 @@
     <mvc:default-servlet-handler/>
 
     <mvc:interceptors>
+        <!--<mvc:interceptor>-->
+        <!--<mvc:mapping path="/user/*"/>-->
+        <!--<mvc:mapping path="/sportRecord/*"/>-->
+        <!--<mvc:mapping path="/deviceData/*"/>-->
+        <!--<mvc:exclude-mapping path="/**/*.ui"/>-->
+        <!--<mvc:exclude-mapping path="/user/insertUser"/>-->
+        <!--<mvc:exclude-mapping path="/user/login"/>-->
+        <!--<mvc:exclude-mapping path="/user/active"/>-->
+        <!--<mvc:exclude-mapping path="/user/validCode"/>-->
+        <!--<mvc:exclude-mapping path="/user/checkLoginName"/>-->
+        <!--<mvc:exclude-mapping path="/user/checkValid"/>-->
+        <!--<bean class="com.mhealth.interceptor.LoginInterceptor"/>-->
+        <!--</mvc:interceptor>-->
         <mvc:interceptor>
             <mvc:mapping path="/user/*"/>
-            <mvc:mapping path="/sportRecord/*"/>
-            <mvc:mapping path="/deviceData/*"/>
             <mvc:exclude-mapping path="/**/*.ui"/>
             <mvc:exclude-mapping path="/user/insertUser"/>
             <mvc:exclude-mapping path="/user/login"/>
@@ -43,7 +54,24 @@
             <mvc:exclude-mapping path="/user/validCode"/>
             <mvc:exclude-mapping path="/user/checkLoginName"/>
             <mvc:exclude-mapping path="/user/checkValid"/>
-            <bean class="com.mhealth.interceptor.LoginInterceptor"/>
+            <bean class="com.mhealth.interceptor.UserLoginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/doctorData/*"/>
+            <mvc:exclude-mapping path="/doctorData/insertDoctor"/>
+            <mvc:exclude-mapping path="/doctorData/login"/>
+            <mvc:exclude-mapping path="/doctorData/checkLoginName"/>
+            <bean class="com.mhealth.interceptor.DoctorLoginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/adminData/*"/>
+            <mvc:exclude-mapping path="/adminData/login"/>
+            <bean class="com.mhealth.interceptor.AdminLoginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/sportRecord/*"/>
+            <mvc:mapping path="/device/*"/>
+            <bean class="com.mhealth.interceptor.SportRecordLoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
