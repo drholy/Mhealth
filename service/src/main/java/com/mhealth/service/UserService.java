@@ -2,6 +2,7 @@ package com.mhealth.service;
 
 import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.Comment;
+import com.mhealth.model.Doctor;
 import com.mhealth.model.User;
 import com.mhealth.repository.UserDao;
 import org.springframework.stereotype.Service;
@@ -108,5 +109,14 @@ public class UserService {
      */
     public void getComments(QuickPager<Comment> quickPager, String userId) {
         userDao.getComments(quickPager, userId);
+    }
+
+    /**
+     * 分页返回合法医生
+     *
+     * @param quickPager
+     */
+    public void allAvaDoc(QuickPager<Doctor> quickPager) {
+        userDao.allAvaDoc(quickPager);
     }
 }

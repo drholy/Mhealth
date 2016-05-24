@@ -497,7 +497,8 @@ public class UserController {
     @ResponseBody
     public String getAllDoc(String currPage, String pageSize) {
         QuickPager<Doctor> quickPager = new QuickPager<>(currPage, pageSize);
-        doctorService.getAllDoc(quickPager);
+//        doctorService.getAllDoc(quickPager);
+        userService.allAvaDoc(quickPager);
         return new Response().toPageJson(quickPager);
     }
 

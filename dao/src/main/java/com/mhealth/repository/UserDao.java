@@ -3,6 +3,7 @@ package com.mhealth.repository;
 import com.mhealth.common.base.BaseDao;
 import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.Comment;
+import com.mhealth.model.Doctor;
 import com.mhealth.model.User;
 import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
@@ -129,5 +130,20 @@ public class UserDao extends BaseDao {
         query.with(new Sort(Sort.Direction.DESC, "time")).skip(quickPager.getBeginNum()).limit(quickPager.getPageSize());
         List<Comment> list = mongoTemplate.find(query, Comment.class);
         quickPager.setData(list);
+    }
+
+    /**
+     * 分页返回合法医生
+     *
+     * @param quickPager
+     */
+    public void allAvaDoc(QuickPager<Doctor> quickPager) {
+        Query query = new Query(Criteria.where("active").is("1").and("status").is("1"));
+        long count = mongoTemplate.count(query, Doctor.class);
+        quickPager.setTotalRows(Integer.parseInt(String.valueOf(count)));
+        query.with(new Sort(Sort.Direction.DESC, "regTime")).with(new Sort(Sort.Direction.ASC, "userList"))
+                .skip(quickPager.getBeginNum()).limit(quickPager.getPageSize());
+        List<Doctor> docList = mongoTemplate.find(query, Doctor.class);
+        quickPager.setData(docList);
     }
 }

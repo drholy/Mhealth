@@ -45,7 +45,7 @@ public class DoctorDao extends BaseDao {
         Query query = new Query();
         long count = mongoTemplate.count(query, Doctor.class);
         quickPager.setTotalRows(Integer.parseInt(String.valueOf(count)));
-        query.with(new Sort(Sort.Direction.DESC, "regTime")).with(new Sort(Sort.Direction.ASC, "userList"))
+        query.with(new Sort(Sort.Direction.DESC, "regTime"))
                 .skip(quickPager.getBeginNum()).limit(quickPager.getPageSize());
         List<Doctor> records = mongoTemplate.find(query, Doctor.class);
         quickPager.setData(records);
