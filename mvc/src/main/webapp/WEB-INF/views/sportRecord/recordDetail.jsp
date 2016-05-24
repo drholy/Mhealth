@@ -26,7 +26,7 @@
         <li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
         <li><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>
         <li><a href="<%=path%>/record/recordByDay.ui?key=${key}&time=${time}">日</a></li>
-        <li class="active"><a href="<%=path%>/record/recordByTime.ui?key=${key}&time=${time}">详情</a></li>
+        <li class="active"><a href="<%=path%>/record/recordByBTime.ui?key=${key}&time=${time}">详情</a></li>
     </ol>
     <div class="starter-template">
         <h1></h1>
@@ -124,7 +124,7 @@
                 + '<li><a href="<%=path%>/record/recordByMonth.ui?id=' + USERID + '&key=${key}&time=${time}">月</a></li>'
                 + '<li><a href="<%=path%>/record/recordByWeek.ui?id=' + USERID + '&key=${key}&time=${time}">周</a></li>'
                 + '<li><a href="<%=path%>/record/recordByDay.ui?id=' + USERID + '&key=${key}&time=${time}">日</a></li>'
-                + '<li class="active"><a href="<%=path%>/record/recordByTime.ui?id=' + USERID + '&key=${key}&time=${time}">详情</a></li>';
+                + '<li class="active"><a href="<%=path%>/record/recordByBTime.ui?id=' + USERID + '&key=${key}&time=${time}">详情</a></li>';
         $(".breadcrumb").append(bread);
         showTitle("${key}");
 
