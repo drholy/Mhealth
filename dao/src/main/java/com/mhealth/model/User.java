@@ -22,7 +22,6 @@ public class User extends BaseEntity {
     private long regTime;
     private String headImg;
     private String status; //0:不可用,1:可用
-    private List<Comment> comments = new ArrayList<>();
 
     public String getLoginName() {
         return loginName;
@@ -118,13 +117,5 @@ public class User extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
     }
 }
