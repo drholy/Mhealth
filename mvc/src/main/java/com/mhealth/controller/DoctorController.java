@@ -351,6 +351,23 @@ public class DoctorController {
     }
 
     /**
+     * 分页查询所选用户的建议
+     *
+     * @param userId
+     * @param currPage
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "getComments", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getComment(String userId, String currPage, String pageSize) {
+        if (StringUtils.isEmpty(userId)) return Response.paramsIsEmpty("userId");
+        QuickPager<Comment> quickPager = new QuickPager<>(currPage, pageSize);
+        userService.getComments(quickPager, userId);
+        return new Response().toPageJson(quickPager);
+    }
+
+    /**
      * 评论用户
      *
      * @param commentJson

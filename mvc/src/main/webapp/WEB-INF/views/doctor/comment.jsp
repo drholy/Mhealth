@@ -98,7 +98,7 @@
 
         function getData(userId, currPage, pageSize) {
             $.ajax({
-                url: "<%=path%>/service/user/getComments",
+                url: "<%=path%>/service/doctorData/getComments",
                 type: "post",
                 data: {userId: userId, currPage: currPage, pageSize: pageSize},
                 dataType: "json",
