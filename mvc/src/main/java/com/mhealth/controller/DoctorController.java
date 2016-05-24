@@ -59,12 +59,24 @@ public class DoctorController {
         if (StringUtils.isEmpty(docJson, valid)) return Response.paramsIsEmpty("注册信息");
         if (!valid.equals(request.getSession().getAttribute("rand"))) return Response.failuer("验证码错误！");
         request.getSession().removeAttribute("rand");
+        Doctor doctor;
 
-        Doctor doctor = (Doctor) JSONObject.toBean(JSONObject.fromObject(docJson), Doctor.class);
-//        if (StringUtils.isEmpty(doctor.getLoginName(), doctor.getPassword())) return Response.paramsIsEmpty("注册信息");
+        try {
+            doctor = (Doctor) JSONObject.toBean(JSONObject.fromObject(docJson), Doctor.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.failuer("docJson格式错误！");
+        }
+
+        if (StringUtils.isEmpty(doctor.getLoginName(), doctor.getPassword(), doctor.getRealName(), doctor.getOrganization()
+                , doctor.getOffice(), doctor.getMobilePhone(), doctor.getEmail()))
+            return Response.paramsIsEmpty("注册信息");
+
         String loginName = doctor.getLoginName();
         if (!doctorService.checkLoginName(loginName)) return Response.isExist("用户已存在！");
         if (doctor.getPassword().length() < 6) return Response.failuer("密码少于6位！");
+        if (!StringUtils.isPhone(doctor.getMobilePhone())) return Response.failuer("手机号格式错误！");
+        if (!StringUtils.isEmail(doctor.getEmail())) return Response.failuer("邮箱格式错误！");
 
         doctor.setId(null);
         doctor.setActive("0");
@@ -209,19 +221,20 @@ public class DoctorController {
     @ResponseBody
     public String changePasswd(String passwdJson, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (StringUtils.isEmpty(passwdJson)) return Response.paramsIsEmpty("password json信息");
-        Map passwdMap = (Map) JSONObject.toBean(JSONObject.fromObject(passwdJson), Map.class);
         String oldPassword;
         String newPassword;
         String againPassword;
         String doctorId;
+        Map passwdMap;
         try {
+            passwdMap = (Map) JSONObject.toBean(JSONObject.fromObject(passwdJson), Map.class);
             doctorId = (String) passwdMap.get("id");
             oldPassword = (String) passwdMap.get("oldPassword");
             newPassword = (String) passwdMap.get("newPassword");
             againPassword = (String) passwdMap.get("againPassword");
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.paramsIsEmpty("密码信息");
+            return Response.paramsIsEmpty("passwdJson格式错误！");
         }
         if (!newPassword.equals(againPassword)) return Response.failuer("两次密码不一致！");
         Doctor doctor = doctorService.getDocById(doctorId);
@@ -278,11 +291,24 @@ public class DoctorController {
     @RequestMapping(value = "modify", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String modify(String docJson, HttpServletRequest request) {
-        if (StringUtils.isEmpty(docJson)) return Response.paramsIsEmpty("注册信息");
+        if (StringUtils.isEmpty(docJson)) return Response.paramsIsEmpty("医生信息");
+        Doctor doctor;
+        try {
+            doctor = (Doctor) JSONObject.toBean(JSONObject.fromObject(docJson), Doctor.class);
 
-        Doctor doctor = (Doctor) JSONObject.toBean(JSONObject.fromObject(docJson), Doctor.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.failuer("docJson格式有误！");
+        }
         String doctorId = doctor.getId();
         if (doctorService.getDocById(doctorId) == null) return Response.failuer("用户不存在！");
+
+        if (StringUtils.isEmpty(doctor.getRealName(), doctor.getOrganization()
+                , doctor.getOffice(), doctor.getMobilePhone(), doctor.getEmail()))
+            return Response.paramsIsEmpty("注册信息");
+
+        if (!StringUtils.isPhone(doctor.getMobilePhone())) return Response.failuer("手机号格式错误！");
+        if (!StringUtils.isEmail(doctor.getEmail())) return Response.failuer("邮箱格式错误！");
 
         doctor.setActive("0");
         doctor.setStatus("0");
