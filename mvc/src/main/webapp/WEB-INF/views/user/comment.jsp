@@ -107,7 +107,12 @@
                     if (data.resCode == "000000") {
                         showData(data.data.rows);
                         showPager(data.data);
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         }
@@ -183,7 +188,12 @@
                                 + "' width='450' height='200'/>");
                         modal.find("#headImgV").find("p").html("<img src='<%=path%>/service/pic/getUserImg/" + recipient["headImg"]
                                 + "' width='90' height='120'/>");
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });

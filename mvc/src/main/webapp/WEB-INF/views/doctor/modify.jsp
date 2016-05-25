@@ -94,7 +94,12 @@
                     $("#office").val(data.data.doctor.office);
                     $("#mobilePhone").val(data.data.doctor.mobilePhone);
                     $("#email").val(data.data.doctor.email);
-                } else alert(data.resCode + ":" + data.resMsg);
+                } else swal({
+                    title: "错误",
+                    text: data.resCode + ":" + data.resMsg,
+                    type: "error",
+                    confirmButtonText: "确定"
+                });
             }
         });
 
@@ -216,9 +221,20 @@
                 contentType: false,
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        alert("修改成功！新资料将由管理员审核！");
-                        location.href = "<%=path%>/doctor/login.ui"
-                    } else alert(data.resCode + ":" + data.resMsg);
+                        swal({
+                            title: "成功",
+                            text: "修改成功！新资料将由管理员审核！",
+                            type: "success",
+                            confirmButtonText: "确定"
+                        },function () {
+                            location.href = "<%=path%>/doctor/login.ui"
+                        });
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });

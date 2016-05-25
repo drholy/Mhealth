@@ -85,7 +85,12 @@
                             + data.data.doctor.certificate + "' alt='证书' width='600' height='400'/>");
                     $("#headImgV").find("p").html("<img src='<%=path%>/service/pic/getUserImg/"
                             + data.data.doctor.headImg + "' width='130' height='180' alt='头像'>");
-                } else alert(data.resCode + ":" + data.resMsg);
+                } else swal({
+                    title: "错误",
+                    text: data.resCode + ":" + data.resMsg,
+                    type: "error",
+                    confirmButtonText: "确定"
+                });
             }
         });
     });

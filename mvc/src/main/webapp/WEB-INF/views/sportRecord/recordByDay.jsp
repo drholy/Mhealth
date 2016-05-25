@@ -127,7 +127,12 @@
                     if (data.resCode == "000000") {
                         getDayChart(data.data.xTime, data.data.result);
                         getTable(data.data.xTime, data.data.result);
-                    }
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         }

@@ -122,9 +122,20 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        alert("修改成功！");
-                        location.reload();
-                    } else alert(data.resCode + ":" + data.resMsg);
+                        swal({
+                            title: "成功",
+                            text: "修改成功！",
+                            type: "success",
+                            confirmButtonText: "确定"
+                        },function () {
+                            location.reload();
+                        });
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });

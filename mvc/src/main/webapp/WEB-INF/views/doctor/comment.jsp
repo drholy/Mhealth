@@ -89,9 +89,20 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        alert("提交成功！");
-                        location.href = "<%=path%>/doctor/getUsers.ui"
-                    } else alert(data.resCode + ":" + data.resMsg);
+                        swal({
+                            title: "成功",
+                            text: "提交成功！",
+                            type: "success",
+                            confirmButtonText: "确定"
+                        },function () {
+                            location.href = "<%=path%>/doctor/getUsers.ui"
+                        });
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });
@@ -106,7 +117,12 @@
                     if (data.resCode == "000000") {
                         showData(data.data.rows);
                         showPager(data.data);
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         }

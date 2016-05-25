@@ -45,7 +45,12 @@
         success: function (data) {
             if (data.resCode == "000000") {
                 showTable(data.data.userList);
-            } else alert(data.resCode + ":" + data.regMsg);
+            } else swal({
+                title: "错误",
+                text: data.resCode + ":" + data.resMsg,
+                type: "error",
+                confirmButtonText: "确定"
+            });//alert(data.resCode + ":" + data.resMsg);
         }
     });
     $("#usersTable").on("click", "#check", function () {

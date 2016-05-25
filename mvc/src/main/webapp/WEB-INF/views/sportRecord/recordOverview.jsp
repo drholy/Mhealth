@@ -146,7 +146,12 @@
                 success: function (data) {
                     if (data.resCode == "000000") {
                         getheartValue(data.data.xTime, data.data.result);
-                    }
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
             $.ajax({
@@ -157,7 +162,12 @@
                 success: function (data) {
                     if (data.resCode == "000000") {
                         getStepValue(data.data.xTime, data.data.result);
-                    }
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
             $.ajax({
@@ -168,7 +178,12 @@
                 success: function (data) {
                     if (data.resCode == "000000") {
                         getDistanceValue(data.data.xTime, data.data.result);
-                    }
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
             $.ajax({
@@ -179,7 +194,12 @@
                 success: function (data) {
                     if (data.resCode == "000000") {
                         getEleValue(data.data.xTime, data.data.result);
-                    }
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         }

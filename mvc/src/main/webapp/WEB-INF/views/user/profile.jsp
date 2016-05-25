@@ -69,8 +69,12 @@
                     $("#bloodTypeV").find("p").html(data.data.user.bloodType);
                     $("#mobilePhoneV").find("p").html(data.data.user.mobilePhone);
                     $("#emailV").find("p").html(data.data.user.email);
-
-                }
+                } else swal({
+                    title: "错误",
+                    text: data.resCode + ":" + data.resMsg,
+                    type: "error",
+                    confirmButtonText: "确定"
+                });
             }
         });
     });

@@ -175,7 +175,12 @@
                         location.href = "<%=path%>/record/overview.ui";
                     } else if (data.resCode == "100104") {
                         location.href = "<%=path%>/user/active.ui"
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });
@@ -260,7 +265,12 @@
                     if (data.resCode == "000000") {
 //                        alert(data.data.loginName);
                         location.href = "<%=path%>/user/regSuccess.ui?loginName=" + data.data.loginName;
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });

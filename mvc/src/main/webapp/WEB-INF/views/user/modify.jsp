@@ -125,7 +125,12 @@
                     $("#bloodType").val(data.data.user.bloodType);
                     $("#mobilePhone").val(data.data.user.mobilePhone);
                     $("#email").val(data.data.user.email);
-                } else alert(data.resCode + ":" + data.resMsg);
+                } else swal({
+                    title: "错误",
+                    text: data.resCode + ":" + data.resMsg,
+                    type: "error",
+                    confirmButtonText: "确定"
+                });
             }
         });
 
@@ -192,7 +197,12 @@
                 success: function (data) {
                     if (data.resCode == "000000") {
                         location.href = "<%=path%>/user/profile.ui";
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });

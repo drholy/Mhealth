@@ -173,7 +173,12 @@
                         modal.find("#dmodelV").text(data.data.device.model);
                         modal.find("#dosV").text(data.data.device.os);
                         modal.find("#dtypeV").text(data.data.device.type);
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });
@@ -188,7 +193,12 @@
                     if (data.resCode = "000000") {
                         getTable(data.data.rows);
                         showPager(data.data);
-                    }
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         }

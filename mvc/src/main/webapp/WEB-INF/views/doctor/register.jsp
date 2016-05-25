@@ -294,7 +294,12 @@
                         <%--alert("注册成功！" + data.data.loginName);--%>
                         <%--location.href = "<%=path%>/doctor/login.ui"--%>
                         location.href = "<%=path%>/doctor/regSuccess.ui?loginName=" + data.data.loginName;
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });
