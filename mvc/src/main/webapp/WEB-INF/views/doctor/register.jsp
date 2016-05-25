@@ -291,8 +291,9 @@
                 contentType: false,
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        alert("注册成功！" + data.data.loginName);
-                        location.href = "<%=path%>/doctor/login.ui"
+                        <%--alert("注册成功！" + data.data.loginName);--%>
+                        <%--location.href = "<%=path%>/doctor/login.ui"--%>
+                        location.href = "<%=path%>/doctor/regSuccess.ui?loginName=" + data.data.loginName;
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });

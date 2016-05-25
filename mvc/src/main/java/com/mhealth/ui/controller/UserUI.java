@@ -1,6 +1,7 @@
 package com.mhealth.ui.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -48,5 +49,11 @@ public class UserUI {
     @RequestMapping("comment.ui")
     public String myComment() {
         return "user/comment";
+    }
+
+    @RequestMapping("regSuccess.ui")
+    public String regSuccess(String loginName, ModelMap modelMap) {
+        modelMap.put("loginName", loginName);
+        return "user/regSuccess";
     }
 }

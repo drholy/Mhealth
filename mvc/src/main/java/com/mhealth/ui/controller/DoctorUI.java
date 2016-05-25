@@ -46,4 +46,10 @@ public class DoctorUI {
         modelMap.put("userId",userId);
         return "doctor/comment";
     }
+
+    @RequestMapping("regSuccess.ui")
+    public String regSuccess(String loginName, ModelMap modelMap) {
+        modelMap.put("loginName", loginName);
+        return "doctor/regSuccess";
+    }
 }

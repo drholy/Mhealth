@@ -45,7 +45,7 @@
         success: function (data) {
             if (data.resCode == "000000") {
                 showTable(data.data.userList);
-            }
+            } else alert(data.resCode + ":" + data.regMsg);
         }
     });
     $("#usersTable").on("click", "#check", function () {

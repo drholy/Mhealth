@@ -283,8 +283,8 @@ body {
     padding: 0 0 5px 5px;
 }
 
-#commForm{
-    background: rgba(255,255,255,1);
+#commForm {
+    background: rgba(255, 255, 255, 1);
     padding: 5px;
     border-radius: 5px;
 }
@@ -348,18 +348,18 @@ body {
     border-radius: 10px;
 }
 
-#docsTable td{
+#docsTable td {
     padding: 0 0 5px 5px;
 }
 
 /*导航条*/
-.navbar-inverse{
-    background: rgba(34,34,34,0.8);
+.navbar-inverse {
+    background: rgba(34, 34, 34, 0.8);
 }
 
 /*页脚*/
-.footer{
-    background: rgba(34,34,34,0.8);
+.footer {
+    background: rgba(34, 34, 34, 0.8);
     color: white;
     text-align: center;
     height: 50px;
@@ -367,4 +367,29 @@ body {
     position: absolute;
     bottom: 0;
     padding-top: 15px;
+}
+
+/*用户注册成功*/
+.userRegSucc {
+    text-align: center;
+}
+
+.userRegSucc > h2:before {
+    content: "";
+    position: relative;
+    top: 10px;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: url("/images/regSuccess.png");
+    background-size: 100% 100%;
+}
+.userRegSucc>h2>span{
+    font-size: 0.8em;
+    color: blue;
+    font-weight: bold;
+}
+.userRegSuccBtn{
+    text-align: center;
+    margin-top: 100px;
 }

@@ -258,7 +258,8 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        alert(data.data.loginName);
+//                        alert(data.data.loginName);
+                        location.href = "<%=path%>/user/regSuccess.ui?loginName=" + data.data.loginName;
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });
