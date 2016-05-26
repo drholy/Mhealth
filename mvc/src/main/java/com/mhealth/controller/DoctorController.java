@@ -236,6 +236,8 @@ public class DoctorController {
             e.printStackTrace();
             return Response.paramsIsEmpty("passwdJson格式错误！");
         }
+        if (!doctorId.equals(((Doctor) request.getSession().getAttribute("doctor")).getId()))
+            return Response.failuer("您没有操作其他医生的权限！");
         if (!newPassword.equals(againPassword)) return Response.failuer("两次密码不一致！");
         Doctor doctor = doctorService.getDocById(doctorId);
         if (doctor == null) Response.notExist("医生不存在！");
@@ -301,6 +303,8 @@ public class DoctorController {
             return Response.failuer("docJson格式有误！");
         }
         String doctorId = doctor.getId();
+        if (!doctorId.equals(((Doctor) request.getSession().getAttribute("doctor")).getId()))
+            return Response.failuer("您没有操作其他医生的权限！");
         if (doctorService.getDocById(doctorId) == null) return Response.failuer("用户不存在！");
 
         if (StringUtils.isEmpty(doctor.getRealName(), doctor.getOrganization()

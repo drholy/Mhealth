@@ -133,8 +133,10 @@ public class UserController {
      */
     @RequestMapping(value = "getUserById", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String getUserById(String id) {
+    public String getUserById(String id, HttpServletRequest request) {
         if (StringUtils.isEmpty(id)) return Response.paramsIsEmpty("id");
+        if (!id.equals(((User) request.getSession().getAttribute("user")).getId()))
+            return Response.failuer("您没有查询其他用户的权限！");
         return new Response().addObject("user", userService.getUserById(id)).toJson();
     }
 
@@ -406,6 +408,8 @@ public class UserController {
             return Response.paramsCheckError("手机号格式有误！");
         if (!StringUtils.isEmpty(user.getEmail()) && !StringUtils.isEmail(user.getEmail()))
             return Response.paramsCheckError("email格式有误！");
+        if (!user.getId().equals(((User) request.getSession().getAttribute("user")).getId()))
+            return Response.failuer("您没有操作其他用户的权限！");
         if (userService.modify(user)) {
             request.getSession().setAttribute("user", user);
             return Response.success("修改成功！");
@@ -438,6 +442,8 @@ public class UserController {
             e.printStackTrace();
             return Response.paramsIsEmpty("密码信息");
         }
+        if (!userId.equals(((User) request.getSession().getAttribute("user")).getId()))
+            return Response.failuer("您没有查询其他用户的权限!");
         if (!newPassword.equals(againPassword)) return Response.failuer("两次密码不一致！");
         User user = userService.getUserById(userId);
         if (user == null) Response.notExist("用户不存在！");

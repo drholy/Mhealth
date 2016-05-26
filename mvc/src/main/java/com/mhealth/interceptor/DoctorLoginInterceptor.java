@@ -1,6 +1,8 @@
 package com.mhealth.interceptor;
 
 import com.mhealth.common.entity.Response;
+import com.mhealth.common.util.StringUtils;
+import com.mhealth.model.Doctor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,11 +16,19 @@ public class DoctorLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        if (httpServletRequest.getSession().getAttribute("doctor") == null) {
+        Doctor doctor = (Doctor) httpServletRequest.getSession().getAttribute("doctor");
+        String doctorId = httpServletRequest.getParameter("doctorId");
+
+        if (doctor == null) {
             httpServletResponse.getWriter().println(Response.error(Response.NOT_LOGIN, "未登录！"));
             return false;
+        } else {
+            if (!StringUtils.isEmpty(doctorId) && !doctor.getId().equals(doctorId)) {
+                httpServletResponse.getWriter().println(Response.failuer("您没有操作其他医生的权限！"));
+                return false;
+            }
+            return true;
         }
-        return true;
     }
 
     @Override
