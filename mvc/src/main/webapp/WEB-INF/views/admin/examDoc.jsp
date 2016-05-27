@@ -18,7 +18,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <table id="docsTable" class="table table-striped table-hover">
+            <table id="docsTable" class="table table-striped">
                 <thead>
                 <tr>
                     <th>真实姓名</th>
@@ -155,15 +155,17 @@
                 var org = doctor["organization"];
                 var office = doctor["office"];
                 var regTime = doctor["regTime"];
-                var docContent = "<td>" + name + "</td>"
+                var docContent = "<tr>"
+                        + "<td>" + name + "</td>"
                         + "<td>" + org + "</td>"
                         + "<td>" + office + "</td>"
                         + "<td>" + new Date(Number(regTime)).format("yyyy年M月d日") + "</td>"
                         + "<td><button type='button' class='btn btn-default' data-result='" + JSON.stringify(doctor)
                         + "' data-toggle='modal' data-target='#docModal'>查看</button></td>"
                         + "</div>"
-                        + "</div>";
-                $("#docsTable").append(docContent);
+                        + "</div>"
+                        + "</tr>";
+                $("#docsTable").find("tbody").append(docContent);
             }
         }
 
