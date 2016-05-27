@@ -30,13 +30,13 @@ public class JCloudsSwift implements Closeable {
     private SwiftApi swiftApi;
 
     public JCloudsSwift() {
-//        Iterable<Module> modules = ImmutableSet.<Module>of(
-//                new SLF4JLoggingModule());
+        Iterable<Module> modules = ImmutableSet.<Module>of(
+                new SLF4JLoggingModule());
 
         swiftApi = ContextBuilder.newBuilder(PROVIDER)
                 .endpoint(ENDPOINT)
                 .credentials(IDENTITY, CREDENTIAL)
-//                .modules(modules)
+                .modules(modules)
                 .buildApi(SwiftApi.class);
     }
 
