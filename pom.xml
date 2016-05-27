@@ -13,6 +13,7 @@
         <module>service</module>
         <module>dao</module>
         <module>base</module>
+        <module>openstack</module>
     </modules>
 
     <properties>

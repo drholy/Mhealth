@@ -7,7 +7,7 @@ import com.mhealth.common.util.StringUtils;
 import com.mhealth.common.util.UUIDUtils;
 import com.mhealth.model.Comment;
 import com.mhealth.model.Doctor;
-import com.mhealth.model.User;
+import com.mhealth.openstack.jclouds.JCloudsSwift;
 import com.mhealth.service.DoctorService;
 import com.mhealth.service.UserService;
 import net.sf.json.JSONObject;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.Resource;
-import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +43,9 @@ public class DoctorController {
 
     @Resource(name = "multipartResolver")
     private CommonsMultipartResolver multipartResolver;
+
+    @Resource(name = "jCloudsSwift")
+    private JCloudsSwift jCloudsSwift;
 
     /**
      * 医生注册
@@ -101,20 +103,22 @@ public class DoctorController {
 //            String headImgPath = request.getSession().getServletContext().getRealPath("/images/docHeadImgs");
 //            String certPath = request.getSession().getServletContext().getRealPath("/images/docCertImgs");
 
-            String filePath = "D:\\images\\userImgs";
+//            String filePath = "D:\\images\\userImgs";
 
             headName = UUIDUtils.getUUID();
             certName = UUIDUtils.getUUID();
 
-            File localHeadImg = new File(filePath, headName);
-            File localCertificate = new File(filePath, certName);
+//            File localHeadImg = new File(filePath, headName);
+//            File localCertificate = new File(filePath, certName);
 
             try {
-                headImg.transferTo(localHeadImg);
-                certificate.transferTo(localCertificate);
-
-                System.out.println(localHeadImg.getAbsolutePath());
-                System.out.println(localCertificate.getAbsoluteFile());
+//                headImg.transferTo(localHeadImg);
+//                certificate.transferTo(localCertificate);
+//
+//                System.out.println(localHeadImg.getAbsolutePath());
+//                System.out.println(localCertificate.getAbsoluteFile());
+                jCloudsSwift.uploadObject(headName, headImg.getInputStream());
+                jCloudsSwift.uploadObject(certName, certificate.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
                 return Response.failuer("文件上传失败！");
