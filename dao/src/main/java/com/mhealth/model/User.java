@@ -20,7 +20,6 @@ public class User extends BaseEntity {
     private String email;
     private String active; //0:未激活,1:激活
     private long regTime;
-    private String headImg;
     private String status; //0:不可用,1:可用
 
     public String getLoginName() {
@@ -101,14 +100,6 @@ public class User extends BaseEntity {
 
     public void setRegTime(long regTime) {
         this.regTime = regTime;
-    }
-
-    public String getHeadImg() {
-        return headImg;
-    }
-
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
     }
 
     public String getStatus() {

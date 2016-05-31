@@ -531,7 +531,6 @@ public class UserController {
         userMap.put("sex", user.getSex());
         userMap.put("birthday", user.getBirthday());
         userMap.put("bloodType", user.getBloodType());
-        userMap.put("headImg", user.getHeadImg());
         List<Map<String, Object>> list = doctor.getUserList();
         list.add(userMap);
         doctor.setUserList(list);
