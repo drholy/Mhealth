@@ -2,6 +2,7 @@ package com.mhealth.interceptor;
 
 import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.StringUtils;
+import com.mhealth.model.Admin;
 import com.mhealth.model.Doctor;
 import com.mhealth.model.Token;
 import com.mhealth.model.User;
@@ -29,8 +30,9 @@ public class SportRecordLoginInterceptor implements HandlerInterceptor {
         if (StringUtils.isEmpty(access_token)) { //浏览器登录
             User user = (User) httpServletRequest.getSession().getAttribute("user");
             Doctor doctor = (Doctor) httpServletRequest.getSession().getAttribute("doctor");
+            Admin admin = (Admin) httpServletRequest.getSession().getAttribute("admin");
             String userId = httpServletRequest.getParameter("userId");
-            if (user == null && doctor == null) {
+            if (user == null && doctor == null && admin == null) {
                 httpServletResponse.getWriter().println(Response.error(Response.NOT_LOGIN, "未登录！"));
                 return false;
             } else if (user != null && doctor == null) { //user用户
@@ -49,7 +51,7 @@ public class SportRecordLoginInterceptor implements HandlerInterceptor {
                     httpServletResponse.getWriter().println(Response.failuer("您没有查询其他用户的权限！"));
                     return false;
                 } else return true;
-            } else return false;
+            } else return true;
         } else {  //移动端登录
             Token token = tokenService.getTokenByAcc(access_token);
             if (token == null) {
