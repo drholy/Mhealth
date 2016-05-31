@@ -55,8 +55,8 @@
             var userId = $(this).attr("data-userId");
             location.href = "<%=path%>/record/overview.ui?id=" + userId;
         });
-        $("#detail").keydown(function () {
-            $('#pager').twbsPagination("destroy");
+        $("#detail").keyup(function () {
+            $('#pager').twbsPagination('destroy');
             getData("1", PAGESIZE, $(this).val());
         });
 
