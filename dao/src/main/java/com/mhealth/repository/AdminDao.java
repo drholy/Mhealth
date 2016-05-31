@@ -2,8 +2,10 @@ package com.mhealth.repository;
 
 import com.mhealth.common.base.BaseDao;
 import com.mhealth.common.entity.QuickPager;
+import com.mhealth.common.util.StringUtils;
 import com.mhealth.model.Admin;
 import com.mhealth.model.Doctor;
+import com.mhealth.model.User;
 import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.print.Doc;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by pengt on 2016.5.18.0018.
@@ -77,5 +80,41 @@ public class AdminDao extends BaseDao {
         WriteResult wr = mongoTemplate.remove(new Query(Criteria.where("_id").is(new ObjectId(doctorId)).and("active").is("0"))
                 , Doctor.class);
         return wr.getN() == 1;
+    }
+
+    /**
+     * 根据条件分页返回所有用户
+     *
+     * @param quickPager
+     * @param detail
+     */
+    public void getAllUsers(QuickPager<User> quickPager, String detail) {
+        Query query;
+        if (!StringUtils.isEmpty(detail))
+            query = new Query(Criteria.where("loginName").regex(Pattern.compile("\\w*" + detail + "\\w*")));
+        else query = new Query();
+        long count = mongoTemplate.count(query, User.class);
+        quickPager.setTotalRows(Integer.parseInt(String.valueOf(count)));
+        query.with(new Sort(Sort.Direction.DESC, "regTime")).skip(quickPager.getBeginNum()).limit(quickPager.getPageSize());
+        List<User> users = mongoTemplate.find(query, User.class);
+        quickPager.setData(users);
+    }
+
+    /**
+     * 根据条件返回合法医生
+     *
+     * @param quickPager
+     * @param detail
+     */
+    public void getAllDoc(QuickPager<Doctor> quickPager, String detail) {
+        Query query;
+        if (!StringUtils.isEmpty(detail))
+            query = new Query(Criteria.where("loginName").regex(Pattern.compile("\\w*" + detail + "\\w*")).and("active").is("1").and("status").is("1"));
+        else query = new Query(Criteria.where("active").is("1").and("status").is("1"));
+        long count = mongoTemplate.count(query, Doctor.class);
+        quickPager.setTotalRows(Integer.parseInt(String.valueOf(count)));
+        query.with(new Sort(Sort.Direction.DESC, "regTime")).skip(quickPager.getBeginNum()).limit(quickPager.getPageSize());
+        List<Doctor> doctors = mongoTemplate.find(query, Doctor.class);
+        quickPager.setData(doctors);
     }
 }

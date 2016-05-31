@@ -63,17 +63,20 @@
     });
 
     function showTable(list) {
+        $("#usersTable").find("tbody").html("");
         var fmt = "yyyy年M月d日";
         for (var i in list) {
             var user = list[i];
             var dbDate = new Date(Number(user["birthday"])).format(fmt);
             var sex = (user["sex"] == "0") ? "女" : "男";
-            var row = "<td>" + user["loginName"] + "</td>"
+            var row = "<tr>"
+                    + "<td>" + user["loginName"] + "</td>"
                     + "<td>" + sex + "</td>"
                     + "<td>" + dbDate + "</td>"
                     + "<td>" + user["bloodType"] + "</td>"
                     + "<td><button id='check' class='btn btn-default' data-userId='" + user["id"] + "'>查看</button></td>"
-                    + "<td><button  id='comment' class='btn btn-default' data-userId='" + user["id"] + "'>点评</button></td>";
+                    + "<td><button  id='comment' class='btn btn-default' data-userId='" + user["id"] + "'>点评</button></td>"
+                    + "</tr>";
             $("#usersTable").find("tbody").append(row);
         }
     }

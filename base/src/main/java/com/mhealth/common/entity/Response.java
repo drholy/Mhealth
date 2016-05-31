@@ -245,7 +245,7 @@ public class Response {
         }
         try {
             this.body.put("currPage", String.valueOf(quickPager.getCurrPage()));// 当前页码
-            this.body.put("totalPages", String.valueOf(quickPager.getTotalPages()));// 总页数
+            this.body.put("totalPages", String.valueOf(quickPager.getTotalPages() == 0 ? 1 : quickPager.getTotalPages()));// 总页数
             this.body.put("countSize", String.valueOf(quickPager.getTotalRows()));// 总记录数
             this.body.put("pageSize", String.valueOf(quickPager.getMaxLine()));// 每页的条数
             this.addObject("rows", (quickPager.getData() == null ? new ArrayList<Object>(0) : quickPager.getData()));

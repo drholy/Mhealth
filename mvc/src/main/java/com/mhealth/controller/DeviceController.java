@@ -23,7 +23,7 @@ public class DeviceController {
     @RequestMapping(value = "getDevice", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getDevice(String id) {
-        if (StringUtils.isEmpty(id)) return Response.paramsIsEmpty("设备id");
+        if (StringUtils.isEmpty(id)) return new Response().addObject("device", new Device()).toJson();
         Device device = deviceService.getDevice(id);
         return new Response().addObject("device", device).toJson();
     }

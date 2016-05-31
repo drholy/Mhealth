@@ -19,4 +19,9 @@ public class AdminUI {
     public String examDoc() {
         return "admin/examDoc";
     }
+
+    @RequestMapping("userMgr.ui")
+    public String userMgr() {
+        return "admin/userManagement";
+    }
 }

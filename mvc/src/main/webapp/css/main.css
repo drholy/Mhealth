@@ -148,7 +148,7 @@ body {
     z-index: -1000;
 }
 
-.bgable .starter-template h1, .bgable .starter-template p {
+.bgable .starter-template h1, .bgable .starter-template p, .examDoc .starter-template h1 {
     color: rgb(236, 177, 172);
     text-shadow: 0 -1px 0 rgb(255, 255, 255), 0 2px 0 rgb(0, 0, 0);
 }
@@ -384,12 +384,14 @@ body {
     background: url("/images/regSuccess.png");
     background-size: 100% 100%;
 }
-.userRegSucc>h2>span{
+
+.userRegSucc > h2 > span {
     font-size: 0.8em;
     color: blue;
     font-weight: bold;
 }
-.userRegSuccBtn{
+
+.userRegSuccBtn {
     text-align: center;
     margin-top: 100px;
 }

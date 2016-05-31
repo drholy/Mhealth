@@ -3,6 +3,7 @@ package com.mhealth.service;
 import com.mhealth.common.entity.QuickPager;
 import com.mhealth.model.Admin;
 import com.mhealth.model.Doctor;
+import com.mhealth.model.User;
 import com.mhealth.repository.AdminDao;
 import org.springframework.stereotype.Service;
 
@@ -64,5 +65,25 @@ public class AdminService {
      */
     public boolean delDoc(String doctorId) {
         return adminDao.delDoc(doctorId);
+    }
+
+    /**
+     * 根据条件分页返回所有用户
+     *
+     * @param quickPager
+     * @param detail
+     */
+    public void getAllUsers(QuickPager<User> quickPager, String detail) {
+        adminDao.getAllUsers(quickPager, detail);
+    }
+
+    /**
+     * 根据条件返回合法医生
+     *
+     * @param quickPager
+     * @param detail
+     */
+    public void getAllDoc(QuickPager<Doctor> quickPager, String detail) {
+        adminDao.getAllDoc(quickPager, detail);
     }
 }

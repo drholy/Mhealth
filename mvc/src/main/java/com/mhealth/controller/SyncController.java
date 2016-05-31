@@ -52,7 +52,7 @@ public class SyncController {
         System.out.println(token.getAccess_token());
         Map<String, String> dataMap;
         try {
-            dataMap = (Map<String, String>) JSONObject.toBean(JSONObject.fromObject(dataJson));
+            dataMap = (Map<String, String>) JSONObject.toBean(JSONObject.fromObject(dataJson), Map.class);
         } catch (Exception e) {
             e.printStackTrace();
             return Response.failuer("dataJson格式不正确！");
@@ -64,15 +64,16 @@ public class SyncController {
             User user = new User();
             user.setId(dataMap.get("userId"));
             user.setLoginName(dataMap.get("username"));
+            user.setRegTime(System.currentTimeMillis());
             user.setActive("0");
             user.setStatus("0");
             userService.insertUser(user);
         }
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
         try {
-            date = simpleDateFormat.parse(dataMap.get("Time"));
+            date = simpleDateFormat.parse(dataMap.get("time"));
         } catch (ParseException e) {
             e.printStackTrace();
             return Response.failuer("时间格式错误！");

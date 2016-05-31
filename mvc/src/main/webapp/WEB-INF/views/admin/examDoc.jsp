@@ -16,6 +16,9 @@
 <%@ include file="/WEB-INF/views/base/admin_nav.jsp" %>
 
 <div class="container">
+    <div class="starter-template">
+        <h1>医生审批</h1>
+    </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table id="docsTable" class="table table-striped">
@@ -149,6 +152,7 @@
         }
 
         function showData(rows) {
+            $("#docsTable").find("tbody").html("");
             for (var i in rows) {
                 var doctor = rows[i];
                 var name = doctor["realName"];
@@ -179,7 +183,7 @@
                 next: '&raquo;',
                 last: data.totalPages + '页',
                 onPageClick: function (event, page) {
-                    showData(page, PAGESIZE);
+                    getData(page, PAGESIZE);
                 }
             });
         }

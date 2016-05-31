@@ -5,6 +5,7 @@ import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.StringUtils;
 import com.mhealth.model.Admin;
 import com.mhealth.model.Doctor;
+import com.mhealth.model.User;
 import com.mhealth.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,5 +97,37 @@ public class AdminController {
         if (StringUtils.isEmpty(doctorId)) return Response.paramsIsEmpty("doctorId");
         if (adminService.delDoc(doctorId)) return Response.success("删除成功！");
         else return Response.failuer("数据库错误！");
+    }
+
+    /**
+     * 根据条件分页返回用户
+     *
+     * @param currPage
+     * @param pageSize
+     * @param detail
+     * @return
+     */
+    @RequestMapping(value = "getAllUsers", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getAllUsers(String currPage, String pageSize, String detail) {
+        QuickPager<User> quickPager = new QuickPager<>(currPage, pageSize);
+        adminService.getAllUsers(quickPager, detail);
+        return new Response().toPageJson(quickPager);
+    }
+
+    /**
+     * 根据条件分页返回合法医生
+     *
+     * @param currPage
+     * @param pageSize
+     * @param detail
+     * @return
+     */
+    @RequestMapping(value = "getAllDoc", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getAllDoc(String currPage, String pageSize, String detail) {
+        QuickPager<Doctor> quickPager = new QuickPager<>(currPage, pageSize);
+        adminService.getAllDoc(quickPager, detail);
+        return new Response().toPageJson(quickPager);
     }
 }

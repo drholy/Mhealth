@@ -117,7 +117,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        location.href = "<%=path%>/admin/examDoc.ui";
+                        location.href = "<%=path%>/admin/userMgr.ui";
                     } else alert(data.resCode + ":" + data.resMsg);
                 }
             });

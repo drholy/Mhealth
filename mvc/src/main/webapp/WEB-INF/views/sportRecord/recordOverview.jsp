@@ -19,6 +19,9 @@
 <c:if test="${sessionScope.doctor!=null}">
     <%@ include file="/WEB-INF/views/base/doctor_sportRecord_nav.jsp" %>
 </c:if>
+<c:if test="${sessionScope.admin!=null}">
+    <%@ include file="/WEB-INF/views/base/admin_sportRecord_nav.jsp" %>
+</c:if>
 
 <div class="container">
     <div class="starter-template">
