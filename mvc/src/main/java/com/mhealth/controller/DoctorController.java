@@ -122,6 +122,13 @@ public class DoctorController {
             } catch (IOException e) {
                 e.printStackTrace();
                 return Response.failuer("文件上传失败！");
+            } finally {
+                try {
+                    jCloudsSwift.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return Response.failuer("服务器错误！");
+                }
             }
         } else return Response.failuer("无分段上传组件！");
 

@@ -1,6 +1,7 @@
 package com.mhealth.openstack.jclouds;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.io.Closeables;
 import com.google.inject.Module;
 import org.jclouds.ContextBuilder;
 import org.jclouds.io.Payload;
@@ -9,6 +10,7 @@ import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
 import org.jclouds.openstack.swift.v1.SwiftApi;
 import org.jclouds.openstack.swift.v1.domain.SwiftObject;
 import org.jclouds.openstack.swift.v1.features.ObjectApi;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.Closeable;
@@ -19,6 +21,7 @@ import java.io.InputStream;
  * Created by pengt on 2016.5.27.0027.
  */
 @Component("jCloudsSwift")
+@Scope("prototype")
 public class JCloudsSwift implements Closeable {
 
     private static final String CONTAINER_NAME = "userImgs";
@@ -67,6 +70,6 @@ public class JCloudsSwift implements Closeable {
 
     @Override
     public void close() throws IOException {
-
+        Closeables.close(swiftApi, true);
     }
 }

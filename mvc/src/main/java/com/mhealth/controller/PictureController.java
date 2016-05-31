@@ -43,6 +43,7 @@ public class PictureController {
                 in.close();
                 out.flush();
                 out.close();
+                jCloudsSwift.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
