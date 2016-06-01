@@ -48,7 +48,7 @@ public class SyncController {
         if (StringUtils.isEmpty(dataJson, access_token)) return Response.paramsIsEmpty("dataJson,access_token");
         Token token = tokenService.getTokenByAcc(access_token);
         if (token == null) return Response.failuer("token错误！");
-        if (!token.getId().equals("sync")) return Response.failuer("token错误！");
+//        if (!token.getId().equals("sync")) return Response.failuer("token错误！");
         System.out.println(token.getAccess_token());
         Map<String, String> dataMap;
         try {
@@ -70,7 +70,7 @@ public class SyncController {
             userService.insertUser(user);
         }
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date;
         try {
             date = simpleDateFormat.parse(dataMap.get("time"));
@@ -79,37 +79,15 @@ public class SyncController {
             return Response.failuer("时间格式错误！");
         }
         long time = date.getTime();
-        time = time - 12000;
         SportRecord sportRecord = new SportRecord();
         sportRecord.setUserId(dataMap.get("userId"));
         sportRecord.setSport_heartRate(Long.parseLong(dataMap.get("heartRate")));
-        sportRecord.setBeginTime(time);
+        sportRecord.setBeginTime(time - 12000);
         sportRecord.setEndTime(time);
         sportRecord.setUploadTime(System.currentTimeMillis());
         List<SportRecord> list = new ArrayList<>();
         list.add(sportRecord);
         sportRecordService.insertRecord(list);
         return Response.success("上传成功！");
-    }
-
-    /**
-     * 分页返回同步的数据
-     *
-     * @param currPage
-     * @param pageSize
-     * @param userId
-     * @param access_token
-     * @return
-     */
-    @RequestMapping(value = "getData", produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
-    public String getData(String currPage, String pageSize, String userId, String access_token) {
-        if (StringUtils.isEmpty(access_token)) return Response.paramsIsEmpty("access_token");
-        Token token = tokenService.getTokenByAcc(access_token);
-        if (token == null) return Response.failuer("token错误！");
-        if (token.getId().equals("sync")) return Response.failuer("token错误！");
-        QuickPager<SportRecord> quickPager = new QuickPager<>(currPage, pageSize);
-        sportRecordService.getAllRecords(quickPager, userId);
-        return new Response().toPageJson(quickPager);
     }
 }

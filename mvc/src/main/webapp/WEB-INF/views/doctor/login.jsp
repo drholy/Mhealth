@@ -30,7 +30,7 @@
     <div class="row">
         <div id="logo" class="col-md-7">
             <h1><span>mhealth</span></h1>
-            <h4>医生端</h4>>
+            <h4>医生端</h4>
         </div>
         <div id="docFrame" class="col-md-4">
             <div class="docContent">
