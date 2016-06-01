@@ -27,8 +27,17 @@
         <li><a href="<%=path%>/record/overview.ui">首页</a></li>
         <li class="active"><a href="<%=path%>/record/allRecords.ui">所有数据</a></li>
     </ol>
-    <div class="starter-template">
-        <h1>所有数据</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="starter-template">
+                <h1>所有数据</h1>
+            </div>
+        </div>
+        <div class="col-md-2 col-md-offset-6">
+            <div class="starter-template">
+                <h3 class="uName"></h3>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -143,6 +152,25 @@
                 '<li><a href="<%=path%>/record/allRecords.ui?id=' + USERID + '">所有数据</a></li>';
         $(".breadcrumb").append(bread);
         getData(USERID, 1, PAGESIZE);
+        //医生、管理员查询运动记录时返回用户名
+        if ("${sessionScope.doctor}" != "" || "${sessionScope.admin}" != "") {
+            $.ajax({
+                url: "/service/sportRecord/getLoginName",
+                type: "post",
+                data: {userId: "${id}"},
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        $(".uName").append("用户：" + data.data.loginName);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
+                }
+            });
+        }
         $('#detailModal').on('show.bs.modal', function (event) {
             var dbDate;
             var fmt = "yyyy年M月d日 h时m分s秒";

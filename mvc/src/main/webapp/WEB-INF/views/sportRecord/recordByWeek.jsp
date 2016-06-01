@@ -29,8 +29,17 @@
         <li><a href="<%=path%>/record/recordByMonth.ui?key=${key}&time=${time}">月</a></li>
         <li class="active"><a href="<%=path%>/record/recordByWeek.ui?key=${key}&time=${time}">周</a></li>
     </ol>
-    <div class="starter-template">
-        <h1></h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="starter-template">
+                <h1></h1>
+            </div>
+        </div>
+        <div class="col-md-2 col-md-offset-6">
+            <div class="starter-template">
+                <h3 class="uName"></h3>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -77,6 +86,25 @@
                 '<li class="active"><a href="<%=path%>/record/recordByWeek.ui?id=' + USERID + '&key=${key}&time=${time}">周</a></li>';
         $(".breadcrumb").append(bread);
         showTitle("${key}");
+        //医生、管理员查询运动记录时返回用户名
+        if ("${sessionScope.doctor}" != "" || "${sessionScope.admin}" != "") {
+            $.ajax({
+                url: "/service/sportRecord/getLoginName",
+                type: "post",
+                data: {userId: "${id}"},
+                dataType: "json",
+                success: function (data) {
+                    if (data.resCode == "000000") {
+                        $(".uName").append("用户：" + data.data.loginName);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
+                }
+            });
+        }
 
         $("#weekCal").datetimepicker({
             language: 'zh-CN',

@@ -14,7 +14,12 @@ $(document).ready(function () {
                     location.href = "../../../";
                 } else if (data.resCode == "100105" || data.resCode == "100106") {
                     location.href = "/";
-                } else alert(data.resCode + ":" + data.resMsg)
+                } else swal({
+                    title: "错误",
+                    text: data.resCode + ":" + data.resMsg,
+                    type: "error",
+                    confirmButtonText: "确定"
+                });
             }
         });
     });
@@ -27,7 +32,12 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.resCode == "000000") {
                     location.href = "/doctor/login.ui";
-                } else alert(data.resCode + ":" + data.resMsg)
+                } else swal({
+                    title: "错误",
+                    text: data.resCode + ":" + data.resMsg,
+                    type: "error",
+                    confirmButtonText: "确定"
+                });
             }
         });
     });
@@ -40,7 +50,12 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.resCode == "000000") {
                     location.href = "/admin/login.ui";
-                } else alert(data.resCode + ":" + data.resMsg)
+                } else swal({
+                    title: "错误",
+                    text: data.resCode + ":" + data.resMsg,
+                    type: "error",
+                    confirmButtonText: "确定"
+                });
             }
         });
     });

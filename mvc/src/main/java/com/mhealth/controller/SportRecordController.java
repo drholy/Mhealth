@@ -3,11 +3,9 @@ package com.mhealth.controller;
 import com.mhealth.common.entity.QuickPager;
 import com.mhealth.common.entity.Response;
 import com.mhealth.common.util.StringUtils;
-import com.mhealth.model.AverageHeartRate;
-import com.mhealth.model.AvgVal;
-import com.mhealth.model.SportRecord;
-import com.mhealth.model.SumVal;
+import com.mhealth.model.*;
 import com.mhealth.service.SportRecordService;
+import com.mhealth.service.UserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
@@ -29,6 +27,9 @@ public class SportRecordController {
 
     @Resource(name = "sportRecordService")
     private SportRecordService sportRecordService;
+
+    @Resource(name = "userService")
+    private UserService userService;
 
     /**
      * 插入多条运动记录
@@ -215,5 +216,20 @@ public class SportRecordController {
             minTime = upTime;
         }
         return new Response().addObject("result", result).addObject("xTime", xTime).addString("timeUnit", timeUnit).toJson();
+    }
+
+    /**
+     * 根据id返回登录名
+     *
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "getLoginName", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getLoginNameById(String userId) {
+        if (StringUtils.isEmpty(userId)) return Response.paramsIsEmpty("userId");
+        User user = userService.getUserById(userId);
+        if (user == null) return Response.failuer("用户不存在！");
+        return new Response().addString("loginName", user.getLoginName()).toJson();
     }
 }
