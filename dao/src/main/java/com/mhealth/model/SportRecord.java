@@ -9,10 +9,10 @@ public class SportRecord extends BaseEntity{
 
     private String userId;
     private String deviceId;
-    private long sport_heartRate;
-    private long distance;
-    private long stepCount;
-    private long elevation;
+    private long sport_heartRate;   //心率
+    private long distance;  //距离
+    private long stepCount; //步数
+    private long elevation; //海拔
     private long beginTime;
     private long endTime;
     private long uploadTime;

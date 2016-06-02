@@ -24,11 +24,11 @@ import java.io.InputStream;
 @Scope("prototype")
 public class JCloudsSwift implements Closeable {
 
-    private static final String CONTAINER_NAME = "userImgs";
-    private static final String PROVIDER = "openstack-swift";
-    private static final String IDENTITY = "admin:admin";
-    private static final String CREDENTIAL = "admin_user_password";
-    private static final String ENDPOINT = "http://192.168.56.180:5000/v2.0/";
+    private static final String CONTAINER_NAME = "userImgs";    //swift容器名
+    private static final String PROVIDER = "openstack-swift";   //服务提供者
+    private static final String IDENTITY = "admin:admin";   //租户名：用户名
+    private static final String CREDENTIAL = "admin_user_password"; //服务用户密码
+    private static final String ENDPOINT = "http://192.168.56.180:5000/v2.0/";  //认证节点
 
     private SwiftApi swiftApi;
 

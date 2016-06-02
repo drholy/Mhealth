@@ -118,7 +118,12 @@
                 success: function (data) {
                     if (data.resCode == "000000") {
                         location.href = "<%=path%>/admin/userMgr.ui";
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });

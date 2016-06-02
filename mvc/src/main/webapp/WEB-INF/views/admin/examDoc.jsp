@@ -114,9 +114,20 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        alert("激活成功！");
-                        location.reload();
-                    } else alert(data.resCode + ":" + data.resMsg);
+                        swal({
+                            title: "成功",
+                            text: "激活成功！",
+                            type: "success",
+                            confirmButtonText: "确定"
+                        }, function () {
+                            location.reload();
+                        });
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });
@@ -129,9 +140,20 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.resCode == "000000") {
-                        alert("删除成功！");
-                        location.reload();
-                    } else alert(data.resCode + ":" + data.resMsg);
+                        swal({
+                            title: "成功",
+                            text: "删除成功！",
+                            type: "success",
+                            confirmButtonText: "确定"
+                        }, function () {
+                            location.reload();
+                        });
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         });
@@ -146,7 +168,12 @@
                     if (data.resCode == "000000") {
                         showData(data.data.rows);
                         showPager(data.data);
-                    } else alert(data.resCode + ":" + data.resMsg);
+                    } else swal({
+                        title: "错误",
+                        text: data.resCode + ":" + data.resMsg,
+                        type: "error",
+                        confirmButtonText: "确定"
+                    });
                 }
             });
         }
