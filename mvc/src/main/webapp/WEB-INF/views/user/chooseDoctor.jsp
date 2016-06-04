@@ -171,6 +171,7 @@
                         + "<div style='text-align:center;padding-top:10px;'>"
                         + "<img src='<%=path%>/service/pic/getUserImg/" + headImg + "' width='120' height='160'/>"
                         + "</div>"
+                        + "<p>用户名：" + doctor["loginName"] + "</p>"
                         + "<p>姓名：" + name + "</p>"
                         + "<p>单位：" + org + "</p>"
                         + "<p>部门：" + office + "</p>"

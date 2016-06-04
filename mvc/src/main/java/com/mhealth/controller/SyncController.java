@@ -39,15 +39,12 @@ public class SyncController {
      * 将数据同步到本系统
      *
      * @param dataJson
-     * @param access_token
      * @return
      */
     @RequestMapping(value = "putData", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String putData(String dataJson, String access_token) {
-        if (StringUtils.isEmpty(dataJson, access_token)) return Response.paramsIsEmpty("dataJson,access_token");
-        Token token = tokenService.getTokenByAcc(access_token);
-        if (token == null) return Response.failuer("token错误！");
+    public String putData(String dataJson) {
+        if (StringUtils.isEmpty(dataJson)) return Response.paramsIsEmpty("dataJson");
         Map<String, String> dataMap;
         try {
             dataMap = (Map<String, String>) JSONObject.toBean(JSONObject.fromObject(dataJson), Map.class);
@@ -56,8 +53,10 @@ public class SyncController {
             return Response.failuer("dataJson格式不正确！");
         }
         if (StringUtils.isEmpty(dataMap.get("userId"), dataMap.get("username")
-                , dataMap.get("heartRate"), dataMap.get("time")))
+                , dataMap.get("heartRate"), dataMap.get("time"), dataMap.get("access_token")))
             return Response.paramsIsEmpty("体征数据");
+        Token token = tokenService.getTokenByAcc(dataMap.get("access_token"));
+        if (token == null) return Response.failuer("token错误！");
         if (userService.getUserById(dataMap.get("userId")) == null) {
             User user = new User();
             user.setId(dataMap.get("userId"));

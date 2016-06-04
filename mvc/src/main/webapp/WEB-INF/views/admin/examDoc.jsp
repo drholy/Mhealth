@@ -24,6 +24,7 @@
             <table id="docsTable" class="table table-striped">
                 <thead>
                 <tr>
+                    <th>用户名</th>
                     <th>真实姓名</th>
                     <th>单位</th>
                     <th>部门</th>
@@ -103,7 +104,7 @@
 <%@ include file="/WEB-INF/views/base/footer.jsp" %>
 <script type="text/javascript">
     $(document).ready(function () {
-        var PAGESIZE = 20;
+        var PAGESIZE = 10;
         getData(1, PAGESIZE);
         $("#acc").click(function () {
             var docId = $(this).data("docId");
@@ -187,6 +188,7 @@
                 var office = doctor["office"];
                 var regTime = doctor["regTime"];
                 var docContent = "<tr>"
+                        + "<td>" + doctor["loginName"] + "</td>"
                         + "<td>" + name + "</td>"
                         + "<td>" + org + "</td>"
                         + "<td>" + office + "</td>"

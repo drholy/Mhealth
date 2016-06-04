@@ -49,7 +49,7 @@
 <%@ include file="/WEB-INF/views/base/footer.jsp" %>
 <script type="text/javascript">
     $(document).ready(function () {
-        var PAGESIZE = 20;
+        var PAGESIZE = 10;
         getData("1", PAGESIZE, "");
         $("#usersTable").on("click", "#check", function () {
             var userId = $(this).attr("data-userId");
