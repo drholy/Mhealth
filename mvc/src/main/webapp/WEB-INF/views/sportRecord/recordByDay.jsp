@@ -92,7 +92,7 @@
         //医生、管理员查询运动记录时返回用户名
         if ("${sessionScope.doctor}" != "" || "${sessionScope.admin}" != "") {
             $.ajax({
-                url: "/service/sportRecord/getLoginName",
+                url: "<%=path%>/service/sportRecord/getLoginName",
                 type: "post",
                 data: {userId: "${id}"},
                 dataType: "json",
