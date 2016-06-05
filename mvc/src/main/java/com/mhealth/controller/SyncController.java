@@ -11,6 +11,7 @@ import com.mhealth.service.TokenService;
 import com.mhealth.service.UserService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,23 +39,16 @@ public class SyncController {
     /**
      * 将数据同步到本系统
      *
-     * @param dataJson
+     * @param dataMap
      * @return
      */
     @RequestMapping(value = "putData", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String putData(String dataJson) {
-        if (StringUtils.isEmpty(dataJson)) return Response.paramsIsEmpty("dataJson");
-        Map<String, String> dataMap;
-        try {
-            dataMap = (Map<String, String>) JSONObject.toBean(JSONObject.fromObject(dataJson), Map.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.failuer("dataJson格式不正确！");
-        }
+    public String putData(@RequestBody Map<String, String> dataMap) {
+        System.out.println(dataMap.toString());
         if (StringUtils.isEmpty(dataMap.get("userId"), dataMap.get("username")
                 , dataMap.get("heartRate"), dataMap.get("time"), dataMap.get("access_token")))
-            return Response.paramsIsEmpty("体征数据");
+            return Response.paramsIsEmpty("参数");
         Token token = tokenService.getTokenByAcc(dataMap.get("access_token"));
         if (token == null) return Response.failuer("token错误！");
         if (userService.getUserById(dataMap.get("userId")) == null) {
@@ -99,12 +93,15 @@ public class SyncController {
      */
     @RequestMapping(value = "getData", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String getData(String currPage, String pageSize, String userId, String access_token) {
-        if (StringUtils.isEmpty(userId, access_token)) return Response.paramsIsEmpty("userId,access_token");
-        Token token = tokenService.getTokenByAcc(access_token);
+//    public String getData(String currPage, String pageSize, String userId, String access_token) {
+    public String getData(@RequestBody Map<String, String> map) {
+//        if (StringUtils.isEmpty(userId, access_token)) return Response.paramsIsEmpty("userId,access_token");
+        if (StringUtils.isEmpty(map.get("userId"), map.get("access_token")))
+            return Response.paramsIsEmpty("userId,access_token");
+        Token token = tokenService.getTokenByAcc(map.get("access_token"));
         if (token == null) return Response.failuer("token错误！");
-        QuickPager<SportRecord> quickPager = new QuickPager<>(currPage, pageSize);
-        sportRecordService.getAllRecords(quickPager, userId);
+        QuickPager<SportRecord> quickPager = new QuickPager<>(map.get("currPage"), map.get("pageSize"));
+        sportRecordService.getAllRecords(quickPager, map.get("userId"));
         return new Response().toPageJson(quickPager);
     }
 }
