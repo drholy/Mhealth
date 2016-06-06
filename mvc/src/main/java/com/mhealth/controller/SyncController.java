@@ -85,17 +85,12 @@ public class SyncController {
     /**
      * 分页返回用户数据
      *
-     * @param currPage
-     * @param pageSize
-     * @param userId
-     * @param access_token
+     * @param map
      * @return
      */
     @RequestMapping(value = "getData", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-//    public String getData(String currPage, String pageSize, String userId, String access_token) {
     public String getData(@RequestBody Map<String, String> map) {
-//        if (StringUtils.isEmpty(userId, access_token)) return Response.paramsIsEmpty("userId,access_token");
         if (StringUtils.isEmpty(map.get("userId"), map.get("access_token")))
             return Response.paramsIsEmpty("userId,access_token");
         Token token = tokenService.getTokenByAcc(map.get("access_token"));
