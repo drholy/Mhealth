@@ -85,7 +85,9 @@
             var fmt = "yyyy年M月d日";
             for (var i in list) {
                 var user = list[i];
-                var dbDate = new Date(Number(user["birthday"])).format(fmt);
+                var dbDate;
+                if (user["birthday"] == "0") dbDate = "";
+                else dbDate = new Date(Number(user["birthday"])).format(fmt);
                 var sex = (user["sex"] == "0") ? "女" : "男";
                 var row = "<tr>"
                         + "<td>" + user["loginName"] + "</td>"

@@ -22,7 +22,7 @@
             for (var i = 0; i < 1000; i++) {
                 if (i % 10 == 0) temp = parseInt(Math.random() * 10000000000000);
                 var now = new Date().getTime();
-                var beginTime = Math.random() * (365 * 24 * 60 * 60 * 1000) + now - (365 * 24 * 60 * 60 * 1000);
+                var beginTime = Math.random() * (10 * 365 * 24 * 60 * 60 * 1000) + now - (10 * 365 * 24 * 60 * 60 * 1000);
                 var record = {
                     userId: "${sessionScope.user.id}",
                     deviceId: "111111",
